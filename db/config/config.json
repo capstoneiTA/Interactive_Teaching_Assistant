@@ -1,0 +1,9 @@
+{
+  "aws": {
+    "username": "admin",
+    "password": "iTApa$$w0rd",
+    "database": "ita",
+    "host": "ita-database.csnly1bg9oly.us-east-1.rds.amazonaws.com",
+    "dialect": "mysql"
+  }
+}
