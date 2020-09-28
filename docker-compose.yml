@@ -35,6 +35,20 @@ services:
     volumes:
       - ./db:/usr/src/app
 
+  session:
+    container_name: session
+    build: ./session
+    ports:
+      - '${SESSION_PORT}:${SESSION_PORT}'
+    depends_on:
+      - db
+    networks:
+      - itaNet
+    volumes:
+      - ./session:/usr/src/app
+
+
+
 networks:
   itaNet:
     driver: bridge
