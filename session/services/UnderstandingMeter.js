@@ -13,23 +13,41 @@ class UnderstandingMeter{
         this.history = history;
     }
 
+
+    /**
+     * Return the understanding score of the student
+     * @returns {Number} student's score
+     */
     getScore() {
+        return this.score;
+    }
+
+    /**
+     * Allows modification of score
+     * @param {int} newScore - the new score to be updated
+     */
+    setScore(newScore) {
 
     }
 
-    setScore() {
-
-    }
-
+    /**
+     * Return the name of the user
+     * @returns {string} user
+     */
     getUser() {
-
+        return this.user;
     }
 
+    /**
+     * Update the history object of the user
+     */
     recordChange() {
-
     }
 
+    /**
+     * Return the current time of session during run time
+     * @return {Date} currTime - the current time when the func is called
+     */
     getTime() {
-
     }
 }
