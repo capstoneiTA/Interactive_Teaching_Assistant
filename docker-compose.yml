@@ -1,19 +1,56 @@
 version: '3'
 services:
+
   ui:
+    container_name: ui
     build: ./ui
     ports:
-      - '3000:3000'
+      - "${UI_PORT}:${UI_PORT}"
     depends_on:
-      - api
+      - api-gateway
     stdin_open: true
-  api:
-    build: ./api
+    networks:
+      - itaNet
+    volumes:
+      - ./ui:/usr/src/app
+
+  api-gateway:
+    container_name: api-gateway
+    build: ./api-gateway
     ports:
-      - '8080:8080'
+      - '${API_GATEWAY_PORT}:${API_GATEWAY_PORT}'
     depends_on:
       - db
+    networks:
+      - itaNet
+    volumes:
+      - ./api-gateway:/usr/src/app
   db:
+    container_name: db
     build: ./db
     ports:
-      - '4000:4000'
+      - '${DB_PORT}:${DB_PORT}'
+    networks:
+      - itaNet
+    volumes:
+      - ./db:/usr/src/app
+
+  session:
+    container_name: session
+    build: ./session
+    ports:
+      - '${SESSION_PORT}:${SESSION_PORT}'
+    depends_on:
+      - db
+    networks:
+      - itaNet
+    volumes:
+      - ./session:/usr/src/app
+
+
+
+networks:
+  itaNet:
+    driver: bridge
+    ipam:
+      driver: default
