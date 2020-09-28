@@ -1,7 +1,7 @@
 class UnderstandingMeter{
 
-    /*
-    * Creating an understanding meter object
+    /**
+    * Creating an understanding meter class
     * @constructor
     * @param {int} score - the score from student
     * @param {string} user - name of the user
