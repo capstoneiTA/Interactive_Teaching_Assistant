@@ -2,7 +2,7 @@ class Report {
     /**
      * Represents a Report object that holds session info/stats
      * @constuctor 
-     * @param {ClassChat} ClassChat - ClassChat object containing messages
+     * @param {ClassChat} ClassChat object containing messages
      */
     constructor(ClassChat) {
         this.understandingMeters = [];
