@@ -31,8 +31,12 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false
         },
         lastName: {
-            type: DataTypes.STRING
-            // allowNull defaults to true
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     });
 

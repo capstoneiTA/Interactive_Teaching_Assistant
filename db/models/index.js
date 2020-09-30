@@ -14,9 +14,11 @@ if (config.use_env_variable) {
 
 //Require all models here
 const User = require('./user.js')(sequelize, DataTypes);
+const Message = require('./messages.js')(sequelize, DataTypes);
 
 //Add all models to database object here
 db.User = User;
+db.Message = Message;
 
 
 db.sequelize = sequelize;

@@ -13,6 +13,15 @@ const port = 5000;
 // Import models folder
 const db = require("./models");
 
+//Set Relationships
+db.User.hasMany(db.Message); //Set one to many relationship
+db.Message.belongsTo(db.User);
+
+db.Session.hasMany(db.Message); //Set one to many relationship
+db.Message.belongsTo(db.Session);
+
+
+
 //Sync database tables
 db.sequelize.sync({force:true});
 
