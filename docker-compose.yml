@@ -46,6 +46,17 @@ services:
       - itaNet
     volumes:
       - ./session:/usr/src/app
+  test:
+    container_name: test
+    build: ./test
+    ports:
+      - '${TEST_PORT}:${TEST_PORT}'
+    depends_on:
+      - db
+    networks:
+      - itaNet
+    volumes:
+      - ./test:/usr/src/app
 
 
 
