@@ -15,10 +15,20 @@ if (config.use_env_variable) {
 //Require all models here
 const User = require('./user.js')(sequelize, DataTypes);
 const Message = require('./messages.js')(sequelize, DataTypes);
+const Poll = require('./poll.js')(sequelize, DataTypes);
+const Poll_Response = require('./poll_response.js')(sequelize, DataTypes);
+const Poll_Question = require('./poll_question.js')(sequelize, DataTypes);
+const Poll_Option = require('./poll_option.js')(sequelize, DataTypes);
+
 
 //Add all models to database object here
 db.User = User;
 db.Message = Message;
+db.Poll = Poll;
+db.Poll_Response = Poll_Response;
+db.Poll_Question = Poll_Question;
+db.Poll_Option = Poll_Option;
+
 
 
 db.sequelize = sequelize;
