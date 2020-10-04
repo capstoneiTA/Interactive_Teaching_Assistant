@@ -24,6 +24,10 @@ db.Session.hasMany(db.Message);
 db.Session.hasMany(db.Enrollment);
 db.Session.hasMany(db.UnderstandingMeter);
 
+db.UnderstandingMeter.belongsTo(db.Session);
+
+db.Enrollment.hasMany(db.Users);
+
 
 
 

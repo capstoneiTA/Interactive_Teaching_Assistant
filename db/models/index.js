@@ -20,6 +20,8 @@ const Message = require('./messages.js')(sequelize, DataTypes);
 db.User = User;
 db.Message = Message;
 db.Session = Session;
+db.Enrollment = Enrollment;
+db.UnderstangingMeter = UnderstandingMeter;
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
