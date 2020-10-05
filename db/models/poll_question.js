@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes)=> {
             }
         },
         Prompt: {
-            type: DataTypes.STRING(100), //increase character limit?
+            type: DataTypes.STRING(1000),
             allowNull: false,
             unique: true
         }
