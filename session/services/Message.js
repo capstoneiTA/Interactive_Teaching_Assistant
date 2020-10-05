@@ -14,7 +14,7 @@ class Message {
         this.content = content;
         this.replyTo = replyTo;
         this.user = user
-        this.createTime = new Date();
+        this.time = new Date();
     }
     
     /**
@@ -79,14 +79,14 @@ class Message {
      * Get the Date value.
      * @return {Date} The date the message was created or altered.
      */
-    getCreateTime(){
+    getTime(){
         return this.createTime;
     }
 
     /**
      * Set the createTime value.
      */
-    setCreateTime(){
+    setTime(){
         this.createTime = Date();
     }
 }

@@ -42,6 +42,7 @@ class UnderstandingMeter{
      * Update the history object of the user
      */
     recordChange() {
+
     }
 
     /**
@@ -49,5 +50,6 @@ class UnderstandingMeter{
      * @return {Date} currTime - the current time when the func is called
      */
     getTime() {
+
     }
 }

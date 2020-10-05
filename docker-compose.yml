@@ -49,10 +49,10 @@ services:
   test:
     container_name: test
     build: ./test
-    ports:
-      - '${TEST_PORT}:${TEST_PORT}'
     depends_on:
       - db
+      - session
+      - api-gateway
     networks:
       - itaNet
     volumes:

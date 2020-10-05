@@ -10,7 +10,7 @@ class Quiz {
     }
 
     /**
-     * methed compiles all questions into one list in a random order
+     * method compiles all questions into one list in a random order
      * @returns {QuizQuestion[]} - a QuizQuestion is either a MultipleChoiceQuestion, FillInTheBlankQuestion, or OpenEndedQuestion
      */
     randomizeQuestionOrder() {

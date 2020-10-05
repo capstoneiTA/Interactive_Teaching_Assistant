@@ -8,6 +8,6 @@ RUN npm install
 # Copy app source code
 COPY . .
 
-#Expose port and start application
-EXPOSE 9000
-CMD [ "npm", "start" ]
+##Expose port and start application
+#EXPOSE 9000
+#CMD [ "npm", "start" ]
