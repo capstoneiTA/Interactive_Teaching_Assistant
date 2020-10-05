@@ -21,12 +21,14 @@ db.Session.hasMany(db.Message); //Set one to many relationship
 db.Message.belongsTo(db.Session);
 
 db.Session.hasMany(db.Message);
-db.Session.hasMany(db.Enrollment);
-db.Session.hasMany(db.UnderstandingMeter);
 
+db.Session.hasMany(db.Enrollment);
+
+db.Session.hasMany(db.UnderstandingMeter);
 db.UnderstandingMeter.belongsTo(db.Session);
 
-db.Enrollment.hasMany(db.Users);
+
+db.User.hasMany(db.Enrollment);
 
 
 
