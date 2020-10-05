@@ -37,8 +37,8 @@ db.Session.hasMany(db.Message);
 db.Session.hasMany(db.Enrollment);
 db.Enrollment.belongsTo(db.Session);
 
-db.Session.hasMany(db.understandingMeter);
-db.understandingMeter.belongsTo(db.Session);
+db.Session.hasMany(db.UnderstandingMeter);
+db.UnderstandingMeter.belongsTo(db.Session);
 
 db.Multiple_Choice_Option.belongsTo(db.Quiz_Question);
 db.FillInTheBlankOption.belongsTo(db.Quiz_Question);

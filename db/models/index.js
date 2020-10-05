@@ -39,7 +39,7 @@ db.Poll_Option = Poll_Option;
 
 db.Session = Session;
 db.Enrollment = Enrollment;
-db.UnderstangingMeter = UnderstandingMeter;
+db.UnderstandingMeter = UnderstandingMeter;
 db.Multiple_Choice_Option = Multiple_Choice_Option;
 db.FillInTheBlankOption = FillInTheBlankOption;
 
