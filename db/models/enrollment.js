@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes)=> {
             unique: true,
         },
         Session_ID: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
             references: {
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes)=> {
             }
         },
         User_ID: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
             references: {

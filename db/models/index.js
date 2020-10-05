@@ -15,6 +15,9 @@ if (config.use_env_variable) {
 //Require all models here
 const User = require('./user.js')(sequelize, DataTypes);
 const Message = require('./messages.js')(sequelize, DataTypes);
+const UnderstandingMeter = require('./understandingMeter')(sequelize, DataTypes);
+const Session = require('./session')(sequelize, DataTypes);
+const Enrollment = require('./enrollment')(sequelize, DataTypes);
 
 const Poll = require('./poll.js')(sequelize, DataTypes);
 const Poll_Response = require('./poll_response.js')(sequelize, DataTypes);
