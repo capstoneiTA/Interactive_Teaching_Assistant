@@ -19,7 +19,9 @@ const Message = require('./messages.js')(sequelize, DataTypes);
 //Add all models to database object here
 db.User = User;
 db.Message = Message;
-
+db.Session = Session;
+db.Enrollment = Enrollment;
+db.UnderstangingMeter = UnderstandingMeter;
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
