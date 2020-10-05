@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes)=> {
         CreatedBy: {
             type: DataTypes.STRING(100),
             allowNull: false,
-            unique: true,
+            unique: false,
         },
         Session_URL: {
             type: DataTypes.STRING(100),
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes)=> {
         Date_Created: {
             type: DataTypes.DATEONLY,
             allowNull: false,
-            unique: true,
+            unique: false,
         },
     });
 
