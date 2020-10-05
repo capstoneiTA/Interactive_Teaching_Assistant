@@ -28,6 +28,9 @@ db.UnderstandingMeter.belongsTo(db.Session);
 
 db.Enrollment.hasMany(db.Users);
 
+db.Multiple_Choice_Option.belongsTo(db.Quiz_Question);
+db.FillInTheBlankOption.belongsTo(db.Quiz_Question);
+
 
 
 
