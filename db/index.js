@@ -20,17 +20,15 @@ db.Message.belongsTo(db.User);
 db.Session.hasMany(db.Message); //Set one to many relationship
 db.Message.belongsTo(db.Session);
 
-db.Session.hasMany(db.Message);
-
 db.Session.hasMany(db.Enrollment);
+db.Enrollment.belongsTo(db.Session);
 
-db.Session.hasMany(db.UnderstandingMeter);
-db.UnderstandingMeter.belongsTo(db.Session);
+db.Session.hasMany(db.understandingMeter);
+db.understandingMeter.belongsTo(db.Session);
 
 
 db.User.hasMany(db.Enrollment);
-
-
+db.Enrollment.belongsTo(db.User);
 
 
 //Sync database tables
