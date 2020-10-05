@@ -15,11 +15,15 @@ if (config.use_env_variable) {
 //Require all models here
 const User = require('./user.js')(sequelize, DataTypes);
 const Message = require('./messages.js')(sequelize, DataTypes);
-
+const Quiz = require('./quiz.js')(sequelize,DataTypes);
+const QuizQuestion = require('./Quiz_Question.js')(sequelize,DataTypes);
+const QuizQuestionResponse = require('./Quiz_Question_Response.js')(sequelize,DataTypes);
 //Add all models to database object here
 db.User = User;
 db.Message = Message;
-
+ds.Quiz = Quiz;
+db.QuizQuestion= QuizQuestion;
+db.QuizQuestionResponse = QuizQuestionResponse;
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
