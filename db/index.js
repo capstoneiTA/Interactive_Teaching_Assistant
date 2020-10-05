@@ -20,6 +20,19 @@ db.Message.belongsTo(db.User);
 db.Session.hasMany(db.Message); //Set one to many relationship
 db.Message.belongsTo(db.Session);
 
+
+db.Poll.hasMany(db.Poll_Question);
+db.Poll_Question.belongsTo(db.Poll);
+
+db.Poll_Question.hasMany(db.Poll_Option);
+db.Poll_Option.belongsTo(db.Poll_Question);
+
+db.Poll.hasMany(db.Poll_Response);
+db.Poll_Response.belongsTo(db.Poll);
+
+//is this right relationship?
+db.Poll_Response.hasOne(db.Poll_Option);
+
 db.Session.hasMany(db.Message);
 db.Session.hasMany(db.Enrollment);
 db.Session.hasMany(db.UnderstandingMeter);
@@ -30,6 +43,7 @@ db.Enrollment.hasMany(db.Users);
 
 db.Multiple_Choice_Option.belongsTo(db.Quiz_Question);
 db.FillInTheBlankOption.belongsTo(db.Quiz_Question);
+
 
 
 
