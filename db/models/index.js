@@ -15,6 +15,8 @@ if (config.use_env_variable) {
 //Require all models here
 const User = require('./user.js')(sequelize, DataTypes);
 const Message = require('./messages.js')(sequelize, DataTypes);
+const Multiple_Choice_Option = require('./multiple_choice_option.js')(sequelize, DataTypes);
+const FillInTheBlankOption = require('./fill_in_the_blank_option.js')(sequelize, DataTypes);
 
 //Add all models to database object here
 db.User = User;
@@ -22,6 +24,8 @@ db.Message = Message;
 db.Session = Session;
 db.Enrollment = Enrollment;
 db.UnderstangingMeter = UnderstandingMeter;
+db.Multiple_Choice_Option = Multiple_Choice_Option;
+db.FillInTheBlankOption = FillInTheBlankOption;
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
