@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes)=> {
-    const Poll_Option = sequelize.define('Multiple_Choice_Option', {
+    const Multiple_Choice_Option = sequelize.define('Multiple_Choice_Option', {
         // Model attributes are defined here
         Multiple_Choice_Option_ID: {
             type: DataTypes.INTEGER,

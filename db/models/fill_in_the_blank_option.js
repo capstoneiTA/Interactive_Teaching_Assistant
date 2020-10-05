@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes)=> {
-    const Poll_Option = sequelize.define('Fill_In_The_Blank_Option', {
+    const Fill_In_The_Blank_Option = sequelize.define('Fill_In_The_Blank_Option', {
         // Model attributes are defined here
         Fill_In_The_Blank_Option_ID: {
             type: DataTypes.INTEGER,
