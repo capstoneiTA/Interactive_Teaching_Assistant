@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'Poll_Question',
+                model: 'Poll_Questions',
                 key: 'Poll_Question_ID'
             }
         },

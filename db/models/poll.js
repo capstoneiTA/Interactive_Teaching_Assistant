@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'User',
+                model: 'Users',
                 key: 'User_ID'
             }
         },

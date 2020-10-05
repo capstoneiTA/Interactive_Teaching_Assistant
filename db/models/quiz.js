@@ -8,14 +8,13 @@ module.exports = (sequelize, DataTypes)=> {
         autoIncrement: true,
         allowNull: false,
         unique: true
-
     },
     User_ID: {
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: false,
         references: {
-            model: 'User'
+            model: 'Users',
             key: 'User_ID'
         }
     },
@@ -23,7 +22,7 @@ module.exports = (sequelize, DataTypes)=> {
         type: DataTypes.STRING(100),
         allowNull: false,
         unique: false,
-    }
+    },
     Quiz_Type: {
         type: DataTypes.STRING,
         allowNull: false

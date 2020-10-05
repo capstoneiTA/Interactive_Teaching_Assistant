@@ -13,7 +13,7 @@ module.exports= (sequelize, DataTypes)=> {
         allowNUll: false,
         unique: false,
         references: {
-            model: 'User',
+            model: 'Users',
             key: 'User_ID'
         }
     },
@@ -22,8 +22,8 @@ module.exports= (sequelize, DataTypes)=> {
         allowNull: false,
         unique: false,
         references:{
-        model: 'Quiz_Question',
-        key: 'Quiz_Question_ID'
+            model: 'Quiz_Questions',
+            key: 'Quiz_Question_ID'
         }
     },
     FITB_Option_ID: {
@@ -31,7 +31,7 @@ module.exports= (sequelize, DataTypes)=> {
         allowNull: false,
         unique: false,
         references:{
-            model: 'Fill_In_The_Blank_Option'
+            model: 'Fill_In_The_Blank_Options',
             key: 'FITB_Option_ID'
         }
     },
@@ -41,17 +41,17 @@ module.exports= (sequelize, DataTypes)=> {
         allowNull: false,
         unique: false,
         references:{
-            model: 'Multiple_Choice_Option'
+            model: 'Multiple_Choice_Options',
             key: 'MC_Option_ID'
         }
 
     },
     Session_ID: {
-        type: DataTypes.String(100),
+        type: DataTypes.INTEGER,
         allowNull: false,
         unique: false,
         references: {
-            model: 'Session',
+            model: 'Sessions',
             key: 'Session_ID'
         }
 

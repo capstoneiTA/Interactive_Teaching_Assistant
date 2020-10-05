@@ -34,10 +34,9 @@ const FillInTheBlankOption = require('./fill_in_the_blank_option.js')(sequelize,
 //Add all models to database object here
 db.User = User;
 db.Message = Message;
-ds.Quiz = Quiz;
+db.Quiz = Quiz;
 db.QuizQuestion= QuizQuestion;
 db.QuizQuestionResponse = QuizQuestionResponse;
-db.User = User;
 db.Message = Message;
 
 db.Poll = Poll;

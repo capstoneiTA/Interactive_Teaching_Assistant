@@ -30,7 +30,7 @@ db.Poll.hasMany(db.Poll_Response);
 db.Poll_Response.belongsTo(db.Poll);
 
 //is this right relationship?
-db.Poll_Response.hasOne(db.Poll_Option);
+// db.Poll_Response.hasOne(db.Poll_Option);
 
 db.Session.hasMany(db.Message);
 
@@ -40,8 +40,8 @@ db.Enrollment.belongsTo(db.Session);
 db.Session.hasMany(db.UnderstandingMeter);
 db.UnderstandingMeter.belongsTo(db.Session);
 
-db.Multiple_Choice_Option.belongsTo(db.Quiz_Question);
-db.FillInTheBlankOption.belongsTo(db.Quiz_Question);
+db.Multiple_Choice_Option.belongsTo(db.QuizQuestion);
+db.FillInTheBlankOption.belongsTo(db.QuizQuestion);
 
 
 

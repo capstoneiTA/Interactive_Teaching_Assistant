@@ -13,12 +13,12 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'Poll',
+                model: 'Polls',
                 key: 'Poll_ID'
             }
         },
         Prompt: {
-            type: DataTypes.STRING(1000),
+            type: DataTypes.STRING(768),
             allowNull: false,
             unique: true
         }
