@@ -9,7 +9,7 @@ module.exports= (sequelize, DataTypes)=> {
         unique: true
     },
     User_ID:{
-        type: DataTypes.STRING(100),
+        type: DataTypes.INTEGER,
         allowNUll: false,
         unique: false,
         references: {

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes)=> {
-    const quiz = sequelize.define('quiz',{
+    const Quiz = sequelize.define('quiz',{
     //model for db attributes
 
     Quiz_ID: {
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes)=> {
 
     },
     User_ID: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.INTEGER,
         allowNull: false,
         unique: false,
         references: {
@@ -31,5 +31,5 @@ module.exports = (sequelize, DataTypes)=> {
 
 
     });
-    return quiz;
+    return Quiz;
 };
