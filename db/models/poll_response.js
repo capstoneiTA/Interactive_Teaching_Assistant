@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes)=> {
-    const Message = sequelize.define('Message', {
+    const Poll_Response = sequelize.define('Poll_Response', {
         // Model attributes are defined here
-        Message_ID: {
+        Poll_Response_ID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -17,8 +17,26 @@ module.exports = (sequelize, DataTypes)=> {
                 key: 'User_ID'
             }
         },
+        Poll_ID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: false,
+            references: {
+                model: 'Poll',
+                key: 'Poll_ID'
+            }
+        },
+        Poll_Option_ID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: false,
+            references: {
+                model: 'Poll_Option',
+                key: 'Poll_Option_ID'
+            }
+        },
         Session_ID: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
             references: {
@@ -26,31 +44,7 @@ module.exports = (sequelize, DataTypes)=> {
                 key: 'Session_ID'
             }
         },
-        Reply_To: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: false,
-            references: {
-                model: 'Message',
-                key: 'Message_ID'
-            }
-        },
-        Message_Content:{
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: false
-        },
-        Date:{
-            type: DataTypes.DATEONLY,
-            allowNull: false,
-            unique: false
-        },
-        Time:{
-            type: DataTypes.TIME,
-            allowNull: false,
-            unique: false
-        }
     });
 
-    return Message;
+    return Poll_Response;
 };
