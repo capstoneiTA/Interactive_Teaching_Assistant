@@ -8,7 +8,11 @@ services:
       - "${UI_PORT}:${UI_PORT}"
     depends_on:
       - api-gateway
+      - session
+      - db
     stdin_open: true
+    links:
+      - "session:session"
     networks:
       - itaNet
     volumes:

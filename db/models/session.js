@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
         },
-        Session_URL: {
+        Session_Name: {
             type: DataTypes.STRING(100),
             allowNull: false,
             unique: true,
