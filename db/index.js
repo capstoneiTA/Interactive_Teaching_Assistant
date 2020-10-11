@@ -2,10 +2,15 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const axios = require('axios');
 
 
 //Prevent cors issues from inter-container communication
 app.use(cors());
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(express.urlencoded({extended: true}));
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json());
 
 //Set up port
 const port = 5000;
@@ -48,9 +53,12 @@ db.FillInTheBlankOption.belongsTo(db.QuizQuestion);
 db.User.hasMany(db.Enrollment);
 db.Enrollment.belongsTo(db.User);
 
+db.User.hasMany(db.Session);
+db.Session.belongsTo(db.User);
+
 
 //Sync database tables
-db.sequelize.sync({force:true});
+db.sequelize.sync({force:false});
 
 app.get('/word', (req,res)=>{
     res.send('Response from the database!');
@@ -60,3 +68,7 @@ app.get('/word', (req,res)=>{
 app.listen(port, () =>{
     console.log(`Listening on port: ${port}`)
 });
+
+/**************GET ENDPOINTS**********************/
+// Requiring our endpoints
+require("./endpoints/session-api.js")(app, db);
