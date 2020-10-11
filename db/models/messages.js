@@ -13,25 +13,25 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'User',
+                model: 'Users',
                 key: 'User_ID'
             }
         },
         Session_ID: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
             references: {
-                model: 'Session',
+                model: 'Sessions',
                 key: 'Session_ID'
             }
         },
         Reply_To: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
             references: {
-                model: 'Message',
+                model: 'Messages',
                 key: 'Message_ID'
             }
         },

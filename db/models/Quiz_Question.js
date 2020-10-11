@@ -1,28 +1,29 @@
 module.exports = (sequelize, DataTypes)=> {
-    const Poll_Question = sequelize.define('Poll_Question', {
-        // Model attributes are defined here
-        Poll_Question_ID: {
+    const Quiz_Question = sequelize.define('Quiz_Question', {
+        //model for Quiz_question db
+        Quiz_Question_ID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
             unique: true
         },
-        Poll_ID: {
+        Quiz_ID: {
             type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
             references: {
-                model: 'Polls',
-                key: 'Poll_ID'
+                model: 'quizzes',
+                key: 'Quiz_ID'
             }
         },
-        Prompt: {
+       Prompt: {
             type: DataTypes.STRING(768),
             allowNull: false,
             unique: true
-        }
-    });
+       }
 
-    return Poll_Question;
+
+    });
+    return Quiz_Question;
 };

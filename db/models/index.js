@@ -15,6 +15,9 @@ if (config.use_env_variable) {
 //Require all models here
 const User = require('./user.js')(sequelize, DataTypes);
 const Message = require('./messages.js')(sequelize, DataTypes);
+const Quiz = require('./quiz.js')(sequelize,DataTypes);
+const QuizQuestion = require('./Quiz_Question.js')(sequelize,DataTypes);
+const QuizQuestionResponse = require('./Quiz_Question_Response.js')(sequelize,DataTypes);
 const UnderstandingMeter = require('./understandingMeter')(sequelize, DataTypes);
 const Session = require('./session')(sequelize, DataTypes);
 const Enrollment = require('./enrollment')(sequelize, DataTypes);
@@ -31,6 +34,10 @@ const FillInTheBlankOption = require('./fill_in_the_blank_option.js')(sequelize,
 //Add all models to database object here
 db.User = User;
 db.Message = Message;
+db.Quiz = Quiz;
+db.QuizQuestion= QuizQuestion;
+db.QuizQuestionResponse = QuizQuestionResponse;
+db.Message = Message;
 
 db.Poll = Poll;
 db.Poll_Response = Poll_Response;
@@ -39,7 +46,7 @@ db.Poll_Option = Poll_Option;
 
 db.Session = Session;
 db.Enrollment = Enrollment;
-db.UnderstangingMeter = UnderstandingMeter;
+db.UnderstandingMeter = UnderstandingMeter;
 db.Multiple_Choice_Option = Multiple_Choice_Option;
 db.FillInTheBlankOption = FillInTheBlankOption;
 

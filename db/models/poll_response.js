@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'User',
+                model: 'Users',
                 key: 'User_ID'
             }
         },
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'Poll',
+                model: 'Polls',
                 key: 'Poll_ID'
             }
         },
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'Poll_Option',
+                model: 'Poll_Options',
                 key: 'Poll_Option_ID'
             }
         },
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'Session',
+                model: 'Sessions',
                 key: 'Session_ID'
             }
         },

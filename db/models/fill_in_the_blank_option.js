@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes)=> {
     const Fill_In_The_Blank_Option = sequelize.define('Fill_In_The_Blank_Option', {
         // Model attributes are defined here
-        Fill_In_The_Blank_Option_ID: {
+        FITB_Option_ID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'Quiz_Question',
+                model: 'Quiz_Questions',
                 key: 'Quiz_Question_ID'
             }
         },

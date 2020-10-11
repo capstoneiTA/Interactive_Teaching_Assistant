@@ -9,11 +9,15 @@ module.exports = (sequelize, DataTypes)=> {
             unique: true,
         },
         CreatedBy: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
+            references: {
+                model: 'Users',
+                key: 'User_ID'
+            }
         },
-        Session_URL: {
+        Session_Name: {
             type: DataTypes.STRING(100),
             allowNull: false,
             unique: true,

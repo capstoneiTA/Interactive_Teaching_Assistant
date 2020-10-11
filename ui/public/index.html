@@ -24,10 +24,12 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <script src="http://session:7000/socket.io/socket.io.js"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js" integrity="sha512-AcZyhRP/tbAEsXCCGlziPun5iFvcSUpEz2jKkx0blkYKbxU81F+iq8FURwPn1sYFeksJ+sDDrI5XujsqSobWdQ==" crossorigin="anonymous"></script>
     <script>
-      let socket = io("http://session:7000");
-      socket.emit('start', 'Hello there!');
+      let socket = io.connect("http://localhost:7000");
+      socket.on('connect', function(){
+        console.log('Hello');
+      });
     </script>
     <title>React App</title>
   </head>

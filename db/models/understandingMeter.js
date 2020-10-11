@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'Session',
+                model: 'Sessions',
                 key: 'Session_ID'
             }
         },
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
             references: {
-                model: 'User',
+                model: 'Users',
                 key: 'User_ID'
             }
         },
