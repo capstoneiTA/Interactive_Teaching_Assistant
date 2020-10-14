@@ -12,6 +12,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 //Teacher Side
 import ProgressBar from 'react-bootstrap/ProgressBar';
@@ -49,10 +50,11 @@ export default function UnderstandingMeter() {
                     max={5}
                 />
             </div>
+
             <div className={""}>
                 <b>Display on teacher</b>
 
-                <ProgressBar now={valuetext} />
+                <ProgressBar min={1} max={5} now={3} />
             </div>
         </div>
 
