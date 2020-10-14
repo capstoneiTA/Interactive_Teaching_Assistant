@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../css/uMeter.css';
+import './css/uMeter.css';
 
 const apiUrl = `http://localhost:8080`;
 
