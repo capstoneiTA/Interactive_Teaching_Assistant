@@ -18,4 +18,16 @@ module.exports = function(app, axios) {
         });
     });
 
+    app.post("/session/join", function(req, res) {
+        //Get session creation data from post request
+        let sessionName = req.body.sessionName;
+        let userId = req.body.userId;
+
+        axios.post(sessionUrl + '/session/join', {sessionName: sessionName, userId: userId}).then(function(response){
+            res.send(response.data);
+        }).catch(function(error){
+            res.send(error);
+        });
+    });
+
 };

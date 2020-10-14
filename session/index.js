@@ -20,10 +20,6 @@ app.use(express.json());
 //Set up port
 const port = 7000;
 
-io.on('connection', (socket)=>{
-    console.log('hurray!');
-});
-
 //Start listening for connections
 http.listen(port, () =>{
     console.log(`Listening on port: ${port}`)
@@ -31,6 +27,6 @@ http.listen(port, () =>{
 
 /**************GET ENDPOINTS**********************/
 // Requiring our endpoints
-require("./endpoints/session-api.js")(app, axios);
+require("./endpoints/session-api.js")(app, axios, io);
 
 
