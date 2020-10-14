@@ -14,10 +14,10 @@ const useStyles = makeStyles({
 });
 
 function valuetext(value) {
-    return `${value}°C`;
+    return `${value}`;
 }
 
-export default function uMeter() {
+export default function UnderstandingMeter() {
     const classes = useStyles();
 
     return (

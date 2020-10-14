@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import uMeter from "./uMeter_UI";
+import UnderstandingMeter from "./uMeter_UI";
 
 ReactDOM.render(
-    <uMeter />,
+    <UnderstandingMeter />,
     document.getElementById('root')
 );
