@@ -1,5 +1,6 @@
+
 module.exports = (sequelize, DataTypes)=> {
-    const UnderstandingMeter = sequelize.define('UnderstandingMeter', {
+    return sequelize.define('UnderstandingMeter', {
 
         Meter_Change_ID: {
             type: DataTypes.INTEGER,
@@ -37,5 +38,4 @@ module.exports = (sequelize, DataTypes)=> {
             unique: false,
         }
     });
-    return UnderstandingMeter;
 };

@@ -31,3 +31,4 @@ app.listen(PORT, function() {
 /**************GET ENDPOINTS**********************/
 // Requiring our endpoints
 require("./endpoints/session-api.js")(app, axios);
+require("./endpoints/uMeter-api")(app, axios);
