@@ -10,10 +10,15 @@
 *
 * */
 
+//general
 import React from 'react';
+//styling
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+
+const axios = require('axios');
+const apiGatewayUrl = `http://api-gateway:8080`;
 
 const useStyles = makeStyles({
     root: {
@@ -39,29 +44,20 @@ function handleChange(event, value) {
     *       then how do we save in db? create a new entry and send to uMeterChange db | call a post request here??????
     * */
 
+    //Send the new data value to db
+    let uValue = value;
 
-    // //Send the new data value to db
-    // let SessionID = req.body.Session_ID;
-    // let UserID = req.body.User_ID;
-    // let UnderstandingValue = req.body.Understanding_Value;
-    // let Timestamp = req.body.Timestamp;
-    //
-    // axios.post(dbUrl + '/uMeter/update', {Session_ID: Session_ID, User_ID: CreatedBy, Understanding_Value: , Timestamp: Timestamp}).then(function(response){
-    //     res.send(response.data);
-    // }).catch(function(error){
-    //     res.send(error);
-    // });
-
-
-
-
+    axios.post(apiGatewayUrl + '/uMeter/update', {uValue}).then(function(response){
+        console.log(response);
+    }).catch(function(error){
+        console.log(error);
+    });
 
     /*  TODO: HOW TO NOTIFY CHANGE?
     *       what do we need? just a socket.io object
     *       then how do we notifying the change? use socket.emit to send the change message
     * */
     //get a socket
-
 }
 
 export default function StudentUnderstandingMeter() {
