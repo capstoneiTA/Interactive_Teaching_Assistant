@@ -5,8 +5,11 @@
     *   @material-ui/core
     *   react-bootstrap
 * */
-
+//General
 import React from 'react';
+//todo import handlechange here for uMeter class
+
+
 
 //Student Side
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,8 +17,13 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
+
 //Teacher Side
 import ProgressBar from 'react-bootstrap/ProgressBar';
+
+
+
 
 //Student uMeter
 const useStyles = makeStyles({
