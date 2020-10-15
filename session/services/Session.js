@@ -7,14 +7,15 @@ class Session {
      * @param owner the name of the user who created the session
      * @param report report object holding class session information
      */
-    constructor(sessionName, ownerFirstName, ownerLastName, ownerId, io) {
-        this.users = [ownerFirstName + ' ' + ownerLastName];
+    constructor(sessionName, io) {
+        this.users = [];
         this.io = io;
         this.sessionName = sessionName;
         this.namespace = io.of('/' + sessionName);
-        this.ownerName = ownerFirstName + ' ' + ownerLastName;
-        this.ownerId = ownerId;
+        this.ownerName;
+        this.ownerId;
         this.startTime = Math.floor(new Date().getTime() /1000);
+        // this.getOwner();
         this.listen();
     }
 
@@ -91,7 +92,7 @@ class Session {
         this.namespace.on('connection', this.handleConnection);
     }
 
-    handleConnection = (socket) => {
+    handleConnection(socket){
         //Broadcast welcome new users
         //Listen for the 'welcome' from client and broadcast to everyone else, except that user
         socket.on('welcome', (msg, firstName,lastName, id) => {

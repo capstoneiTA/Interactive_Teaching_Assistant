@@ -84,7 +84,20 @@ describe('Session Join', function(){
             })
         });
     });
+});
 
+describe('Session enrollment retrieval', function(){
 
-
+    describe(`User can retrieve their session enrollments`, function(){
+        it('database should return the number of enrollments as well as the enrollment names', function () {
+            return axios.get(apiGatewayUrl + '/session/enrollments', {
+                params: {
+                    userId: 2
+                }
+            }).then(function (res) {
+                // console.log(res.data.enrollments);
+                expect(res.data.dbSuccess).to.equal(true);
+            })
+        });
+    });
 });

@@ -21,7 +21,6 @@ module.exports = function(app, db) {
                 db.Session.create({
                     CreatedBy: CreatedBy,
                     Session_Name: sessionName,
-
                 }).then(function(){
                         response.dbAdd = true;
                         res.send(response);
@@ -83,6 +82,40 @@ module.exports = function(app, db) {
         }).catch(function(error){
             res.send(error);
         });
+    });
+
+    app.get("/session/enrollments", function(req, res) {
+        //Get session creation data from post request
+        let userId = req.query.userId;
+        let sessionNames = [];
+        let response = {};
+
+        db.Enrollment.findAll().then(function(Sessions){
+            let count = 0;
+            if(Sessions.length === 0){
+                response.dbSuccess = true;
+                response.enrollments = sessionNames;
+                res.send(response);
+            }
+            for(const Session of Sessions){
+                db.Session.findOne({
+                    where:{
+                        'Session_ID': Session.Session_ID
+                    }
+                }).then(function (foundSession) {
+                    sessionNames.push(foundSession.Session_Name);
+                    if(sessionNames.length === Sessions.length){
+                        response.dbSuccess = true;
+                        response.enrollments = sessionNames;
+                        res.send(response);
+                    }
+                }).catch(function(error){
+                    sessionNames.push('error');
+                })
+            }
+        }).catch(function(error){
+            res.send(error);
+        })
     });
 
 };
