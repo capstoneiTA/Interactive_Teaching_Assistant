@@ -72,3 +72,4 @@ app.listen(port, () =>{
 /**************GET ENDPOINTS**********************/
 // Requiring our endpoints
 require("./endpoints/session-api.js")(app, db);
+require("./endpoints/uMeter-api.js")(app, db);

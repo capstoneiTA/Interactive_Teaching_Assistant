@@ -3,10 +3,11 @@
  */
 const sessionUrl = `http://session:7000`;
 
+
 module.exports = function(app, axios) {
     //Authenticates user for session creation
     //User must be a teacher
-    app.post("/session/create", function(req, res) {
+    app.post("/session/create",function(req, res) {
         //Get session creation data from post request
         let sessionName = req.body.sessionName;
         let CreatedBy = req.body.CreatedBy;

@@ -44,7 +44,8 @@
     />
 
     <script>
-      let socket = io.connect("http://localhost:7000");
+      //TODO from here to set up listener for teacher uMeter and student uMeter
+      let socket = io.connect("http://localhost:7000"); //add /namespace
       socket.on('connect', function(){
         console.log('Hello');
       });

@@ -8,20 +8,14 @@ class UnderstandingMeter{
     * @param {object} history - record changes {K = time: V = {score:int}}
     * */
 
-    /*
-    *   TODO
-    *    add socket object
-    *    add function to emit changes value to teacher side
-    *    add function to listen for changes from student side
-    *    add function to connect to session for both sides
-    *
-    * */
-
     constructor(score, user, history) {
         this.score = score;
         this.user = user;
         this.history = history;
 
+        this.io = io;
+        this.sessionName = sessionName;
+        this.namespace = io.of('/' + sessionName);
     }
 
     /**
@@ -60,6 +54,8 @@ class UnderstandingMeter{
      */
     getTime() {
     }
+
+
 
 
 
