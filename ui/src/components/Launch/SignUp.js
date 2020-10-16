@@ -60,7 +60,7 @@ class SignUp extends Component {
             console.log(res.data);
         });
         //redirect to dashboard
-        this.props.history.push('/dashboard');
+        this.props.history.push('/launch/signin');
     };
 
 

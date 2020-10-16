@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import './index.css';
 import App from './App';
 import HelloWorld from './helloWorld';
-import LaunchScreen from "./Launch/LaunchScreen";
-import Dashboard from "./Dashboard";
+import LaunchScreen from "./components/Launch/LaunchScreen";
+import Dashboard from "./components/Dashboard";
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
