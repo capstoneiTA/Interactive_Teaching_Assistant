@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import SessionConnect from './components/SessionConnect';
 import SessionJoin from './components/SessionJoin';
+import SessionEnrollment from './components/SessionEnrollment';
 
 
 class Dashboard extends Component {
@@ -8,8 +9,9 @@ class Dashboard extends Component {
         return (
             <div>
                 Youve made it to the dashboard.
-                <SessionConnect user_id="1" />
+                <SessionConnect userId="1" />
                 <SessionJoin userId="1" />
+                <SessionEnrollment userId="1"/>
             </div>
         )
     }
