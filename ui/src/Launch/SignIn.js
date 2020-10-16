@@ -37,7 +37,11 @@ class SignIn extends Component {
         axios.post(this.apiGatewayUrl + '/login', {email: this.state.email , password: this.state.password}).then(function (res) {
             if(res.data.success === true){
                 //redirect to dashboard
-                that.props.history.push('/dashboard');
+                that.props.history.push({
+                        pathname: '/dashboard',
+                        state: {user: res.data.user}
+                    }
+                    );
             }else{
                 console.log(res.data);
               //something else
