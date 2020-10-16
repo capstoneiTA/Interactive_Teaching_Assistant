@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import SessionConnect from './components/SessionConnect';
 import SessionJoin from './components/SessionJoin';
+import UserInfo from './components/UserInfo';
 
 
 class Dashboard extends Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
         return (
             <div>
-                Youve made it to the dashboard.
+                <h1>Dashboard</h1>
+                <UserInfo user={this.props.location.state.user}/>
                 <SessionConnect CreatedBy="1" />
                 <SessionJoin userId="1" />
             </div>
