@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import UserInfo from './components/UserInfo';
 import TeacherUnderstandingMeter from "./components/uMeter_UI_Teacher";
 import StudentUnderstandingMeter from "./components/uMeter_UI_Student";
 
