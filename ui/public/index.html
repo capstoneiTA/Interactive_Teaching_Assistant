@@ -45,7 +45,7 @@
 
     <script>
       //TODO from here to set up listener for teacher uMeter and student uMeter | add /namespace
-      let socket = io.connect("http://localhost:7000");
+      export let socket = io.connect("http://localhost:7000");
       socket.on('connect', function(){
         console.log('Hello');
       });
