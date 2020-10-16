@@ -20,7 +20,7 @@ module.exports = function(app, db) {
                        res.send(response);
 
                     }
-                    if (bcrypt.compareSync(password, User.Password)) {
+                    else if(bcrypt.compareSync(password, User.Password)) {
                         response.user = User;
                         response.message = 'user exists with right password';
                         res.send(response);

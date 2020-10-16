@@ -19,7 +19,7 @@ module.exports = function(app,axios)
 
     );
 
-    app.post('/login', passport.authenticate('local', {successRedirect: '/success', failureRedirect: '/failure', failureFlash: true}),function(req,res){
+    app.post('/login', passport.authenticate('local', {successRedirect: '/success', failureRedirect: '/failure', failureFlash: false}),function(req,res){
             res.json('/');
     });
 
