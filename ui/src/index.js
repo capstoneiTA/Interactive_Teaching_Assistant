@@ -1,13 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import HelloWorld from './helloWorld';
+import LaunchScreen from "./Launch/LaunchScreen";
+import Dashboard from "./Dashboard";
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <HelloWorld />
+      <Router>
+          <Switch>
+              <Redirect exact from='/' to='/launch'/>
+              <Route path='/launch' component={LaunchScreen} />
+              <Route path='/dashboard' component={Dashboard} />
+          </Switch>
+      </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
