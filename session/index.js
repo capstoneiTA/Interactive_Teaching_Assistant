@@ -28,5 +28,6 @@ http.listen(port, () =>{
 /**************GET ENDPOINTS**********************/
 // Requiring our endpoints
 require("./endpoints/session-api.js")(app, axios, io);
+require("./endpoints/uMeter-api")(app, axios);
 
 

@@ -32,10 +32,5 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false,
         },
-        Timestamp: {
-            type: DataTypes.TIME,
-            allowNull: false,
-            unique: false,
-        }
     });
 };

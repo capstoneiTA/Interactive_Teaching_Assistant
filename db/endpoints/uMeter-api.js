@@ -13,7 +13,6 @@ module.exports = function(app, db) {
             Session_ID:11,
             User_ID:123,
             Understanding_Value: newScore,
-            Timestamp: 123,
         }).then(function(){
                 response.uChangeAdd = true;
                 res.send(response);

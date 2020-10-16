@@ -13,12 +13,19 @@ const SessionJoin = ({userId}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('body to be posted to session/join:','SessionName:', sessionName, 'userId ', userId); 
+        let that = this;
+        console.log('body to be posted to session/join:','SessionName:', sessionName, 'userId ', userId);
+
         axios.post(apiUrl + '/session/join', {sessionName, userId})
         .then(res=>{
           console.log(res);
           console.log(res.data);
           // routing should go here
+        that.props.history.push({
+                pathname: '/classSession',
+                state: {user: userId}
+            }
+        );
           setResponse(res.data);
         }).catch(error => {
             console.log('ERROR in SessionJoin: ', error)
