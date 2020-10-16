@@ -12,6 +12,7 @@ module.exports = function(app, db) {
         let sessionName = req.body.sessionName;
         let CreatedBy = req.body.CreatedBy;
 
+
         db.User.findOne({
             where:{
                 'User_ID': CreatedBy,

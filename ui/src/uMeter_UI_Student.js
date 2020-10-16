@@ -13,7 +13,7 @@
 //general
 import React from 'react';
 //styling
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
@@ -45,9 +45,7 @@ function handleChange(event, value) {
     * */
 
     //Send the new data value to db
-    let uValue = value;
-
-    axios.post(apiGatewayUrl + '/uMeter/update', {uValue}).then(function(response){
+    axios.post(apiGatewayUrl + '/uMeter/update', {uScore: value}).then(function(response){
         console.log(response);
     }).catch(function(error){
         console.log(error);
