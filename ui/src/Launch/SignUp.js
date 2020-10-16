@@ -54,13 +54,15 @@ class SignUp extends Component {
         e.preventDefault();
         console.log('registered');
         console.log(this.state);
+        let that = this;
 
         axios.post(this.apiGatewayUrl + '/signup', {email: this.state.email , password: this.state.password, firstName: this.state.firstName, lastName: this.state.lastName, type: this.state.type}).then(function (res) {
             console.log(res.data.dbAdd);
             console.log(res.data);
+            that.props.history.push('/launch/signin');
         });
         //redirect to dashboard
-        this.props.history.push('/dashboard');
+
     };
 
 
