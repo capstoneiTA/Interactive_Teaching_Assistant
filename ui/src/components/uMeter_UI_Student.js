@@ -12,13 +12,12 @@
 
 //general
 import React from 'react';
-const axios = require('axios');
-
+import axios from 'axios';
 
 //styling
-import {makeStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography';
+import {makeStyles} from '@material-ui/core/styles';
 
 
 const apiGatewayUrl = `http://api-gateway:8080`;
