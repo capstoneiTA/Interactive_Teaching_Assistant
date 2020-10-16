@@ -31,20 +31,21 @@ class SignIn extends Component {
         e.preventDefault();
         console.log('signedIn');
         console.log(this.state);
+        let that = this;
 
         //post request
         axios.post(this.apiGatewayUrl + '/login', {email: this.state.email , password: this.state.password}).then(function (res) {
-            if(res.data === 'success'){
+            if(res.data.success === true){
                 //redirect to dashboard
-                console.log(res.data);
-                // this.props.history.push('/dashboard');
+                that.props.history.push('/dashboard');
             }else{
+                console.log(res.data);
               //something else
             }
         });
 
 
-    }
+    };
 
     render() {
         return (
