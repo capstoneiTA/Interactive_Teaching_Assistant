@@ -66,52 +66,91 @@ class SignUp extends Component {
 
     render() {
         return (
-            <div>
-                <Link to='/launch/opt'>Back</Link>
-                <form onSubmit={this.handleSubmit}>
+            <div style={containerStyle}>
+                <div style={backLinkStyle}>
+                    <Link to='/launch/opt'>&larr;</Link>
+                </div>
+                <form onSubmit={this.handleSubmit} style={formStyle}>
                     <label>
                         First Name:
                         <input type='text'
                                value={this.state.firstName}
                                onChange={this.firstNameHandler}
+                               style={textInputStyle}
                         />
                     </label>
+                    <br/>
                     <label>
                         Last Name:
                         <input type='text'
                                value={this.state.lastName}
                                onChange={this.lastNameHandler}
+                               style={textInputStyle}
                         />
                     </label>
+                    <br/>
                     <label>
                         Email:
                         <input type='text'
                                value={this.state.email}
                                onChange={this.emailHandler}
+                               style={textInputStyle}
                         />
                     </label>
+                    <br/>
                     <label>
                         Password:
                         <input type='text'
                                value={this.state.password}
                                onChange={this.passwordHandler}
+                               style={textInputStyle}
                         />
                     </label>
+                    <br/>
                     <label>
-                        Type:
-                        <select onChange={this.typeHandler}>
-                                defaultValue='Select'>
-                            <option defaultValue>Select</option>
+                        Teacher or Student
+                        <select onChange={this.typeHandler} style={textInputStyle}>
                             <option value='Teacher'>Teacher</option>
                             <option value='Student'>Student</option>
                         </select>
                     </label>
-                    <input type='submit' value='Sign Up'/>
-                    {/*<Link to='/dashboard'>Sign Up</Link>*/}
+                    <br/>
+                    <input type='submit' value='Sign Up' style={signUpLinkStyle}/>
                 </form>
             </div>
         );
     }
+}
+
+const containerStyle = {
+    marginTop: '50px',
+}
+
+const backLinkStyle = {
+    textAlign: 'center',
+    width: '30px',
+    margin: 'auto',
+    marginBottom: '20px',
+    padding: '5px 3px',
+    borderRadius: '5px',
+    backgroundColor: 'lightgray',
+    transform: 'translateX(-120px)'
+}
+
+const signUpLinkStyle = {
+    marginTop: '20px',
+    marginRight: '10px',
+}
+
+const formStyle = {
+    width: '260px',
+    margin: 'auto',
+    textAlign: 'right',
+    transform: 'translateX(-20px)',
+}
+
+const textInputStyle = {
+    margin: '10px',
 }
 
 export default SignUp;

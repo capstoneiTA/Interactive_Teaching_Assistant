@@ -53,28 +53,66 @@ class SignIn extends Component {
 
     render() {
         return (
-            <div>
-                <Link to='/launch/opt'>Back</Link>
-                <form onSubmit={this.handleSubmit}>
+            <div style={containerStyle}>
+                <div style={backLinkStyle}>
+                    <Link to='/launch/opt'>&larr;</Link>
+                </div>
+
+                <form onSubmit={this.handleSubmit} style={formStyle}>
                     <label>
                         Email:
                         <input type='text'
                                value={this.state.email}
                                onChange={this.emailHandler}
+                               style={textInputStyle}
                         />
                     </label>
+                    <br/>
                     <label>
                         Password:
                         <input type='text'
                                value={this.state.password}
                                onChange={this.passwordHandler}
+                               style={textInputStyle}
                         />
                     </label>
-                    <input type='submit' value='Sign In'/>
+                    <br/>
+                    <input type='submit' value='Sign In' style={signInLinkStyle}/>
                 </form>
             </div>
         );
     }
+}
+
+const containerStyle = {
+    marginTop: '50px',
+}
+
+const backLinkStyle = {
+    textAlign: 'center',
+    width: '30px',
+    margin: 'auto',
+    marginBottom: '20px',
+    padding: '5px 3px',
+    borderRadius: '5px',
+    backgroundColor: 'lightgray',
+    transform: 'translateX(-120px)'
+}
+
+const signInLinkStyle = {
+    marginTop: '20px',
+    marginRight: '10px',
+}
+
+const formStyle = {
+    width: '250px',
+    margin: 'auto',
+    textAlign: 'right',
+    transform: 'translateX(-20px)',
+}
+
+const textInputStyle = {
+    margin: '10px',
 }
 
 export default SignIn;
