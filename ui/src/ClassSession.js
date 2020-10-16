@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TeacherUnderstandingMeter from "./components/uMeter_UI_Teacher";
+//import TeacherUnderstandingMeter from "./components/uMeter_UI_Teacher";
 import StudentUnderstandingMeter from "./components/uMeter_UI_Student";
 
 
@@ -16,8 +16,7 @@ class ClassSession extends Component {
         return (
             <div>
                 <h1>Class Session</h1>
-                <StudentUnderstandingMeter userId = {this.state.userId}/>
-                <TeacherUnderstandingMeter userId = {this.state.userId}/>
+                <StudentUnderstandingMeter />
             </div>
         )
     }
