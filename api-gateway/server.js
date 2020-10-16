@@ -19,7 +19,6 @@ app.use(express.json());
 //Prevent cors errors
 app.use(cors());
 
-app.use(express.static("public"));
 app.use(session({ secret: "cats" }));
 app.use(passport.initialize());
 app.use(passport.session());
