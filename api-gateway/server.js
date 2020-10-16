@@ -12,6 +12,11 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 //Prevent cors errors
 
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(express.urlencoded({extended: true}));
+// Parse JSON bodies (as sent by API clients)
+app.use(express.json());
+//Prevent cors errors
 app.use(cors());
 
 app.use(express.static("public"));
@@ -37,4 +42,7 @@ app.listen(PORT, function() {
   console.log(`Listening on ${PORT}`);
 });
 
+/**************GET ENDPOINTS**********************/
+require("./endpoints/session-api.js")(app, axios);
 require("./endpoints/sign_login-api.js")(app, axios);
+

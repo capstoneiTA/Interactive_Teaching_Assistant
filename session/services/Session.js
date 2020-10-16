@@ -7,12 +7,16 @@ class Session {
      * @param owner the name of the user who created the session
      * @param report report object holding class session information
      */
-    constructor(sessionName, owner, report) {
+    constructor(sessionName, io) {
         this.users = [];
+        this.io = io;
         this.sessionName = sessionName;
-        this.owner = owner;
-        this.startTime = new Date();
-        this.servicesReport = report;
+        this.namespace = io.of('/' + sessionName);
+        this.ownerName;
+        this.ownerId;
+        this.startTime = Math.floor(new Date().getTime() /1000);
+        // this.getOwner();
+        this.listen();
     }
 
     /**
@@ -82,4 +86,59 @@ class Session {
     getElapsedTime(){
 
     }
+
+    /**************SOCKET.IO HANDLING******************/
+    listen() {
+        this.namespace.on('connection', this.handleConnection);
+    }
+
+    handleConnection(socket){
+        //Broadcast welcome new users
+        //Listen for the 'welcome' from client and broadcast to everyone else, except that user
+        socket.on('welcome', (msg, firstName,lastName, id) => {
+            this.welcome(msg, firstName, lastName, id);
+        });
+
+        //Disconnection
+        socket.on('disconnect', (reason, firstName, lastName) => {
+            this.disconnect(reason, firstName, lastName);
+        });
+
+    };
+
+    welcome(msg, fn, ln, id){
+        //broadcast to all current clients except for the newly join with the welcome message
+        socket.broadcast.to(this.name).emit('welcome', msg);
+
+        //Check if name is already in online list
+        let nameFound = false;
+        for(let i = 0; i < this.users.length; i ++){
+            if(this.users[i]['firstName'] == firstName && this.users[i]['lastName'] == lastName){
+                nameFound = true;
+            }
+        }
+
+        if(!nameFound){
+            let userinfo = {'firstName': firstName, 'lastName': lastName, 'socketid':id};
+            this.users.push(userinfo);
+        }
+        //emit the list of current users to the newly joined client
+        this.namespace.emit('userList', this.users);
+    }
+
+    disconnect(reason, firstName, lastName){
+        socket.broadcast.to(this.namespace).emit('userLeave', `${firstName} left the class`);
+
+        //Remove user from the userlist
+        for(let i = 0; i < this.users.length; i++){
+            if(this.users[i]['firstName'] === firstName && this.users[i]['lastName'] === lastName){
+                this.users.splice(i, 1);
+            }
+        }
+
+        //Remove from userlist of all clients
+        this.namespace.emit('userList', this.users);
+    }
 }
+
+module.exports = Session;

@@ -16,7 +16,7 @@ class HelloWorld extends Component {
         });
     }
 
-    //Runs after the component is mounted
+    // Runs after the component is mounted
     componentDidMount() {
         this.loadWord();
     }

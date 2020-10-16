@@ -71,6 +71,5 @@ app.listen(port, () =>{
 });
 
 /**************GET ENDPOINTS**********************/
-// Requiring our endpoints
-
 require("./endpoints/authentication-api.js")(app,db);
+require("./endpoints/session-api.js")(app, db);
