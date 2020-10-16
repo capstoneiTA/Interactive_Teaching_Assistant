@@ -3,6 +3,7 @@ import axios from "axios";
 
 const apiUrl = `http://localhost:8080`;
 
+
 const SessionConnect = ({CreatedBy}) => {
     const [sessionName, setSessionName] = useState('')
     const [response, setResponse] = useState('')
@@ -13,6 +14,7 @@ const SessionConnect = ({CreatedBy}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         console.log('body to be posted to session/create:','SessionName:', sessionName, 'CreatedBy: ', CreatedBy);
         axios.post(apiUrl + '/session/create', {sessionName, CreatedBy})
         .then(res=>{

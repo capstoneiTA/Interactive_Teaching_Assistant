@@ -19,7 +19,6 @@ module.exports = function(app, axios, io) {
         }).catch(function(error){
             res.send(error);
         })
-
     });
 
     app.post("/session/join", function(req, res) {
