@@ -10,15 +10,15 @@ module.exports = function(app, axios, io) {
     let currentSessions = [];
 
     app.post("/session/create", function(req, res) {
-        //Get session creation data from post request
+        // Get session creation data from post request
         let sessionName = req.body.sessionName;
-        let userId = req.body.userId;
+        let CreatedBy = req.body.CreatedBy;
 
-        axios.post(dbUrl + '/session/create', {sessionName: sessionName, userId: userId}).then(function(response){
+        axios.post(dbUrl + '/session/create', {sessionName: sessionName, CreatedBy: CreatedBy}).then(function(response){
             res.send(response.data);
         }).catch(function(error){
             res.send(error);
-        });
+        })
     });
 
     app.post("/session/join", function(req, res) {

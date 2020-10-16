@@ -9,7 +9,7 @@ class Dashboard extends Component {
         return (
             <div>
                 Youve made it to the dashboard.
-                <SessionConnect userId="1" />
+                <SessionConnect CreatedBy="1" />
                 <SessionJoin userId="1" />
                 <SessionEnrollment userId="1"/>
             </div>
