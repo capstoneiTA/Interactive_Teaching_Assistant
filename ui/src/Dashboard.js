@@ -8,12 +8,17 @@ import SessionEnrollment from './components/SessionEnrollment';
 class Dashboard extends Component {
     constructor(props) {
         super(props);
+        if(this.props.location.state !==undefined){
+            this.user = this.props.location.state.user;
+        }else{
+            this.user = '';
+        }
     }
     render() {
         return (
             <div>
                 <h1>Dashboard</h1>
-                <UserInfo user={this.props.location.state.user}/>
+                <UserInfo user={this.user}/>
                 <SessionConnect CreatedBy="1" />
                 <SessionJoin userId="1" />
                 <SessionEnrollment userId="1"/>
