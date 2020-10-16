@@ -3,37 +3,37 @@ import axios from "axios";
 
 const apiUrl = `http://localhost:8080`;
 
-const SessionConnect = () => {
-    const [sessionName, setSessionName] = useState({})
-    const [response, setResponse] = useState({data: ''})
+const SessionJoin = ({userId}) => {
+    const [sessionName, setSessionName] = useState('')
+    const [response, setResponse] = useState('')
 
     const handleChange = (e) =>{
-        setSessionName({ sessionName: e.target.value});
+        setSessionName( e.target.value );
       }
-    function handleSubmit(e) {
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        console.log( 'SessionName:', {sessionName}, 'CreatedBy: ', user_id); 
-        axios.post(apiUrl + '/session/join', {sessionName, user_id})
+        console.log('body to be posted to session/join:','SessionName:', sessionName, 'userId ', userId); 
+        axios.post(apiUrl + '/session/join', {sessionName, userId})
         .then(res=>{
           console.log(res);
           console.log(res.data);
-
-        }
-        ).catch(error => {
-            console.log('ERROR in SessionConnect: ', error)
+          // routing should go here
+          setResponse(res.data);
+        }).catch(error => {
+            console.log('ERROR in SessionJoin: ', error)
         })
 
     }
 
 
     return (
-
         <div>
             <form onSubmit = { handleSubmit }>
-                <label> Create a session Name
+                <label> join a session by name
                     <input type="text" name="sessionName" onChange={handleChange}/>
                 </label>
-                <button type="submit">Create Session</button>
+                <button type="submit">Join Session</button>
             </form>
             <div>
                 Response: {response.data}
@@ -42,4 +42,4 @@ const SessionConnect = () => {
         </div>
     )
 }
-export default SessionConnect;
+export default SessionJoin;
