@@ -53,6 +53,8 @@ services:
       - '${TEST_PORT}:${TEST_PORT}'
     depends_on:
       - db
+      - api-gateway
+      - session
     networks:
       - itaNet
     volumes:
