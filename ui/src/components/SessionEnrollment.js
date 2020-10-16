@@ -4,7 +4,7 @@ import axios from "axios";
 const apiUrl = `http://localhost:8080`;
 
 const SessionEnrollment = ({userId}) => {
-    const [response, setResponse] = useState('')
+    const [response, setResponse] = useState({message: []})
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,8 +13,7 @@ const SessionEnrollment = ({userId}) => {
         .then(res=>{
           console.log(res);
           console.log(res.data.enrollments);
-          // routing should go here
-          setResponse(res.data);
+          setResponse({message: res.data.enrollments});
         }).catch(error => {
             console.log('ERROR in SessionEnrollment: ', error)
         })
@@ -29,7 +28,9 @@ const SessionEnrollment = ({userId}) => {
                 <button type="submit">View session enrollments</button>
             </form>
             <div>
-                Response: {response.data}
+                {response.message.map(enrollment => (
+                    <li key={enrollment}>{enrollment}</li>
+            ))}
             </div>
 
         </div>

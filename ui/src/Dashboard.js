@@ -12,11 +12,20 @@ class Dashboard extends Component {
     render() {
         return (
             <div>
+          
                 <h1>Dashboard</h1>
+          
                 <UserInfo user={this.props.location.state.user}/>
-                <SessionConnect CreatedBy="1" />
-                <SessionJoin userId="1" />
-                <SessionEnrollment userId="1"/>
+          
+                <div style={{padding: "10px"}}>
+                    <SessionConnect CreatedBy="1" />
+                </div>
+                <div style={{padding: "10px"}}>
+                    <SessionJoin userId="1" />
+                </div>
+                <div style={{padding: "10px"}}>
+                    <SessionEnrollment userId="1"/>
+                </div>
             </div>
         )
     }
