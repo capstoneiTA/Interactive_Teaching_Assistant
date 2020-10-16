@@ -9,9 +9,16 @@ class Dashboard extends Component {
         return (
             <div>
                 Youve made it to the dashboard.
-                <SessionConnect CreatedBy="1" />
-                <SessionJoin userId="1" />
-                <SessionEnrollment userId="1"/>
+                <div style={{padding: "10px"}}>
+                    <SessionConnect CreatedBy="1" />
+                </div>
+                <div style={{padding: "10px"}}>
+                    <SessionJoin userId="1" />
+                </div>
+                <div style={{padding: "10px"}}>
+                    <SessionEnrollment userId="1"/>
+                </div>
+
             </div>
         )
     }

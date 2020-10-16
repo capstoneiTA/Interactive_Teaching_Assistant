@@ -6,7 +6,7 @@ const apiUrl = `http://localhost:8080`;
 
 const SessionConnect = ({CreatedBy}) => {
     const [sessionName, setSessionName] = useState('')
-    const [response, setResponse] = useState('')
+    const [response, setResponse] = useState({message: ''})
 
     const handleChange = (e) =>{
         setSessionName( e.target.value );
@@ -20,7 +20,12 @@ const SessionConnect = ({CreatedBy}) => {
         .then(res=>{
           console.log(res);
           console.log(res.data);
-          setResponse(res.data);
+          if (res.data.dbAdd === true){
+            setResponse({message: 'New session: ' + sessionName + ' created'});
+          }else{
+            setResponse({message: 'Session: ' + sessionName + ' already exists, creation failed'});
+          }
+          
         }).catch(error => {
             console.log('ERROR in SessionConnect: ', error)
         })
@@ -37,7 +42,7 @@ const SessionConnect = ({CreatedBy}) => {
                 <button type="submit">Create Session</button>
             </form>
             <div>
-                Response: {response.data}
+                {response.message}
             </div>
 
         </div>
