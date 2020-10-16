@@ -12,14 +12,15 @@
 
 //general
 import React from 'react';
-import socket from '../public/index.html'
+const axios = require('axios');
+
 
 //styling
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 
-const axios = require('axios');
+
 const apiGatewayUrl = `http://api-gateway:8080`;
 
 const useStyles = makeStyles({
@@ -32,7 +33,7 @@ function valuetext(value) {
     return `${value}`;
 }
 
-//componentDidMount
+//TODO: componentDidMount to set up the socket
 
 
 
@@ -52,6 +53,8 @@ function handleChange(event, value) {
     }).catch(function(error){
         console.log(error);
     });
+
+    console.log("Post axios call");
 
     /*  TODO: HOW TO NOTIFY CHANGE?
     *       what do we need? just a socket.io object

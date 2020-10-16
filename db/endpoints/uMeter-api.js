@@ -15,11 +15,11 @@ module.exports = function(app, db) {
             Understanding_Value: newScore,
             Timestamp: 123,
         }).then(function(){
-                response.dbAdd = true;
+                response.uChangeAdd = true;
                 res.send(response);
             }
         ).catch(function(error){
-            response.dbAdd = error.message;
+            response.uChangeAdd = error.message;
             res.send(response);
         });
     });

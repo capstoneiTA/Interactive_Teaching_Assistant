@@ -5,14 +5,16 @@ const dbUrl = 'http://db:5000';
 
 module.exports = function(app, axios) {
 
-    app.post("/session/create", function(req, res) {
+    app.post("/uMeter/update", function(req, res) {
         // Get session creation data from post request
         let scoreValue = req.body.uScore;
 
-        axios.post(apiGatewayUrl + '/uMeter/update', {uScore: scoreValue}).then(function (response) {
+        axios.post(dbUrl + '/uMeter/update', {uScore: scoreValue}).then(function (response) {
             console.log(response);
+            res.send(response.data);
         }).catch(function (error) {
             console.log(error);
+            res.send(error);
         });
     });
 

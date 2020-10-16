@@ -10,13 +10,9 @@ describe('Record Meter Change', function () {
 
     describe('student send update', function(){
         it('student change should successfully record in db', function () {
-            return axios.post(apiGatewayUrl + '/uMeter/update', "3").then(function (res) {
-                expect(res.data).to.equal(true);
+            return axios.post(apiGatewayUrl + '/uMeter/update', {uScore: 3}).then(function (res) {
+                expect(res.data.uChangeAdd).to.equal(true);
             })
         });
     });
-
-
-
-
 });
