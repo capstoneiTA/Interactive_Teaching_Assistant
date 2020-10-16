@@ -18,6 +18,32 @@ class UnderstandingMeter{
         this.namespace = io.of('/' + sessionName);
     }
 
+    //Create a listener here and a function to handle connections from students then send to teacher
+    listen() {
+        this.namespace.on('connect', this.handleConnection);
+    }
+
+    handleConnection = (socket) => {
+        socket.join(this.namespace); //Join the proper room
+
+        //TODO meter update socket.on
+        socket.on('update', (param) => {
+            this.update();
+        });
+    };
+
+    update(){
+        //TODO EMIT data to teacher meter
+
+    }
+
+
+
+
+
+
+
+
     /**
      * Return the understanding score of the student
      * @returns {Number} student's score

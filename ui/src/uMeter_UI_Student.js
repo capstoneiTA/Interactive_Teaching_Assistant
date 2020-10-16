@@ -12,6 +12,8 @@
 
 //general
 import React from 'react';
+import socket from '../public/index.html'
+
 //styling
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -43,8 +45,8 @@ function handleChange(event, value) {
     *       how do we get it? ...
     *       then how do we save in db? create a new entry and send to uMeterChange db | call a post request here??????
     * */
-
     //Send the new data value to db
+    // Is this the right set up?
     axios.post(apiGatewayUrl + '/uMeter/update', {uScore: value}).then(function(response){
         console.log(response);
     }).catch(function(error){
@@ -53,9 +55,11 @@ function handleChange(event, value) {
 
     /*  TODO: HOW TO NOTIFY CHANGE?
     *       what do we need? just a socket.io object
-    *       then how do we notifying the change? use socket.emit to send the change message
+    *       then how do we notifying the change? EMIT TO THE "SERVER" SOCKET
     * */
     //get a socket
+
+
 }
 
 export default function StudentUnderstandingMeter() {
