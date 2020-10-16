@@ -9,7 +9,7 @@ class HelloWorld extends Component {
     };
 
     async loadWord() {
-        const res = await axios.get(apiUrl + '/word');
+        const res = await axios.post(apiUrl + '/login', {email: "test4@email.com" , password: "password"});
         console.log(res);
         this.setState({
             word: res.data

@@ -2,6 +2,15 @@ const express = require("express");
 const app = express();
 const cors = require('cors');
 const axios = require('axios');
+const passport = require('./config/passport.js');
+const session = require("express-session");
+
+
+// Parse URL-encoded bodies (as sent by HTML forms)
+app.use(express.urlencoded({extended: true}));
+ // Parse JSON bodies (as sent by API clients)
+app.use(express.json());
+//Prevent cors errors
 
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded({extended: true}));
@@ -9,6 +18,11 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 //Prevent cors errors
 app.use(cors());
+
+app.use(express.static("public"));
+app.use(session({ secret: "cats" }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 const PORT = 8080;
 
@@ -29,5 +43,6 @@ app.listen(PORT, function() {
 });
 
 /**************GET ENDPOINTS**********************/
-// Requiring our endpoints
 require("./endpoints/session-api.js")(app, axios);
+require("./endpoints/sign_login-api.js")(app, axios);
+
