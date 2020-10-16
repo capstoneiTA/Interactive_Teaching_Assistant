@@ -4,7 +4,6 @@ const axios = require('axios');
 /**
  * Naming scheme: http://[Container Name]:[Container Port]
  */
-const sessionUrl = `http://session:7000`;
 const apiGatewayUrl = `http://api-gateway:8080`;
 
 function randomNameGenerator() {
