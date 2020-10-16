@@ -1,3 +1,4 @@
+
 //Import express for db requests
 const express = require('express');
 const app = express();
@@ -70,6 +71,9 @@ app.listen(port, () =>{
 });
 
 /**************GET ENDPOINTS**********************/
+
 // Requiring our endpoints
 require("./endpoints/session-api.js")(app, db);
 require("./endpoints/uMeter-api.js")(app, db);
+require("./endpoints/authentication-api.js")(app,db);
+

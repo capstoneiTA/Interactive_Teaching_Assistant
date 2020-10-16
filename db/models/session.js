@@ -22,11 +22,6 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: true,
         },
-        Date_Created: {
-            type: DataTypes.DATEONLY,
-            allowNull: false,
-            unique: false,
-        },
     });
 
     return Session;
