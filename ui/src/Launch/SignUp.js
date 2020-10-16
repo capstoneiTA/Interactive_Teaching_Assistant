@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 
 
 class SignUp extends Component {
@@ -14,6 +14,8 @@ class SignUp extends Component {
             password: '',
             type: '',
         }
+
+        this.apiGatewayUrl = 'http://localhost:8080';
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -52,9 +54,14 @@ class SignUp extends Component {
         e.preventDefault();
         console.log('registered');
         console.log(this.state);
+
+        axios.post(this.apiGatewayUrl + '/signup', {email: this.state.email , password: this.state.password, firstName: this.state.firstName, lastName: this.state.lastName, type: this.state.type}).then(function (res) {
+            console.log(res.data.dbAdd);
+            console.log(res.data);
+        });
         //redirect to dashboard
         this.props.history.push('/dashboard');
-    }
+    };
 
 
     render() {
@@ -95,8 +102,8 @@ class SignUp extends Component {
                         <select onChange={this.typeHandler}>
                                 defaultValue='Select'>
                             <option defaultValue>Select</option>
-                            <option value='teacher'>Teacher</option>
-                            <option value='student'>Student</option>
+                            <option value='Teacher'>Teacher</option>
+                            <option value='Student'>Student</option>
                         </select>
                     </label>
                     <input type='submit' value='Sign Up'/>

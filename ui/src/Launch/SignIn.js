@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class SignIn extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ class SignIn extends Component {
             email: '',
             password: '',
         }
+        this.apiGatewayUrl = 'http://localhost:8080';
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -29,8 +31,19 @@ class SignIn extends Component {
         e.preventDefault();
         console.log('signedIn');
         console.log(this.state);
-        //redirect to dashboard
-        this.props.history.push('/dashboard');
+
+        //post request
+        axios.post(this.apiGatewayUrl + '/login', {email: this.state.email , password: this.state.password}).then(function (res) {
+            if(res.data === 'success'){
+                //redirect to dashboard
+                console.log(res.data);
+                // this.props.history.push('/dashboard');
+            }else{
+              //something else
+            }
+        });
+
+
     }
 
     render() {
