@@ -11,7 +11,11 @@ passport.use(new LocalStrategy(
         },
           async function(email, password, done) {
             let response = await axios.post(dbUrl+'/login', {email: email, password:password});
-            return done(null,response.data.user,{message: response.data.message});
+            if(response.data.user){
+                return done(null,response.data.user);
+            }else{
+                return done(null,response.data.user,{message: response.data.message});
+            }
     }
 ));
 
