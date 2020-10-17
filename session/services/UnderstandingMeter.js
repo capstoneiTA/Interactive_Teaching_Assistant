@@ -23,21 +23,19 @@ class UnderstandingMeter{
         socket.join(this.namespace); //Join the proper room
 
         //TODO meter update socket.on
-        socket.on('understanding meter update', (userId, newValue) => {
-            this.update();
+        socket.on('understanding meter update', (userId, teacherSocketIds, newValue) => {
+            this.update(userId, teacherSocketIds, newValue);
         });
     };
 
-    update(){
-        //TODO EMIT data to teacher meter
+    update(userId, teacherSocketIds, newValue){
+        let data = {};
+        data.userId= userId;
+        data.newValue = newValue;
+        for(let socketId of teacherSocketIds){
+            this.io.to(socketId).emit(data);
+        }
     }
-
-
-
-
-
-
-
 
     /**
      * Return the understanding score of the student
