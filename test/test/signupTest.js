@@ -37,7 +37,7 @@ describe('login user', function () {
     describe('email and password is successful', function(){
         it("api-gateway needs authenticate that the user's email and password ", function () {
             return axios.post(apiGatewayUrl + '/login', {email: "test4@email.com" , password: "password"}).then(function (res) {
-               expect(res.data.success).to.equal('success');
+               expect(res.data.success).to.equal(true);
             })
         });
     });

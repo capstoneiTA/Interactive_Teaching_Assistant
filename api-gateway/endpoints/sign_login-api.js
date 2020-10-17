@@ -26,7 +26,6 @@ module.exports = function(app,axios)
         res.send(response);
     });
 
-
     app.get('/failure', function(req, res){
         let response = {};
         response.success = false;

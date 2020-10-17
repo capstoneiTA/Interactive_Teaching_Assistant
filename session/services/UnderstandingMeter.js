@@ -1,18 +1,41 @@
 class UnderstandingMeter{
-
     /**
     * Creating an understanding meter class
     * @constructor
-    * @param {int} score - the score from student
-    * @param {string} user - name of the user
-    * @param {object} history - record changes {K = time: V = {score:int}}
+    * @param {String} sessionName the name of the session the understanding meter is associated with
+    * @param {Object} io socket.io server object
+    * @param {object[]} history - record changes {K = time: S = Student: V = {score:int}}
     * */
-    constructor(score, user, history) {
-        this.score = score;
-        this.user = user;
-        this.history = history;
+    constructor(sessionName, io) {
+        this.history = {};
+        this.io = io;
+        this.sessionName = sessionName;
+        this.namespace = io.of('/' + sessionName);
+        this.listen();
     }
 
+    //Create a listener here and a function to handle connections from students then send to teacher
+    listen() {
+        this.namespace.on('connect', this.handleConnection);
+    }
+
+    handleConnection = (socket) => {
+        socket.join(this.namespace); //Join the proper room
+
+        //TODO meter update socket.on
+        socket.on('understanding meter update', (userId, teacherSocketIds, newValue) => {
+            this.update(userId, teacherSocketIds, newValue);
+        });
+    };
+
+    update(userId, teacherSocketIds, newValue){
+        let data = {};
+        data.userId= userId;
+        data.newValue = newValue;
+        for(let socketId of teacherSocketIds){
+            this.io.to(socketId).emit(data);
+        }
+    }
 
     /**
      * Return the understanding score of the student
@@ -51,3 +74,5 @@ class UnderstandingMeter{
     getTime() {
     }
 }
+
+module.exports = UnderstandingMeter;

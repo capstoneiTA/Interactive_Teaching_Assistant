@@ -139,7 +139,7 @@ class SignUp extends Component {
 
 const containerStyle = {
     marginTop: '50px',
-}
+};
 
 const backLinkStyle = {
     textAlign: 'center',
@@ -150,28 +150,28 @@ const backLinkStyle = {
     borderRadius: '5px',
     backgroundColor: 'lightgray',
     transform: 'translateX(-120px)'
-}
+};
 
 const signUpLinkStyle = {
     marginTop: '20px',
     marginBottom: '30px',
     marginRight: '10px',
-}
+};
 
 const formStyle = {
     width: '260px',
     margin: 'auto',
     textAlign: 'right',
     transform: 'translateX(-20px)',
-}
+};
 
 const textInputStyle = {
     margin: '10px',
-}
+};
 
 const errorMsgStyle = {
     color: 'red',
     textAlign: 'center',
-}
+};
 
 export default SignUp;

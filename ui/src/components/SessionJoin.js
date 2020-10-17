@@ -13,12 +13,20 @@ const SessionJoin = ({userId}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('body to be posted to session/join:','SessionName:', sessionName, 'userId ', userId); 
+        let that = this;
+        console.log('body to be posted to session/join:','SessionName:', sessionName, 'userId ', userId);
+
         axios.post(apiUrl + '/session/join', {sessionName, userId})
         .then(res=>{
           console.log(res);
           console.log(res.data);
           // routing should go here
+        that.props.history.push({
+                pathname: '/classSession',
+                state: {user: userId}
+            }
+        );
+          setResponse(res.data);
           if (res.data.sessionExists === true){
             setResponse({message : 'Added User: '+ userId  + ' to Session: ' +  sessionName})
           } else {
@@ -28,7 +36,7 @@ const SessionJoin = ({userId}) => {
             console.log('ERROR in SessionJoin: ', error)
         })
 
-    }
+    };
 
 
     return (
@@ -41,7 +49,6 @@ const SessionJoin = ({userId}) => {
             </form>
             <div>
                 {response.message}
-            
             </div>
 
         </div>

@@ -24,7 +24,7 @@ class SignOption extends Component {
 
 const linkDivStyle = {
     marginTop: '50px'
-}
+};
 
 const linkStyle = {
     textAlign: 'center',
@@ -33,6 +33,6 @@ const linkStyle = {
     padding: '10px',
     borderRadius: '5px',
     backgroundColor: 'lightgray'
-}
+};
 
 export default SignOption;
