@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import SessionConnect from './components/SessionConnect';
-import SessionJoin from './components/SessionJoin';
-import UserInfo from './components/UserInfo';
-import SessionEnrollment from './components/SessionEnrollment';
+import SessionConnect from './SessionConnect';
+import SessionJoin from './SessionJoin';
+import UserInfo from './UserInfo';
+import SessionEnrollment from './SessionEnrollment';
 
 
 class Dashboard extends Component {
