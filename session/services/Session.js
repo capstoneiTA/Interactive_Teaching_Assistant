@@ -37,7 +37,8 @@ class Session {
 
             //Disconnection
             socket.on('disconnect', (reason, firstName, lastName, userId, type) => {
-                this.handleDisconnect(reason, firstName, lastName, userId, type);
+                console.log('disconnected for ' + reason);
+                this.handleDisconnect(reason, firstName, lastName, userId, type, socket);
             });
             }
 
@@ -93,8 +94,9 @@ class Session {
      * @param userId user id of user
      * @param type type of user (Student or Teacher)
      */
-    handleDisconnect(reason, firstName, lastName, userId, type){
+    handleDisconnect(reason, firstName, lastName, userId, type, socket){
         // socket.broadcast.to(this.namespace).emit('userLeave', `${firstName} left the class`);
+        console.log(firstName);
 
         if(type === 'Teacher'){
             //Remove user from the teachers list

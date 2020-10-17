@@ -19,10 +19,10 @@ class StudentUnderstandingMeter extends Component {
         this.sessionId = this.props.sessionId;
         this.socket = socketIOClient(ENDPOINT + this.props.sessionName);
         this.sockId = 'empty';
+    }
+
+    componentDidMount() {
         this.socketStart();
-        this.listen();
-
-
     }
 
     socketStart=()=>{
