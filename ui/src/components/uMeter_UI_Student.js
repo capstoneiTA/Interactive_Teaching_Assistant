@@ -13,9 +13,9 @@
 //general
 import React, {Component} from 'react';
 import axios from 'axios';
-import Slider from "react-native-slider";
-import {StyleSheet, View, Text } from "react-native";
-import UserInfo from "./UserInfo";
+import Slider from 'react-native-slider';
+import { StyleSheet, View, Text } from 'react-native';
+//import UserInfo from "./UserInfo";
 
 const apiGatewayUrl = `http://api-gateway:8080`;
 
