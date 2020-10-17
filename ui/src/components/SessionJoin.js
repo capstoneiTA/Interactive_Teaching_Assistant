@@ -5,7 +5,7 @@ const apiUrl = `http://localhost:8080`;
 
 const SessionJoin = ({userId}) => {
     const [sessionName, setSessionName] = useState('')
-    const [response, setResponse] = useState('')
+    const [response, setResponse] = useState({message: ''})
 
     const handleChange = (e) =>{
         setSessionName( e.target.value );
@@ -27,11 +27,16 @@ const SessionJoin = ({userId}) => {
             }
         );
           setResponse(res.data);
+          if (res.data.sessionExists === true){
+            setResponse({message : 'Added User: '+ userId  + ' to Session: ' +  sessionName})
+          } else {
+            setResponse({message: 'There is no session called: ' +  sessionName})
+          }
         }).catch(error => {
             console.log('ERROR in SessionJoin: ', error)
         })
 
-    }
+    };
 
 
     return (
@@ -43,7 +48,7 @@ const SessionJoin = ({userId}) => {
                 <button type="submit">Join Session</button>
             </form>
             <div>
-                Response: {response.data}
+                {response.message}
             </div>
 
         </div>

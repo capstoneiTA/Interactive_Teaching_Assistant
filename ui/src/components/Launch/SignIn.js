@@ -29,12 +29,14 @@ class SignIn extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('signedIn');
         console.log(this.state);
         let that = this;
 
         //post request
         axios.post(this.apiGatewayUrl + '/login', {email: this.state.email , password: this.state.password}).then(function (res) {
+
+            console.log('res data: ', res.data);
+
             if(res.data.success === true){
                 //redirect to dashboard
                 that.props.history.push({
@@ -42,9 +44,10 @@ class SignIn extends Component {
                         state: {user: res.data.user}
                     }
                     );
-            }else{
-                console.log(res.data);
-              //something else
+            } else {
+                const errorMsg = document.getElementById('errorMsg');
+                const error = 'login failed';
+                errorMsg.innerHTML = error;
             }
         });
 
@@ -53,28 +56,75 @@ class SignIn extends Component {
 
     render() {
         return (
-            <div>
-                <Link to='/launch/opt'>Back</Link>
-                <form onSubmit={this.handleSubmit}>
+            <div style={containerStyle}>
+                <div style={backLinkStyle}>
+                    <Link to='/launch/opt'>&larr;</Link>
+                </div>
+
+                <form onSubmit={this.handleSubmit} style={formStyle}>
                     <label>
                         Email:
-                        <input type='text'
+                        <input type='email'
                                value={this.state.email}
+                               required
                                onChange={this.emailHandler}
+                               style={textInputStyle}
                         />
                     </label>
+                    <br/>
                     <label>
                         Password:
                         <input type='text'
                                value={this.state.password}
+                               required
                                onChange={this.passwordHandler}
+                               style={textInputStyle}
                         />
                     </label>
-                    <input type='submit' value='Sign In'/>
+                    <br/>
+                    <input type='submit' value='Sign In' style={signInLinkStyle}/>
+                    <br/>
+                    <div id='errorMsg' style={errorMsgStyle}></div>
                 </form>
             </div>
         );
     }
+}
+
+const containerStyle = {
+    marginTop: '50px',
+}
+
+const backLinkStyle = {
+    textAlign: 'center',
+    width: '30px',
+    margin: 'auto',
+    marginBottom: '20px',
+    padding: '5px 3px',
+    borderRadius: '5px',
+    backgroundColor: 'lightgray',
+    transform: 'translateX(-120px)'
+}
+
+const signInLinkStyle = {
+    marginTop: '20px',
+    marginRight: '10px',
+}
+
+const formStyle = {
+    width: '250px',
+    margin: 'auto',
+    textAlign: 'right',
+    transform: 'translateX(-20px)',
+}
+
+const textInputStyle = {
+    margin: '10px',
+}
+
+const errorMsgStyle = {
+    color: 'red',
+    textAlign: 'center',
 }
 
 export default SignIn;
