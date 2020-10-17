@@ -28,6 +28,12 @@ module.exports = function(app, axios, io) {
         let userId = req.body.userId;
 
         axios.post(dbUrl + '/uMeter/create', {sessionId: sessionId, userId: userId}).then(function (response) {
+            let sessionName = response.data.sessionName;
+            if(response.data.isEnrolled === true && sessionName !== false && !UnderstandingMeters.includes(sessionName)) {
+                const understandingMeter = new UnderstandingMeter(sessionName, io);
+                UnderstandingMeters.push(sessionName);
+                console.log('Understanding meter for ' + sessionName + ' created');
+            }
             res.send(response.data);
         }).catch(function (error) {
             res.send(error);
