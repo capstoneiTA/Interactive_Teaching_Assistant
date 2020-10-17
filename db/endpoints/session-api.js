@@ -52,6 +52,7 @@ module.exports = function(app, db) {
         }).then(function(Session) {
             response.sessionExists = (Session !== null);
             if(response.sessionExists){
+                response.sessionId = Session.Session_ID;
                 db.Enrollment.findOne({
                     where:{
                         'Session_ID': Session.Session_ID,
