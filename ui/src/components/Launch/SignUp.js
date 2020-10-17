@@ -52,15 +52,23 @@ class SignUp extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('registered');
         console.log(this.state);
+        let that = this;
 
         axios.post(this.apiGatewayUrl + '/signup', {email: this.state.email , password: this.state.password, firstName: this.state.firstName, lastName: this.state.lastName, type: this.state.type}).then(function (res) {
-            console.log(res.data.dbAdd);
-            console.log(res.data);
+            console.log('dbadd: ', res.data.dbAdd);
+            console.log('res.data: ', res.data);
+
+            if (res.data.dbAdd === true) {
+                //redirect to login
+                that.props.history.push('/launch/signin');
+            } else {
+                const errorMsg = document.getElementById('errorMsg');
+                const error = res.data.name + ', ' + res.data.errors[0].message;
+                errorMsg.innerHTML = error;
+            }
         });
-        //redirect to dashboard
-        this.props.history.push('/launch/signin');
+
     };
 
 
@@ -75,6 +83,7 @@ class SignUp extends Component {
                         First Name:
                         <input type='text'
                                value={this.state.firstName}
+                               required
                                onChange={this.firstNameHandler}
                                style={textInputStyle}
                         />
@@ -84,6 +93,7 @@ class SignUp extends Component {
                         Last Name:
                         <input type='text'
                                value={this.state.lastName}
+                               required
                                onChange={this.lastNameHandler}
                                style={textInputStyle}
                         />
@@ -91,8 +101,9 @@ class SignUp extends Component {
                     <br/>
                     <label>
                         Email:
-                        <input type='text'
+                        <input type='email'
                                value={this.state.email}
+                               required
                                onChange={this.emailHandler}
                                style={textInputStyle}
                         />
@@ -102,6 +113,7 @@ class SignUp extends Component {
                         Password:
                         <input type='text'
                                value={this.state.password}
+                               required
                                onChange={this.passwordHandler}
                                style={textInputStyle}
                         />
@@ -116,7 +128,10 @@ class SignUp extends Component {
                     </label>
                     <br/>
                     <input type='submit' value='Sign Up' style={signUpLinkStyle}/>
+                    <br/>
+                    <div id='errorMsg' style={errorMsgStyle}></div>
                 </form>
+
             </div>
         );
     }
@@ -139,6 +154,7 @@ const backLinkStyle = {
 
 const signUpLinkStyle = {
     marginTop: '20px',
+    marginBottom: '30px',
     marginRight: '10px',
 }
 
@@ -151,6 +167,11 @@ const formStyle = {
 
 const textInputStyle = {
     margin: '10px',
+}
+
+const errorMsgStyle = {
+    color: 'red',
+    textAlign: 'center',
 }
 
 export default SignUp;

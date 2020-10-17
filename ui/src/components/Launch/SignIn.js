@@ -35,6 +35,9 @@ class SignIn extends Component {
 
         //post request
         axios.post(this.apiGatewayUrl + '/login', {email: this.state.email , password: this.state.password}).then(function (res) {
+            console.log(res.data.dbAdd);
+            console.log(res.data);
+
             if(res.data.success === true){
                 //redirect to dashboard
                 that.props.history.push({
@@ -61,8 +64,9 @@ class SignIn extends Component {
                 <form onSubmit={this.handleSubmit} style={formStyle}>
                     <label>
                         Email:
-                        <input type='text'
+                        <input type='email'
                                value={this.state.email}
+                               required
                                onChange={this.emailHandler}
                                style={textInputStyle}
                         />
@@ -72,6 +76,7 @@ class SignIn extends Component {
                         Password:
                         <input type='text'
                                value={this.state.password}
+                               required
                                onChange={this.passwordHandler}
                                style={textInputStyle}
                         />
