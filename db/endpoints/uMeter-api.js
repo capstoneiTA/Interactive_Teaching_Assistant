@@ -37,9 +37,20 @@ module.exports = function(app, db) {
         }).then(function(Enrollment) {
             if (Enrollment !== null) {
                 response.isEnrolled = true;
-                res.send(response);
+                db.Session.findOne({
+                    where: {
+                        Session_ID: sessionId,
+                    }
+                }).then(function(Session){
+                    response.sessionName = Session.Session_Name;
+                    res.send(response);
+                }).catch(function(error){
+                    response.sessionName = false;
+                    res.send(response);
+                });
             } else {
                 response.isEnrolled = false;
+                response.sessionName = false;
                 res.send(response);
             }
         }).catch(function(error){

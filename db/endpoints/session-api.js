@@ -1,8 +1,3 @@
-/**
- * Naming scheme: http://[Container Name]:[Container Port]
- */
-const dbUrl = 'http://db:5000';
-
 module.exports = function(app, db) {
 
     app.post("/session/create", function(req, res) {
@@ -52,6 +47,8 @@ module.exports = function(app, db) {
         }).then(function(Session) {
             response.sessionExists = (Session !== null);
             if(response.sessionExists){
+                response.sessionId = Session.Session_ID;
+                response.sessionName = sessionName;
                 db.Enrollment.findOne({
                     where:{
                         'Session_ID': Session.Session_ID,
@@ -91,7 +88,12 @@ module.exports = function(app, db) {
         let sessionNames = [];
         let response = {};
 
-        db.Enrollment.findAll().then(function(Sessions){
+        db.Enrollment.findAll({
+            where:{
+                User_ID: userId
+            }
+        }
+        ).then(function(Sessions){
             let count = 0;
             if(Sessions.length === 0){
                 response.dbSuccess = true;

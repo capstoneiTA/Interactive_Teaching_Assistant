@@ -34,4 +34,14 @@ describe('Understanding Meter Create', function () {
             })
         });
     });
+
+    describe(`Understanding meter session name returned if student is enrolled`, function(){
+        it(`if a student is enrolled, the session name should be returned`, function () {
+            return axios.post(apiGatewayUrl + '/uMeter/create', {sessionId: 149, userId: 1}).then(function (res) {
+                expect(res.data.sessionName).to.equal('hello');
+            })
+        });
+    });
+
+
 });

@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 
 //Meters components
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import LaunchScreen from "./Launch/LaunchScreen";
-import Dashboard from "./Dashboard";
-import ClassSession from "./ClassSession";
+
+import LaunchScreen from "./components/Launch/LaunchScreen";
+import Dashboard from "./components/Dashboard";
+import ClassSession from "./components/ClassSession";
 
 ReactDOM.render(
   <React.StrictMode>
