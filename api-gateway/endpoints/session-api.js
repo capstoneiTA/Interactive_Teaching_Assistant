@@ -29,7 +29,7 @@ module.exports = function(app, axios) {
      * Enrolls user in a session and starts it if it hasn't started yet
      * @param sessionName {String} name of the session the user wishes to join
      * @param userId {int} id of the user requesting to join the session
-     * @returns {dbAdd: {Boolean}, sessionExists: {Boolean}}
+     * @returns {dbAdd: {Boolean}, sessionExists: {Boolean}, sessionName: {String}, sessionId: {int}}
      */
     app.post("/session/join", function(req, res) {
         //Get session creation data from post request
