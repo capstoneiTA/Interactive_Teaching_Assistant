@@ -29,14 +29,13 @@ class SignIn extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log('signedIn');
         console.log(this.state);
         let that = this;
 
         //post request
         axios.post(this.apiGatewayUrl + '/login', {email: this.state.email , password: this.state.password}).then(function (res) {
-            console.log(res.data.dbAdd);
-            console.log(res.data);
+
+            console.log('res data: ', res.data);
 
             if(res.data.success === true){
                 //redirect to dashboard
@@ -45,9 +44,10 @@ class SignIn extends Component {
                         state: {user: res.data.user}
                     }
                     );
-            }else{
-                console.log(res.data);
-              //something else
+            } else {
+                const errorMsg = document.getElementById('errorMsg');
+                const error = 'login failed';
+                errorMsg.innerHTML = error;
             }
         });
 
@@ -83,6 +83,8 @@ class SignIn extends Component {
                     </label>
                     <br/>
                     <input type='submit' value='Sign In' style={signInLinkStyle}/>
+                    <br/>
+                    <div id='errorMsg' style={errorMsgStyle}></div>
                 </form>
             </div>
         );
@@ -118,6 +120,11 @@ const formStyle = {
 
 const textInputStyle = {
     margin: '10px',
+}
+
+const errorMsgStyle = {
+    color: 'red',
+    textAlign: 'center',
 }
 
 export default SignIn;
