@@ -9,7 +9,7 @@ const SessionEnrollment = ({userId}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('body to be sent to session/enrollments:', 'userId ', userId); 
-        axios.get(apiUrl + '/session/enrollments', {userId})
+        axios.get(apiUrl + '/session/enrollments', { params: { userId: userId } })
         .then(res=>{
           console.log(res);
           console.log(res.data.enrollments);

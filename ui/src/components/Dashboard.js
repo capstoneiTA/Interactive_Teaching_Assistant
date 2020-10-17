@@ -23,13 +23,13 @@ class Dashboard extends Component {
                 <UserInfo user={this.user}/>
           
                 <div style={{padding: "10px"}}>
-                    <SessionConnect CreatedBy="1" />
+                    <SessionConnect CreatedBy={this.user.User_ID} />
                 </div>
                 <div style={{padding: "10px"}}>
-                    <SessionJoin userId="1" />
+                    <SessionJoin userId={this.user.User_ID} />
                 </div>
                 <div style={{padding: "10px"}}>
-                    <SessionEnrollment userId="1"/>
+                    <SessionEnrollment userId={this.user.User_ID}/>
                 </div>
             </div>
         )
