@@ -6,14 +6,18 @@ const dbUrl = 'http://db:5000';
 module.exports = function(app, db) {
 
     app.post("/uMeter/update", function(req, res) {
-        let newScore = req.body.uScore;
+        let uValue = req.body.uValue;
+        let sessionId = req.body.sessionId;
+        let userId = req.body.userId;
+        let timeStamp = req.body.timeStamp;
+
         let response = {};
-        //Get session creation data from post request
-        db.Understanding_Value.create({
-            Session_ID:11,
-            User_ID:123,
-            Understanding_Value: newScore,
-            Timestamp: 123,
+        // Get session creation data from post request
+        db.UnderstandingMeter.create({
+            Session_ID: sessionId,
+            User_ID: userId,
+            Understanding_Value: uValue,
+            Timestamp: timeStamp,
         }).then(function(){
                 response.uChangeAdd = true;
                 res.send(response);

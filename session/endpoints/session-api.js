@@ -1,7 +1,6 @@
 /**
  * Naming scheme: http://[Container Name]:[Container Port]
  */
-const path = require("path");
 const dbUrl = 'http://db:5000';
 const Session = require("../services/Session.js");
 
