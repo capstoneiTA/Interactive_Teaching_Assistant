@@ -18,5 +18,4 @@ module.exports = function(app, axios) {
             res.send(error);
         });
     });
-
 };
