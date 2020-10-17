@@ -16,7 +16,7 @@ class ClassSession extends Component {
         return (
             <div>
                 <h1>Class Session</h1>
-                <StudentUnderstandingMeter />
+                <StudentUnderstandingMeter user={this.user}/>
             </div>
         )
     }
