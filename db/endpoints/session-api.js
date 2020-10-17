@@ -88,7 +88,12 @@ module.exports = function(app, db) {
         let sessionNames = [];
         let response = {};
 
-        db.Enrollment.findAll().then(function(Sessions){
+        db.Enrollment.findAll({
+            where:{
+                User_ID: userId
+            }
+        }
+        ).then(function(Sessions){
             let count = 0;
             if(Sessions.length === 0){
                 response.dbSuccess = true;

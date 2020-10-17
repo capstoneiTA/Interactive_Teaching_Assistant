@@ -22,8 +22,10 @@ const SessionConnect = ({CreatedBy}) => {
           console.log(res.data);
           if (res.data.dbAdd === true){
             setResponse({message: 'New session: ' + sessionName + ' created'});
+          }else if(res.data.verified === false){
+              setResponse({message: 'Error: Only user type teacher may create a Session'});
           }else{
-            setResponse({message: 'Session: ' + sessionName + ' already exists, creation failed'});
+              setResponse({message: 'Session: ' + sessionName + ' already exists, creation failed'});
           }
           
         }).catch(error => {
