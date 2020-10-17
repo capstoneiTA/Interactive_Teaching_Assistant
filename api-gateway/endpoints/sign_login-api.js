@@ -33,11 +33,12 @@ module.exports = function(app,axios)
     });
 
     app.get('/userInfo', function(req, res){
-        let response = {};
-        response.firstName = req.user.firstName;
-        response.lastName = req.user.lastName;
-        response.userId = req.user.User_ID;
-        res.send(response);
+        let userId = req.query.userId;
+        axios.get(dbUrl + '/userInfo', {params: {userId: userId}}).then(function(response){
+            res.send(response.data);
+        }).catch(function(error){
+            res.send(error);
+        });
     })
 
  };

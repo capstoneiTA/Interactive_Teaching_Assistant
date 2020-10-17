@@ -1,57 +1,69 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
+import {withRouter} from 'react-router-dom';
 import axios from "axios";
+import ClassSession from "./ClassSession";
 
 const apiUrl = `http://localhost:8080`;
 
-const SessionJoin = ({userId}) => {
-    const [sessionName, setSessionName] = useState('')
-    const [response, setResponse] = useState({message: ''})
+class SessionJoin extends Component  {
+    constructor(props) {
+        super(props);
+        this.userId = this.props.userId;
 
-    const handleChange = (e) =>{
-        setSessionName( e.target.value );
-      }
+        this.state = {
+           sessionName: '',
+            message: ''
+        };
+    }
 
-    const handleSubmit = (e) => {
+    handleChange = (e) =>{
+        this.setState({sessionName: e.target.value});
+    };
+
+    handleSubmit = (e) => {
         e.preventDefault();
         let that = this;
-        console.log('body to be posted to session/join:','SessionName:', sessionName, 'userId ', userId);
+        console.log('body to be posted to session/join:','SessionName:', this.state.sessionName, 'userId ', this.userId);
 
-        axios.post(apiUrl + '/session/join', {sessionName, userId})
-        .then(res=>{
-          console.log(res);
-          console.log(res.data);
-          // routing should go here
-        that.props.history.push({
-                pathname: '/classSession',
-                state: {user: userId}
-            }
-        );
-          setResponse(res.data);
-          if (res.data.sessionExists === true){
-            setResponse({message : 'Added User: '+ userId  + ' to Session: ' +  sessionName})
-          } else {
-            setResponse({message: 'There is no session called: ' +  sessionName})
-          }
+        axios.post(apiUrl + '/session/join', {sessionName:this.state.sessionName, userId:this.userId}).then(res=>{
+            //Get user information
+            axios.get(apiUrl + '/userInfo', {params: {userId: this.userId}}).then(userRes=>{
+                // routing should go here
+                that.props.history.push({
+                        pathname: '/classSession',
+                        state: {user: userRes.data.user, sessionName: this.state.sessionName, sessionId: res.data.sessionId}
+                    }
+                );
+
+                let response = res.data;
+                if (response.sessionExists === true){
+                    this.setState({message: 'Added User: '+ this.userId  + ' to Session: ' +  this.state.sessionName})
+                } else {
+                    this.setState({message: 'There is no session called: ' +  this.state.sessionName})
+                }
+            });
+
         }).catch(error => {
             console.log('ERROR in SessionJoin: ', error)
         })
 
     };
 
-
-    return (
-        <div>
-            <form onSubmit = { handleSubmit }>
-                <label> join a session by name
-                    <input type="text" name="sessionName" onChange={handleChange}/>
-                </label>
-                <button type="submit">Join Session</button>
-            </form>
+    render(){
+        return (
             <div>
-                {response.message}
-            </div>
+                <form onSubmit = {this.handleSubmit}>
+                    <label> join a session by name
+                        <input type="text" name="sessionName" onChange={this.handleChange}/>
+                    </label>
+                    <button type="submit">Join Session</button>
+                </form>
+                <div>
+                    {this.state.message}
+                </div>
 
-        </div>
-    )
+            </div>
+        )
+    }
 }
-export default SessionJoin;
+export default withRouter(SessionJoin);

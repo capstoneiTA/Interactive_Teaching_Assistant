@@ -16,7 +16,6 @@ class Session {
         this.startTime = Math.floor(new Date().getTime() /1000);
         this.listen();
     }
-
     /**
      * calculates the time from session start to the current time in seconds
      * @returns {int} elapsed time in seconds
@@ -27,22 +26,24 @@ class Session {
     }
 
     /**************SOCKET.IO HANDLING******************/
-    listen() {
-        this.namespace.on('connection', this.handleConnection);
+    listen (){
+        this.namespace.on('connection', (socket)=>{
+            this.namespace.emit('test', 'connected to understanding meter');
+            // initialize
+            socket.on('session init', (firstName, lastName, type, userId, sockId) =>{
+                console.log(sockId);
+                this.handleInitUser(firstName, lastName, type, userId, sockId);
+            });
+
+            //Disconnection
+            socket.on('disconnect', (reason, firstName, lastName, userId, type) => {
+                this.handleDisconnect(reason, firstName, lastName, userId, type);
+            });
+            }
+
+        );
     }
 
-    handleConnection(socket){
-        //initialize
-        socket.on('session init', (firstName, lastName, type, userId, sockId) =>{
-            this.handleInitUser(firstName, lastName, type, userId, sockId);
-        });
-
-        //Disconnection
-        socket.on('disconnect', (reason, firstName, lastName, userId, type) => {
-            this.handleDisconnect(reason, firstName, lastName, userId, type);
-        });
-
-    };
 
     /**
      * Collects user info on connection and stores it for usage
@@ -93,7 +94,7 @@ class Session {
      * @param type type of user (Student or Teacher)
      */
     handleDisconnect(reason, firstName, lastName, userId, type){
-        socket.broadcast.to(this.namespace).emit('userLeave', `${firstName} left the class`);
+        // socket.broadcast.to(this.namespace).emit('userLeave', `${firstName} left the class`);
 
         if(type === 'Teacher'){
             //Remove user from the teachers list
