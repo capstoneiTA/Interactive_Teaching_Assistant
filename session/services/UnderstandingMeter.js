@@ -5,17 +5,14 @@ class UnderstandingMeter{
     * @constructor
     * @param {int} score - the score from student
     * @param {string} user - name of the user
-    * @param {object} history - record changes {K = time: V = {score:int}}
+    * @param {object[]} history - record changes {K = time: S = Student: V = {score:int}}
     * */
-
-    constructor(score, user, history) {
-        this.score = score;
-        this.user = user;
+    constructor(sessionName, history, io) {
         this.history = history;
-
         this.io = io;
         this.sessionName = sessionName;
         this.namespace = io.of('/' + sessionName);
+        this.listen();
     }
 
     //Create a listener here and a function to handle connections from students then send to teacher
@@ -27,7 +24,7 @@ class UnderstandingMeter{
         socket.join(this.namespace); //Join the proper room
 
         //TODO meter update socket.on
-        socket.on('update', (param) => {
+        socket.on('understanding meter update', (param) => {
             this.update();
         });
     };

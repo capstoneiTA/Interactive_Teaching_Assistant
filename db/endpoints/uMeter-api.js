@@ -22,4 +22,29 @@ module.exports = function(app, db) {
             res.send(response);
         });
     });
+
+    app.post("/uMeter/create", function(req, res) {
+        let sessionId = req.body.sessionId;
+        let userId = req.body.userId;
+
+        let response = {};
+        // Get session creation data from post request
+        db.Enrollment.findOne({
+            where: {
+                Session_ID: sessionId,
+                User_ID: userId
+            }
+        }).then(function(Enrollment) {
+            if (Enrollment !== null) {
+                response.isEnrolled = true;
+                res.send(response);
+            } else {
+                response.isEnrolled = false;
+                res.send(response);
+            }
+        }).catch(function(error){
+            response.isEnrolled = error;
+            res.send(response);
+        });
+    });
 };

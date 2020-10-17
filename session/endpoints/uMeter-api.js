@@ -22,6 +22,18 @@ module.exports = function(app, axios, io) {
         });
     });
 
+    app.post("/uMeter/create", function(req, res) {
+        // Get session creation data from post request
+        let sessionId = req.body.sessionId;
+        let userId = req.body.userId;
+
+        axios.post(dbUrl + '/uMeter/create', {sessionId: sessionId, userId: userId}).then(function (response) {
+            res.send(response.data);
+        }).catch(function (error) {
+            res.send(error);
+        });
+    });
+
     // app.post("/session/join", function(req, res) {
     //     // Get session creation data from post request
     //     let sessionName = req.body.sessionName;

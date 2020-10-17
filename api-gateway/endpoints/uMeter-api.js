@@ -18,4 +18,16 @@ module.exports = function(app, axios) {
             res.send(error);
         });
     });
+
+    app.post("/uMeter/create", function(req, res) {
+        // Get session creation data from post request
+        let sessionId = req.body.sessionId;
+        let userId = req.body.userId;
+
+        axios.post(sessionUrl + '/uMeter/create', {sessionId: sessionId, userId: userId}).then(function (response) {
+            res.send(response.data);
+        }).catch(function (error) {
+            res.send(error);
+        });
+    });
 };
