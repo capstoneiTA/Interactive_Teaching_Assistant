@@ -5,55 +5,74 @@
 
 /*  TODO
 *       Handle change by getting the value from input               (v)
-*       Save the change to db                                       ()
+*       Save the change to db                                       (v)
 *       Notify the teacher about the change, thru socket.io         ()
 *
 * */
 
 //general
-import React from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
-
-//styling
-import Slider from '@material-ui/core/Slider';
-import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
-
+import Slider from "react-native-slider";
+import {StyleSheet, View, Text } from "react-native";
+import UserInfo from "./UserInfo";
 
 const apiGatewayUrl = `http://api-gateway:8080`;
 
-const useStyles = makeStyles({
-    root: {
-        width: 300,
-    },
-});
+class StudentUnderstandingMeter extends Component {
+    constructor(props) {
+        super(props);
+        if(this.props.location.state !==undefined){
+            this.user = this.props.location.state.user;
+        }else{
+            this.user = '';
+        }
+    }
 
-function valuetext(value) {
-    return `${value}`;
+    state = {
+        value: 3
+    };
+
+    render() {
+        return (
+
+            <View style={styles.container}>
+                <Slider
+                    value={this.state.value}
+                    onValueChange={handleChange}
+                />
+                <Text>
+                    Value: {this.state.value}
+                    Name: {this.user.state.name}
+                </Text>
+            </View>
+        )
+    }
 }
 
-//TODO: componentDidMount to set up the socket
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginLeft: 10,
+        marginRight: 10,
+        alignItems: "stretch",
+        justifyContent: "center"
+    }
+});
 
+function handleChange(e) {
+    let value = e.target.value;
+    console.log("Score Value: " + value);
+    console.log("User name: " + this.user.state.userId);
 
+    this.setState({value});
 
-//Call by onChangeCommitted (completed 1st requirement)
-function handleChange(event, value) {
-
-    console.log("Score Value " + value);
-    /*  TODO: HOW TO SAVE TO DB?
-    *       what info do we need? Session_Name | User_ID | CurrUValue | CURR TIME
-    *       how do we get it? ...
-    *       then how do we save in db? create a new entry and send to uMeterChange db | call a post request here??????
-    * */
     //Send the new data value to db
-    // Is this the right set up?
-    axios.post(apiGatewayUrl + '/uMeter/update', {uScore: value}).then(function(response){
+    axios.post(apiGatewayUrl + '/uMeter/update', {uScore: value, userId: this.user.state.userId}).then(function(response){
         console.log(response);
     }).catch(function(error){
         console.log(error);
     });
-
-    console.log("Post axios call");
 
     /*  TODO: HOW TO NOTIFY CHANGE?
     *       what do we need? just a socket.io object
@@ -64,26 +83,43 @@ function handleChange(event, value) {
 
 }
 
-export default function StudentUnderstandingMeter() {
-    const classes = useStyles();
-    return (
-        <div className={classes.root}>
-            <b>Student's side uMeter</b>
-            <Typography id="discrete-slider" gutterBottom>
-                Student's Name
-            </Typography>
-            <Slider
-                defaultValue={3}
-                getAriaValueText={valuetext}
-                aria-labelledby="discrete-slider"
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={1}
-                max={5}
-                onChangeCommitted={handleChange}
-            />
-        </div>
-    );
-}
+export default StudentUnderstandingMeter;
 
+//import {StyledComponentProps} from "@material-ui/core";
+
+//styling
+// import Slider from '@material-ui/core/Slider';
+// import Typography from '@material-ui/core/Typography';
+// import makeStyles from '@material-ui/core/styles';
+// const useStyles = makeStyles({
+//     root: {
+//         width: 300,
+//     },
+// });
+//
+// function valuetext(value) {
+//     return `${value}`;
+// }
+//Call by onChangeCommitted (completed 1st requirement)
+
+// export default function StudentUnderstandingMeter() {
+//     const classes = useStyles();
+//     return (
+//         <div className={classes.root}>
+//             <Typography id="discrete-slider" gutterBottom>
+//                 Student's Name
+//             </Typography>
+//             <Slider
+//                 defaultValue={3}
+//                 getAriaValueText={valuetext}
+//                 aria-labelledby="discrete-slider"
+//                 valueLabelDisplay="auto"
+//                 step={1}
+//                 marks
+//                 min={1}
+//                 max={5}
+//                 onChangeCommitted={handleChange}
+//             />
+//         </div>
+//     );
+// }
