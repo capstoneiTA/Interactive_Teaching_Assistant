@@ -21,6 +21,15 @@ class TeacherUnderstandingMeter extends Component {
         //this.sockId = 'empty';
     }
 
+    componentDidMount() {
+        this.socketListen();
+    }
+
+    socketListen=()=>{
+        this.socket.on('update from server', (userId, newValue) => {
+            this.setNewVal(newValue);
+        });
+    };
     //call when new value is passed from server through socket
     setNewVal = value => {
         this.setState(value);
@@ -31,6 +40,8 @@ class TeacherUnderstandingMeter extends Component {
             <div>
                 <h2>Session: {this.sessionName} </h2>
                 <h2>Session ID: {this.sessionId} </h2>
+
+
                 <ProgressBar min={1} max={5} now={this.state.setNewVal} />
             </div>
         );

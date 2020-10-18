@@ -55,7 +55,7 @@ class StudentUnderstandingMeter extends Component {
         });
 
         //emit for server the info to be passed to teacher
-        this.socket.emit('understanding meter update', {userId: this.user.User_ID, teacherSocketIds: null, newValue: value});
+        this.socket.emit('understanding meter update', {userId: this.user.User_ID, /*teacherSocketIds: null,*/ newValue: value});
     };
 
     render() {
