@@ -26,8 +26,8 @@ class TeacherUnderstandingMeter extends Component {
         //Socket info
         this.socket = socketIOClient(ENDPOINT + this.props.sessionName);
         this.sockId = 'empty';
-        this.socketStart();
     }
+
 
     componentDidMount() {
         this.socketStart();
@@ -62,7 +62,16 @@ class TeacherUnderstandingMeter extends Component {
     };
 
     updateStudentComponentsFromChange=(userId, value)=>{
-        console.log(userId +' update to ' + value);
+        console.log(userId +' update to ' + value + 'students length: ' + this.state.studentMeters.length);
+        for(let i = 0; i < this.state.studentMeters.length; i++){
+            if(this.state.studentMeters[i]['userId'] === userId){
+                let studentMeters = [...this.state.studentMeters];
+                let studentMeter = {...studentMeters[i]};
+                studentMeter.value = value;
+                studentMeters[i] = studentMeter;
+                this.setState({studentMeters:studentMeters});
+            }
+        }
     };
 
     updateStudentMeterInfo=()=>{
@@ -70,9 +79,7 @@ class TeacherUnderstandingMeter extends Component {
         for(let student of this.state.students){
             newStudentMeters.push({userId: student.userId, value: 5, firstName: student.firstName, lastName: student.lastName});
         }
-        this.setState({studentMeters:newStudentMeters}, ()=>{
-            console.log(this.state.studentMeters.length);
-        }) ;
+        this.setState( {studentMeters:newStudentMeters}) ;
     };
 
     updateStudentComponents=()=>{
@@ -98,7 +105,8 @@ class TeacherUnderstandingMeter extends Component {
 
                 <h2>Student Meters</h2>
                 {this.state.studentMeters.map((meter) => {
-                    return <SimpleUMeter value={meter.value} firstName={meter.firstName} lastName={meter.lastName}/>
+                    return <h2>{meter.firstName} {meter.lastName}: {meter.value}</h2>
+                    // return <SimpleUMeter value={meter.value} firstName={meter.firstName} lastName={meter.lastName}/>
                 })}
             </div>
         );

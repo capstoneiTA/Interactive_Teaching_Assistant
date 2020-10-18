@@ -108,7 +108,6 @@ class Session {
                 }
             }
             //Remove from teacherList of all clients
-            this.namespace.emit('teacherList', this.teachers);
         }else{
             //Remove user from the students list
             for(let i = 0; i < this.students.length; i++){
@@ -117,8 +116,9 @@ class Session {
                 }
             }
             //Remove from teacherList of all clients
-            this.namespace.emit('studentList', this.students);
         }
+        this.namespace.emit('teacherList', this.teachers);
+        this.namespace.emit('studentList', this.students);
     }
 }
 

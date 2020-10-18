@@ -13,29 +13,32 @@ class simpleUMeter extends Component {
 
     render() {
         return (
-            <div style={{ margin: 50 }}>
-                <p>{this.value}</p>
-                <p>{this.firstName} {this.lastName}</p>
-                <Slider
-                    min={1}
-                    max={5}
-                    value={this.value}
-                    railStyle={{
-                        height: 2,
-                    }}
-                    handleStyle={{
-                        height: 28,
-                        width: 28,
-                        marginLeft: -14,
-                        marginTop: -14,
-                        backgroundColor: "red",
-                        border: 0
-                    }}
-                    trackStyle={{
-                        background: "none"
-                    }}
-                />
+            <div>
+                <h2>{this.value}</h2>
             </div>
+            // <div style={{ margin: 50 }}>
+            //     <p>{this.value}</p>
+            //     <p>{this.firstName} {this.lastName}</p>
+            //     <Slider
+            //         min={1}
+            //         max={5}
+            //         value={this.value}
+            //         railStyle={{
+            //             height: 2,
+            //         }}
+            //         handleStyle={{
+            //             height: 28,
+            //             width: 28,
+            //             marginLeft: -14,
+            //             marginTop: -14,
+            //             backgroundColor: "red",
+            //             border: 0
+            //         }}
+            //         trackStyle={{
+            //             background: "none"
+            //         }}
+            //     />
+            // </div>
 
         )
     }
