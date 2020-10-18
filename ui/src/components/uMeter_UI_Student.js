@@ -13,6 +13,7 @@
 //general
 import React from 'react';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 //styling
 import Slider from '@material-ui/core/Slider';
@@ -38,7 +39,6 @@ function valuetext(value) {
 
 //Call by onChangeCommitted (completed 1st requirement)
 function handleChange(event, value) {
-
     console.log("Score Value " + value);
     /*  TODO: HOW TO SAVE TO DB?
     *       what info do we need? Session_Name | User_ID | CurrUValue | CURR TIME
@@ -66,11 +66,12 @@ function handleChange(event, value) {
 
 export default function StudentUnderstandingMeter() {
     const classes = useStyles();
+    let history = useHistory()
     return (
         <div className={classes.root}>
             <b>Student's side uMeter</b>
             <Typography id="discrete-slider" gutterBottom>
-                Student's Name
+                User Id: {history.location.state.userId}
             </Typography>
             <Slider
                 defaultValue={3}

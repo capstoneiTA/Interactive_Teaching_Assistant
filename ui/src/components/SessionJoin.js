@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 const apiUrl = `http://localhost:8080`;
@@ -6,6 +7,7 @@ const apiUrl = `http://localhost:8080`;
 const SessionJoin = ({userId}) => {
     const [sessionName, setSessionName] = useState('')
     const [response, setResponse] = useState({message: ''})
+    let history = useHistory()
 
     const handleChange = (e) =>{
         setSessionName( e.target.value );
@@ -13,7 +15,6 @@ const SessionJoin = ({userId}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        let that = this;
         console.log('body to be posted to session/join:','SessionName:', sessionName, 'userId ', userId);
 
         axios.post(apiUrl + '/session/join', {sessionName, userId})
@@ -21,14 +22,16 @@ const SessionJoin = ({userId}) => {
           console.log(res);
           console.log(res.data);
           // routing should go here
-        that.props.history.push({
-                pathname: '/classSession',
-                state: {user: userId}
-            }
-        );
           setResponse(res.data);
           if (res.data.sessionExists === true){
             setResponse({message : 'Added User: '+ userId  + ' to Session: ' +  sessionName})
+
+            history.push({
+              pathname: "/classSession",
+              state: {
+                userId: userId
+              }
+            }) 
           } else {
             setResponse({message: 'There is no session called: ' +  sessionName})
           }
