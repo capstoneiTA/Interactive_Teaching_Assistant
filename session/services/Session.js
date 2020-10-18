@@ -40,10 +40,15 @@ class Session {
                 console.log('disconnected for ' + reason);
                 this.handleDisconnect(reason, firstName, lastName, userId, type, socket);
             });
-            }
 
-        );
+            //update from server
+            socket.on('understanding meter update', (userId, /*teacherSocketIds,*/ newValue) => {
+                console.log('UPDATE FROM STUDENT ' + newValue);
+                socket.emit('update from server', {userId, newValue});
+            });
+        });
     }
+
 
 
     /**

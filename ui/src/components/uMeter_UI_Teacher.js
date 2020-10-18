@@ -16,17 +16,18 @@ class TeacherUnderstandingMeter extends Component {
         this.sessionId = this.props.sessionId;
         //the "score"
         this.state = { currValue: 5 };
-
         this.socket = socketIOClient(ENDPOINT + this.props.sessionName);
         //this.sockId = 'empty';
+        this.socketListen()
     }
 
-    componentDidMount() {
-        this.socketListen();
-    }
+    // componentDidMount() {
+    //     this.socketListen();
+    // }
 
     socketListen=()=>{
         this.socket.on('update from server', (userId, newValue) => {
+            console.log('RECEIVED UPDATE ' + newValue);
             this.setNewVal(newValue);
         });
     };
@@ -42,7 +43,7 @@ class TeacherUnderstandingMeter extends Component {
                 <h2>Session ID: {this.sessionId} </h2>
 
 
-                <ProgressBar min={1} max={5} now={this.state.setNewVal} />
+                <ProgressBar min={1} max={5} now={this.state.currValue} />
             </div>
         );
     }
