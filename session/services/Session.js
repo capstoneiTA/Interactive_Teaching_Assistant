@@ -28,17 +28,24 @@ class Session {
     /**************SOCKET.IO HANDLING******************/
     listen (){
         this.namespace.on('connection', (socket)=>{
+            let userId;
+            let type;
             this.namespace.emit('test', 'connected to understanding meter');
             // initialize
-            socket.on('session init', (firstName, lastName, type, userId, sockId) =>{
-                console.log(sockId);
+            socket.on('session init', (firstName, lastName, userType, User_ID, sockId) =>{
+                if(sockId === socket.id){
+                    userId = User_ID;
+                    type = userType;
+                }
+                console.log (userId);
                 this.handleInitUser(firstName, lastName, type, userId, sockId);
             });
 
             //Disconnection
-            socket.on('disconnect', (reason, firstName, lastName, userId, type) => {
-                console.log('disconnected for ' + reason);
-                this.handleDisconnect(reason, firstName, lastName, userId, type, socket);
+            socket.on('disconnect', (reason) => {
+                if(userId !== undefined){
+                    this.handleDisconnect(reason, userId, type, socket);
+                }
             });
             }
 
@@ -89,14 +96,11 @@ class Session {
      * Handles user disconnection from the session
      * Removes user info from the session lists and broadcasts the new user list to clients
      * @param reason reason for disconnection
-     * @param firstName first name of user
-     * @param lastName last name of user
      * @param userId user id of user
      * @param type type of user (Student or Teacher)
      */
-    handleDisconnect(reason, firstName, lastName, userId, type, socket){
-        // socket.broadcast.to(this.namespace).emit('userLeave', `${firstName} left the class`);
-        console.log(firstName);
+    handleDisconnect(reason, userId, type){
+        console.log(userId + ' disconnected for ' + reason);
 
         if(type === 'Teacher'){
             //Remove user from the teachers list
