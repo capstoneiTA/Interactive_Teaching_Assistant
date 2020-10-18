@@ -55,7 +55,10 @@ class StudentUnderstandingMeter extends Component {
         });
 
         //emit for server the info to be passed to teacher
-        this.socket.emit('understanding meter update', {userId: this.user.User_ID, /*teacherSocketIds: null,*/ newValue: value});
+        //make a post here to get id of the teacher socket
+        axios.post()
+
+        this.socket.emit('understanding meter update', {userId: this.user.User_ID, teacherSocketIds: null, newValue: value});
     };
 
     render() {

@@ -22,20 +22,19 @@ class UnderstandingMeter{
     handleConnection = (socket) => {
         socket.join(this.namespace); //Join the proper room
 
-        socket.on('understanding meter update', (userId, /*teacherSocketIds,*/ newValue) => {
-            this.update(userId, /*teacherSocketIds,*/ newValue);
+        socket.on('understanding meter update', (userId, teacherSocketIds, newValue) => {
+            this.update(userId, teacherSocketIds, newValue);
         });
     };
 
-    update(userId, /*teacherSocketIds,*/ newValue){
-        socket.emit('update from server', {userId, newValue});
-        /*
+    update(userId, teacherSocketIds, newValue){
+        //socket.emit('update from server', {userId, newValue});
         let data = {};
         data.userId= userId;
         data.newValue = newValue;
-        for(let socketId of teacherSocketIds){
+        for(let socketId of teacherSocketIds) {
             this.io.to(socketId).emit(data);
-        }*/
+        }
     }
 
     /**

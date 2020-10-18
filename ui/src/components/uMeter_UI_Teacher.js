@@ -21,10 +21,6 @@ class TeacherUnderstandingMeter extends Component {
         this.socketListen()
     }
 
-    // componentDidMount() {
-    //     this.socketListen();
-    // }
-
     socketListen=()=>{
         this.socket.on('update from server', (userId, newValue) => {
             console.log('RECEIVED UPDATE ' + newValue);
