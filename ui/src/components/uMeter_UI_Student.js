@@ -1,8 +1,10 @@
 //general
 import React, {Component} from 'react';
 import axios from 'axios';
+
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+
 import socketIOClient from "socket.io-client";
 const ENDPOINT = "http://localhost:7000/";
 
@@ -42,7 +44,6 @@ class StudentUnderstandingMeter extends Component {
 
     };
 
-
     handleChange =(value)=> {
         this.setState({value});
 
@@ -53,12 +54,9 @@ class StudentUnderstandingMeter extends Component {
             console.log(error);
         });
 
-        /*  TODO: HOW TO NOTIFY CHANGE?
-        *       what do we need? just a socket.io object
-        *       then how do we notifying the change? EMIT TO THE "SERVER" SOCKET
-        * */
-        //get a socket
-    }
+        //emit for server the info to be passed to teacher
+        this.socket.emit('understanding meter update', {userId: this.user.User_ID, teacherSocketIds: null, newValue: value});
+    };
 
     render() {
         return (
@@ -88,7 +86,6 @@ class StudentUnderstandingMeter extends Component {
                     }}
                 />
             </div>
-
         )
     }
 }

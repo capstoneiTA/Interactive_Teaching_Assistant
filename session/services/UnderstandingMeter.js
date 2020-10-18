@@ -22,7 +22,6 @@ class UnderstandingMeter{
     handleConnection = (socket) => {
         socket.join(this.namespace); //Join the proper room
 
-        //TODO meter update socket.on
         socket.on('understanding meter update', (userId, teacherSocketIds, newValue) => {
             this.update(userId, teacherSocketIds, newValue);
         });
