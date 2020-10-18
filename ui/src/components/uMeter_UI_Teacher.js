@@ -13,7 +13,6 @@ class TeacherUnderstandingMeter extends Component {
         super(props);
 
         this.state = {
-            currValue: 5,
             teachers: [],
             students: [],
             studentMeters: [],
@@ -62,7 +61,7 @@ class TeacherUnderstandingMeter extends Component {
     };
 
     updateStudentComponentsFromChange=(userId, value)=>{
-        console.log(userId +' update to ' + value + 'students length: ' + this.state.studentMeters.length);
+        //console.log(userId +' update to ' + value + 'students length: ' + this.state.studentMeters.length);
         for(let i = 0; i < this.state.studentMeters.length; i++){
             if(this.state.studentMeters[i]['userId'] === userId){
                 let studentMeters = [...this.state.studentMeters];
@@ -70,6 +69,7 @@ class TeacherUnderstandingMeter extends Component {
                 studentMeter.value = value;
                 studentMeters[i] = studentMeter;
                 this.setState({studentMeters:studentMeters});
+                console.log(this.state.studentMeters[i].userId +' update to ' +this.state.studentMeters[i].value);
             }
         }
     };
@@ -82,31 +82,20 @@ class TeacherUnderstandingMeter extends Component {
         this.setState( {studentMeters:newStudentMeters}) ;
     };
 
-    updateStudentComponents=()=>{
-        let sComponents = [];
-        for(let studentMeter of this.state.studentMeters){
-            sComponents.push(<SimpleUMeter value={studentMeter.value} firstName={studentMeter.firstName} lastName={studentMeter.lastName}/>)
-        }
 
-        this.setState({studentComponents:sComponents});
-    };
-
-    //call when new value is passed from server through socket
-    setNewVal = value => {
-        this.setState({currValue:value});
-    };
 
     render() {
         return (
             <div>
                 <h2>Session: {this.sessionName} </h2>
                 <h2>Session ID: {this.sessionId} </h2>
-                <ProgressBar min={1} max={5} now={this.state.currValue} />
-
                 <h2>Student Meters</h2>
+
                 {this.state.studentMeters.map((meter) => {
-                    return <h2>{meter.firstName} {meter.lastName}: {meter.value}</h2>
-                    // return <SimpleUMeter value={meter.value} firstName={meter.firstName} lastName={meter.lastName}/>
+                    return <div>
+                        <h2>{meter.firstName} {meter.lastName}: </h2>
+                        <ProgressBar min={1} max={5} now={meter.value} label={meter.value}/>
+                        </div>
                 })}
             </div>
         );
