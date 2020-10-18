@@ -2,7 +2,7 @@
  * Naming scheme: http://[Container Name]:[Container Port]
  */
 const dbUrl = 'http://db:5000';
-const UnderstandingMeter = require("../services/Session.js");
+const UnderstandingMeter = require("../services/UnderstandingMeter.js");
 
 module.exports = function(app, axios, io) {
     //keeps track of created sessions to prevent creating multiple sessions
@@ -32,7 +32,7 @@ module.exports = function(app, axios, io) {
             if(response.data.isEnrolled === true && sessionName !== false && !UnderstandingMeters.includes(sessionName)) {
                 const understandingMeter = new UnderstandingMeter(sessionName, io);
                 UnderstandingMeters.push(sessionName);
-                console.log('Understanding meter for ' + sessionName + ' created');
+                understandingMeter.listen();
             }
             res.send(response.data);
         }).catch(function (error) {

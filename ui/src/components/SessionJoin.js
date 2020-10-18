@@ -25,15 +25,23 @@ class SessionJoin extends Component  {
         let that = this;
         console.log('body to be posted to session/join:','SessionName:', this.state.sessionName, 'userId ', this.userId);
 
+        //join session
         axios.post(apiUrl + '/session/join', {sessionName:this.state.sessionName, userId:this.userId}).then(res=>{
             //Get user information
             axios.get(apiUrl + '/userInfo', {params: {userId: this.userId}}).then(userRes=>{
-                // routing should go here
-                that.props.history.push({
-                        pathname: '/classSession',
-                        state: {user: userRes.data.user, sessionName: this.state.sessionName, sessionId: res.data.sessionId}
-                    }
-                );
+
+                //start understanding meter listener
+                axios.post(apiUrl + '/uMeter/create', {sessionId: res.data.sessionId, userId: this.userId}).then(function (uMeterRes) {
+                    console.log(uMeterRes.data);
+                    // routing should go here
+                    that.props.history.push({
+                            pathname: '/classSession',
+                            state: {user: userRes.data.user, sessionName: that.state.sessionName, sessionId: res.data.sessionId}
+                        }
+                    );
+                });
+
+
 
                 let response = res.data;
                 if (response.sessionExists === true){
@@ -46,6 +54,8 @@ class SessionJoin extends Component  {
         }).catch(error => {
             console.log('ERROR in SessionJoin: ', error)
         })
+
+
 
     };
 

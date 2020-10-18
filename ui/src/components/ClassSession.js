@@ -21,7 +21,7 @@ class ClassSession extends Component {
             return (
                 <div>
                     <h1>Class Session</h1>
-                    <StudentUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
+                    <StudentUnderstandingMeter value={5} user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
                 </div>
             )
         }else{

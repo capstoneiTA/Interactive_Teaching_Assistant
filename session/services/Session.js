@@ -30,14 +30,13 @@ class Session {
         this.namespace.on('connection', (socket)=>{
             let userId;
             let type;
-            this.namespace.emit('test', 'connected to understanding meter');
-            // initialize
+
+            // initialize values
             socket.on('session init', (firstName, lastName, userType, User_ID, sockId) =>{
                 if(sockId === socket.id){
                     userId = User_ID;
                     type = userType;
                 }
-                console.log (userId);
                 this.handleInitUser(firstName, lastName, type, userId, sockId);
             });
 
@@ -78,7 +77,6 @@ class Session {
             if(!idFound){
                 this.teachers.push(user);
             }
-            this.namespace.emit('teacherList', this.teachers);
         }else{
             for(let i = 0; i < this.students.length; i ++){
                 if(this.students[i].userId === userId){
@@ -88,8 +86,9 @@ class Session {
             if(!idFound){
                 this.students.push(user);
             }
-            this.namespace.emit('studentList', this.teachers);
         }
+        this.namespace.emit('teacherList', this.teachers);
+        this.namespace.emit('studentList', this.students);
     }
 
     /**
@@ -100,7 +99,6 @@ class Session {
      * @param type type of user (Student or Teacher)
      */
     handleDisconnect(reason, userId, type){
-        console.log(userId + ' disconnected for ' + reason);
 
         if(type === 'Teacher'){
             //Remove user from the teachers list

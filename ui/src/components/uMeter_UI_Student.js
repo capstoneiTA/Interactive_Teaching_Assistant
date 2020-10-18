@@ -12,7 +12,9 @@ class StudentUnderstandingMeter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: 5
+            value: this.props.value,
+            teachers: [],
+            students: []
         };
         this.user = this.props.user;
         this.sessionName = this.props.sessionName;
@@ -35,16 +37,26 @@ class StudentUnderstandingMeter extends Component {
     listen =()=>{
         this.socket.emit('session init', this.user.firstName, this.user.lastName, this.user.type, this.user.User_ID, this.sockId);
 
-        this.socket.on('test', (msg)=>{
-                console.log(msg);
-            }
-        )
+        //update list of teachers
+        this.socket.on('teacherList', teacherList =>{
+            this.setState({teachers: teacherList});
+        });
+
+        //update list of students
+        this.socket.on('studentList', studentList =>{
+            this.setState({students: studentList});
+        });
+
+        this.socket.on('teacher server get understanding meter values', teacherSockId=>{
+            this.socket.emit('single understanding meter update', this.user.User_ID, teacherSockId, this.state.value);
+        })
+
 
     };
 
 
     handleChange =(value)=> {
-        this.setState({value});
+        this.setState({value:value});
 
         //Send the new data value to db
         axios.post(apiGatewayUrl + '/uMeter/update', {uValue: value, sessionId: this.sessionId, userId: this.user.User_ID, timeStamp: 1}).then(function(response){
@@ -53,11 +65,13 @@ class StudentUnderstandingMeter extends Component {
             console.log(error);
         });
 
-        /*  TODO: HOW TO NOTIFY CHANGE?
-        *       what do we need? just a socket.io object
-        *       then how do we notifying the change? EMIT TO THE "SERVER" SOCKET
-        * */
-        //get a socket
+        let teacherSockIds = [];
+
+        for(let teacher of this.state.teachers){
+            teacherSockIds.push(teacher.sockId);
+        }
+        //send socket.io update
+        this.socket.emit('multi understanding meter update', this.user.User_ID, teacherSockIds, value, this.state.students);
     };
 
 
