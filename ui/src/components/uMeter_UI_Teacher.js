@@ -1,66 +1,106 @@
-/*  Source: https://material-ui.com/components/slider/
-*   Discrete Slider session
-*
-*   Dependencies Installed in UI only:
-    *   @material-ui/core
-    *   react-bootstrap
-* */
 //General
-import React from 'react';
+import React, {Component} from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import SimpleUMeter from "./SimpleUMeter";
 
-/* TODO: General
-*       Create a uMeter for each student (view only, can't adjust)
-*       Create an average uMeter of the session (view only, can;t adjust)
-*       Always listen for the change message from the student's meters
-*           Pull data from db to update the UI when received the change message
-* */
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:7000/";
+
+class TeacherUnderstandingMeter extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            teachers: [],
+            students: [],
+            studentMeters: [],
+        };
+        //basic info
+        this.user = this.props.user;
+        this.sessionName = this.props.sessionName;
+        this.sessionId = this.props.sessionId;
+
+        //Socket info
+        this.socket = socketIOClient(ENDPOINT + this.props.sessionName);
+        this.sockId = 'empty';
+    }
 
 
-function generateIndividualMeter() {
-    /*  TODO: Create a uMeter for each student (view only, can't adjust)
-    *       What info do we need? The student lists
-    *       How do we get it? ...
-    *       then How do we generate uMeter for each student? For each student, create a progress bar component and bind info
-    * */
+    componentDidMount() {
+        this.socketStart();
+    }
 
+    socketStart=()=>{
+        this.socket.on('connect', () => {
+            this.sockId = this.socket.id;
+            this.listen();
+        });
+    };
+
+    listen = () =>{
+        this.socket.emit('session init', this.user.firstName, this.user.lastName, this.user.type, this.user.User_ID, this.sockId);
+
+        //update list of teachers
+        this.socket.on('teacherList', teacherList =>{
+            this.setState({teachers: teacherList});
+        });
+
+        //update list of students
+        this.socket.on('studentList', studentList =>{
+            this.setState({students: studentList}, ()=>{
+                this.updateStudentMeterInfo();
+                this.socket.emit('teacher client get understanding meter values', this.sockId);
+            });
+        });
+
+        this.socket.on('update understanding meter', (userId, value)=>{
+            this.updateStudentComponentsFromChange(userId, value);
+        });
+    };
+
+    updateStudentComponentsFromChange=(userId, value)=>{
+        //console.log(userId +' update to ' + value + 'students length: ' + this.state.studentMeters.length);
+        for(let i = 0; i < this.state.studentMeters.length; i++){
+            if(this.state.studentMeters[i]['userId'] === userId){
+                let studentMeters = [...this.state.studentMeters];
+                let studentMeter = {...studentMeters[i]};
+                studentMeter.value = value;
+                studentMeters[i] = studentMeter;
+                this.setState({studentMeters:studentMeters});
+                console.log(this.state.studentMeters[i].userId +' update to ' +this.state.studentMeters[i].value);
+            }
+        }
+    };
+
+    updateStudentMeterInfo=()=>{
+        let newStudentMeters=[];
+        for(let student of this.state.students){
+            newStudentMeters.push({userId: student.userId, value: 5, firstName: student.firstName, lastName: student.lastName});
+        }
+        this.setState( {studentMeters:newStudentMeters}) ;
+    };
+
+
+
+    render() {
+        return (
+            <div>
+                <h2>Session: {this.sessionName} </h2>
+                <h2>Session ID: {this.sessionId} </h2>
+                <h2>Student Meters</h2>
+
+                {this.state.studentMeters.map((meter) => {
+                    return <div>
+                        <h2>{meter.firstName} {meter.lastName}: </h2>
+                        <ProgressBar min={1} max={5} now={meter.value} label={meter.value}/>
+                        </div>
+                })}
+            </div>
+        );
+    }
 }
 
-function generateAverageMeter() {
-    /*  TODO: Create an average uMeter of the session (view only, can;t adjust)
-    *       What info do we need? The student lists and the score of them
-    *       How do we get it? ...
-    *       then How do we create an average uMeter of the session? Compile the average score then use generateIndividualMeter() to create one under teacher name
-    * */
-}
-
-function handleUpdate() {
-    /*  TODO: Always listen for the change message from the student's meters + data
-    *       What do we need? socket.io objects
-    *       How do we get it? Create one and set to listening
-    *       Upon receiving message, what to do? Update the teacher data accordingly
-    * */
-
-}
-
-export default function TeacherUnderstandingMeter() {
-
-    return (
-        <div className={"teacher-meter"}>
-            <b>Teacher's side uMeter</b>
-            <ul>
-               <li>
-                   <ProgressBar min={1} max={5} now={3} />
-               </li>
-                <li>
-                    <ProgressBar min={1} max={5} now={1} />
-                </li>
-            </ul>
-
-
-        </div>
-    );
-}
+export default TeacherUnderstandingMeter;
 

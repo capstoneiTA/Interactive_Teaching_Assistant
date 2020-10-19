@@ -16,17 +16,30 @@ class UnderstandingMeter{
 
     //Create a listener here and a function to handle connections from students then send to teacher
     listen() {
-        this.namespace.on('connect', this.handleConnection);
-    }
+        this.namespace.on('connection', (socket)=>{
+            socket.on('understanding meter update', (userId, teacherSocketIds, newValue) => {
+                this.update(userId, teacherSocketIds, newValue);
+            });
 
-    handleConnection = (socket) => {
-        socket.join(this.namespace); //Join the proper room
+            //If teacher requests values from all students
+            //Happens if teacher joins later or new student joins
+            socket.on('teacher client get understanding meter values', (teacherSockid)=>{
+                this.namespace.emit('teacher server get understanding meter values', teacherSockid);
+            });
 
-        //TODO meter update socket.on
-        socket.on('understanding meter update', (userId, teacherSocketIds, newValue) => {
-            this.update(userId, teacherSocketIds, newValue);
+            //Student updates their meter for a single requesting teacher
+            socket.on('single understanding meter update', (userId, teacherSockid, value)=>{
+                this.io.to(teacherSockid).emit('update understanding meter', userId, value);
+            });
+
+            //Student updates their meter for potential multiple teachers
+            socket.on('multi understanding meter update', (userId, teacherSockids, value)=>{
+                for(let sockId of teacherSockids){
+                    this.namespace.to(sockId).emit('update understanding meter', userId, value);
+                }
+            });
         });
-    };
+    }
 
     update(userId, teacherSocketIds, newValue){
         let data = {};

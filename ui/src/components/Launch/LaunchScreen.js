@@ -3,6 +3,8 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import SignOption from './SignOption.js';
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
+import Dashboard from "../Dashboard";
+import ClassSession from "../ClassSession";
 import logo from '../../Assets/itaLogo.png';
 
 class LaunchScreen extends Component {
@@ -16,6 +18,9 @@ class LaunchScreen extends Component {
                     <Route path='/launch/opt' component={SignOption} />
                     <Route path='/launch/signin' component={SignIn} />
                     <Route path='/launch/signup' component={SignUp} />
+                    <Route path='/dashboard' component={Dashboard} />
+                    <Route path='/classSession' component={ClassSession} />
+
                 </Switch>
             </div>
         );
@@ -28,6 +33,6 @@ const logoStyle = {
     margin: 'auto',
     marginTop: '100px'
 
-}
+};
 
 export default LaunchScreen;

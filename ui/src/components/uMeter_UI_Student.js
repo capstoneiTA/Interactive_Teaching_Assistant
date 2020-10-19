@@ -1,89 +1,113 @@
-/*  Source: https://material-ui.com/components/slider/
-*   Discrete Slider session
-*
-* */
-
-/*  TODO
-*       Handle change by getting the value from input               (v)
-*       Save the change to db                                       ()
-*       Notify the teacher about the change, thru socket.io         ()
-*
-* */
-
 //general
-import React from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:7000/";
 
-//styling
-import Slider from '@material-ui/core/Slider';
-import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+const apiGatewayUrl = `http://localhost:8080`;
+
+class StudentUnderstandingMeter extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: this.props.value,
+            teachers: [],
+            students: []
+        };
+        this.user = this.props.user;
+        this.sessionName = this.props.sessionName;
+        this.sessionId = this.props.sessionId;
+        this.socket = socketIOClient(ENDPOINT + this.props.sessionName);
+        this.sockId = 'empty';
+    }
+
+    componentDidMount() {
+        this.socketStart();
+    }
+
+    socketStart=()=>{
+        this.socket.on('connect', () => {
+            this.sockId = this.socket.id;
+            this.listen();
+        });
+    };
+
+    listen =()=>{
+        this.socket.emit('session init', this.user.firstName, this.user.lastName, this.user.type, this.user.User_ID, this.sockId);
+
+        //update list of teachers
+        this.socket.on('teacherList', teacherList =>{
+            this.setState({teachers: teacherList});
+        });
+
+        //update list of students
+        this.socket.on('studentList', studentList =>{
+            this.setState({students: studentList});
+        });
+
+        this.socket.on('teacher server get understanding meter values', teacherSockId=>{
+            this.socket.emit('single understanding meter update', this.user.User_ID, teacherSockId, this.state.value);
+        })
 
 
-const apiGatewayUrl = `http://api-gateway:8080`;
+    };
 
-const useStyles = makeStyles({
-    root: {
-        width: 300,
-    },
-});
 
-function valuetext(value) {
-    return `${value}`;
+    handleChange =(value)=> {
+        this.setState({value:value});
+
+        //Send the new data value to db
+        axios.post(apiGatewayUrl + '/uMeter/update', {uValue: value, sessionId: this.sessionId, userId: this.user.User_ID, timeStamp: 1}).then(function(response){
+            console.log(response);
+        }).catch(function(error){
+            console.log(error);
+        });
+
+        let teacherSockIds = [];
+
+        for(let teacher of this.state.teachers){
+            teacherSockIds.push(teacher.sockId);
+        }
+        //send socket.io update
+        this.socket.emit('multi understanding meter update', this.user.User_ID, teacherSockIds, value, this.state.students);
+    };
+
+
+
+    render() {
+        return (
+            <div style={{ margin: 50 }}>
+                <h2>Session: {this.sessionName} </h2>
+                <h2>Session ID: {this.sessionId} </h2>
+                <p>{this.state.value}</p>
+                <p>{this.user.firstName} {this.user.lastName}</p>
+                <Slider
+                    min={1}
+                    max={5}
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    railStyle={{
+                        height: 2,
+                    }}
+                    handleStyle={{
+                        height: 28,
+                        width: 28,
+                        marginLeft: -14,
+                        marginTop: -14,
+                        backgroundColor: "red",
+                        border: 0
+                    }}
+                    trackStyle={{
+                        background: "none"
+                    }}
+                />
+            </div>
+
+        )
+    }
 }
 
-//TODO: componentDidMount to set up the socket
 
-
-
-//Call by onChangeCommitted (completed 1st requirement)
-function handleChange(event, value) {
-
-    console.log("Score Value " + value);
-    /*  TODO: HOW TO SAVE TO DB?
-    *       what info do we need? Session_Name | User_ID | CurrUValue | CURR TIME
-    *       how do we get it? ...
-    *       then how do we save in db? create a new entry and send to uMeterChange db | call a post request here??????
-    * */
-    //Send the new data value to db
-    // Is this the right set up?
-    axios.post(apiGatewayUrl + '/uMeter/update', {uScore: value}).then(function(response){
-        console.log(response);
-    }).catch(function(error){
-        console.log(error);
-    });
-
-    console.log("Post axios call");
-
-    /*  TODO: HOW TO NOTIFY CHANGE?
-    *       what do we need? just a socket.io object
-    *       then how do we notifying the change? EMIT TO THE "SERVER" SOCKET
-    * */
-    //get a socket
-
-
-}
-
-export default function StudentUnderstandingMeter() {
-    const classes = useStyles();
-    return (
-        <div className={classes.root}>
-            <b>Student's side uMeter</b>
-            <Typography id="discrete-slider" gutterBottom>
-                Student's Name
-            </Typography>
-            <Slider
-                defaultValue={3}
-                getAriaValueText={valuetext}
-                aria-labelledby="discrete-slider"
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={1}
-                max={5}
-                onChangeCommitted={handleChange}
-            />
-        </div>
-    );
-}
-
+export default StudentUnderstandingMeter;
