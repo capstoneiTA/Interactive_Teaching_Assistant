@@ -32,7 +32,6 @@ module.exports = function(app, axios, io) {
             if(response.data.isEnrolled === true && sessionName !== false && !UnderstandingMeters.includes(sessionName)) {
                 const understandingMeter = new UnderstandingMeter(sessionName, io);
                 UnderstandingMeters.push(sessionName);
-                understandingMeter.listen();
             }
             res.send(response.data);
         }).catch(function (error) {
