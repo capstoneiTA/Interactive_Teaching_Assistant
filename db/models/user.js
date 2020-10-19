@@ -31,8 +31,12 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false
         },
         lastName: {
-            type: DataTypes.STRING
-            // allowNull defaults to true
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        type: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     });
 
@@ -44,7 +48,7 @@ module.exports = (sequelize, DataTypes)=> {
 
     //Before creating the user, the password is encrypted.
     User.beforeCreate(user => {
-        user.Password = bcrypt.hashSync(user.Password, bcrypt.genSaltSync(12), null);
+        user.Password = bcrypt.hashSync(user.Password, bcrypt.genSaltSync(10), null);
     });
 
     return User;

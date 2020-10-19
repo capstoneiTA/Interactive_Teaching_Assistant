@@ -8,7 +8,11 @@ services:
       - "${UI_PORT}:${UI_PORT}"
     depends_on:
       - api-gateway
+      - session
+      - db
     stdin_open: true
+    links:
+      - "session:session"
     networks:
       - itaNet
     volumes:
@@ -21,6 +25,7 @@ services:
       - '${API_GATEWAY_PORT}:${API_GATEWAY_PORT}'
     depends_on:
       - db
+      - session
     networks:
       - itaNet
     volumes:
@@ -46,6 +51,19 @@ services:
       - itaNet
     volumes:
       - ./session:/usr/src/app
+  test:
+    container_name: test
+    build: ./test
+    ports:
+      - '${TEST_PORT}:${TEST_PORT}'
+    depends_on:
+      - db
+      - api-gateway
+      - session
+    networks:
+      - itaNet
+    volumes:
+      - ./test:/usr/src/app
 
 
 
