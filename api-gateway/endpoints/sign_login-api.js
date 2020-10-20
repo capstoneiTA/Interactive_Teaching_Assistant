@@ -19,16 +19,26 @@ module.exports = function(app,axios)
 
     );
 
-    app.post('/login', passport.authenticate('local', {successRedirect: '/success', failureRedirect: '/failure', failureFlash: false}),function(req,res){
-            res.json('/');
-    });
-
-    app.get('/success', function(req, res){
-        res.send('success');
+    app.post('/login', passport.authenticate('local', {failureRedirect: '/failure'}),function(req,res){
+        let response = {};
+        response.success = true;
+        response.user = req.user;
+        res.send(response);
     });
 
     app.get('/failure', function(req, res){
+        let response = {};
+        response.success = false;
         res.send('failure');
     });
+
+    app.get('/userInfo', function(req, res){
+        let userId = req.query.userId;
+        axios.get(dbUrl + '/userInfo', {params: {userId: userId}}).then(function(response){
+            res.send(response.data);
+        }).catch(function(error){
+            res.send(error);
+        });
+    })
 
  };

@@ -1,5 +1,6 @@
+
 module.exports = (sequelize, DataTypes)=> {
-    const UnderstandingMeter = sequelize.define('UnderstandingMeter', {
+    return sequelize.define('UnderstandingMeter', {
 
         Meter_Change_ID: {
             type: DataTypes.INTEGER,
@@ -32,10 +33,9 @@ module.exports = (sequelize, DataTypes)=> {
             unique: false,
         },
         Timestamp: {
-            type: DataTypes.TIME,
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
         }
     });
-    return UnderstandingMeter;
 };

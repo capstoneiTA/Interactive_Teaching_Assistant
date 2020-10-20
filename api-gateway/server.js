@@ -19,7 +19,6 @@ app.use(express.json());
 //Prevent cors errors
 app.use(cors());
 
-app.use(express.static("public"));
 app.use(session({ secret: "cats" }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -44,5 +43,5 @@ app.listen(PORT, function() {
 
 /**************GET ENDPOINTS**********************/
 require("./endpoints/session-api.js")(app, axios);
+require("./endpoints/uMeter-api")(app, axios);
 require("./endpoints/sign_login-api.js")(app, axios);
-

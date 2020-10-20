@@ -71,5 +71,9 @@ app.listen(port, () =>{
 });
 
 /**************GET ENDPOINTS**********************/
-require("./endpoints/authentication-api.js")(app,db);
+
+// Requiring our endpoints
 require("./endpoints/session-api.js")(app, db);
+require("./endpoints/uMeter-api.js")(app, db);
+require("./endpoints/authentication-api.js")(app,db);
+

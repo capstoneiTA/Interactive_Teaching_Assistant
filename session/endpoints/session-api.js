@@ -1,7 +1,6 @@
 /**
  * Naming scheme: http://[Container Name]:[Container Port]
  */
-const path = require("path");
 const dbUrl = 'http://db:5000';
 const Session = require("../services/Session.js");
 
@@ -19,7 +18,6 @@ module.exports = function(app, axios, io) {
         }).catch(function(error){
             res.send(error);
         })
-
     });
 
     app.post("/session/join", function(req, res) {
@@ -31,6 +29,7 @@ module.exports = function(app, axios, io) {
             if(response.data.sessionExists === true && !currentSessions.includes(sessionName)){
                 const session = new Session(sessionName, io);
                 currentSessions.push(sessionName);
+                console.log('Session: ' + sessionName + ' created');
             }
             res.send(response.data);
         }).catch(function(error){
