@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes)=> {
             type: DataTypes.STRING(768),
             allowNull: false,
             unique: true
-       }
+        }
 
 
     });
