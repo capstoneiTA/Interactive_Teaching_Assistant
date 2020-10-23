@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes)=> {
             }
         },
         Answer_Text: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
+            type: DataTypes.STRING(768),
+            allowNull: true,
             unique: false
         }
     });

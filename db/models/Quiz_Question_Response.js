@@ -28,7 +28,7 @@ module.exports= (sequelize, DataTypes)=> {
     },
     FITB_Option_ID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         unique: false,
         references:{
             model: 'Fill_In_The_Blank_Options',
@@ -38,7 +38,7 @@ module.exports= (sequelize, DataTypes)=> {
 
     MC_Option_ID: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         unique: false,
         references:{
             model: 'Multiple_Choice_Options',
