@@ -2,7 +2,24 @@ import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
 
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
 const apiUrl = `http://localhost:8080`;
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
+    },
+    iconButton: {
+        padding: 10,
+    },
+}));
 
 class SessionJoin extends Component  {
     constructor(props) {
@@ -56,16 +73,21 @@ class SessionJoin extends Component  {
     };
 
     render(){
+        const classes = this.props;
         return (
             <div>
-                <form role="form" onSubmit={this.handleSubmit}>
+                <form className={classes.root} role="form" onSubmit={this.handleSubmit}>
                     <label>Join Session: </label>
                     <div className="row">
                         <div className="form-group col-5">
-                            <input type={"text"} className={"form-control"} placeholder={"Session's Name"} onChange={this.handleChange}/>
+                            {/*<input type={"text"} className={"form-control"} placeholder={"Session's Name"} onChange={this.handleChange}/>*/}
+                            <TextField label="Session Name" variant="filled" onChange={this.handleChange}/>
                         </div>
                         <div className="col-5">
-                            <button type="submit" className="btn btn-primary" style={{width: "15%"}}> Join </button>
+                            {/*<button type="submit" className="btn btn-primary" style={{width: "15%"}}> Join </button>*/}
+                            <IconButton type="submit" className={classes.iconButton} aria-label="Join">
+                                <ArrowForwardIosIcon />
+                            </IconButton>
                         </div>
                     </div>
                 </form>
