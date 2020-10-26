@@ -16,6 +16,7 @@ class ClassSession extends Component {
             this.sessionId = '';
         }
     }
+
     render() {
         if(this.user.type === 'Student'){
             return (

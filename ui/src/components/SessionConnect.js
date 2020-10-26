@@ -16,6 +16,8 @@ const SessionConnect = ({CreatedBy}) => {
         e.preventDefault();
 
         console.log('body to be posted to session/create:','SessionName:', sessionName, 'CreatedBy: ', CreatedBy);
+
+
         axios.post(apiUrl + '/session/create', {sessionName, CreatedBy})
         .then(res=>{
           console.log(res);
@@ -37,16 +39,24 @@ const SessionConnect = ({CreatedBy}) => {
 
     return (
         <div>
-            <form onSubmit = { handleSubmit }>
-                <label> Create a session Name
-                    <input type="text" name="sessionName" onChange={handleChange}/>
-                </label>
-                <button type="submit">Create Session</button>
-            </form>
             <div>
-                {response.message}
-            </div>
+                <form role="form" onSubmit={handleSubmit}>
+                    <label>Create Session: </label>
+                    <div className="row">
+                        <div className="form-group col-5">
+                            <input type={"text"} className={"form-control"} placeholder={"Session's Name"} onChange={handleChange}/>
+                        </div>
+                        <div className="col-5">
+                            <button type="submit" className="btn btn-primary" style={{width: "15%"}}>Create</button>
+                        </div>
+                    </div>
 
+                </form>
+
+                <div>
+                    {response.message}
+                </div>
+            </div>
         </div>
     )
 }

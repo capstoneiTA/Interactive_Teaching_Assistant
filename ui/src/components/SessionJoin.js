@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from "axios";
-import ClassSession from "./ClassSession";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -29,7 +28,6 @@ class SessionJoin extends Component  {
         axios.post(apiUrl + '/session/join', {sessionName:this.state.sessionName, userId:this.userId}).then(res=>{
             //Get user information
             axios.get(apiUrl + '/userInfo', {params: {userId: this.userId}}).then(userRes=>{
-
                 //start understanding meter listener
                 axios.post(apiUrl + '/uMeter/create', {sessionId: res.data.sessionId, userId: this.userId}).then(function (uMeterRes) {
                     console.log(uMeterRes.data);
@@ -40,8 +38,6 @@ class SessionJoin extends Component  {
                         }
                     );
                 });
-
-
 
                 let response = res.data;
                 if (response.sessionExists === true){
@@ -62,16 +58,21 @@ class SessionJoin extends Component  {
     render(){
         return (
             <div>
-                <form onSubmit = {this.handleSubmit}>
-                    <label> join a session by name
-                        <input type="text" name="sessionName" onChange={this.handleChange}/>
-                    </label>
-                    <button type="submit">Join Session</button>
+                <form role="form" onSubmit={this.handleSubmit}>
+                    <label>Join Session: </label>
+                    <div className="row">
+                        <div className="form-group col-5">
+                            <input type={"text"} className={"form-control"} placeholder={"Session's Name"} onChange={this.handleChange}/>
+                        </div>
+                        <div className="col-5">
+                            <button type="submit" className="btn btn-primary" style={{width: "15%"}}> Join </button>
+                        </div>
+                    </div>
                 </form>
+
                 <div>
                     {this.state.message}
                 </div>
-
             </div>
         )
     }

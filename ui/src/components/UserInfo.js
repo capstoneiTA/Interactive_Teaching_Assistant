@@ -1,30 +1,53 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 
-class UserInfo extends Component{
+//material-ui cards
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
-    constructor(props) {
-        super(props);
+const useStyles = makeStyles({
+    root: {
+        maxWidth: 300,
+        margin: "left",
+    },
+    title: {
+        fontSize: 24,
+        color: "black",
+    },
+    pos: {
+        marginBottom: 12,
+    },
+});
 
-        this.state = {
-            firstName: this.props.user.firstName,
-            lastName: this.props.user.lastName,
-            userId: this.props.user.User_ID,
-            type: this.props.user.type
-        };
-    }
+function UserInfo(props) {
 
+    const [firstName, setFirstName] = useState(props.user.firstName);
+    const [lastName, setLastName] = useState(props.user.lastName);
+    const [userId, setuserId] = useState(props.user.User_ID);
+    const [type, settype] = useState(props.user.type);
 
-    render(){
-        return(
-            <div>
-                <h2>Name: {this.state.firstName} {this.state.lastName} </h2>
-                <h2>ID: {this.state.userId}</h2>
-                <h2>User Type: {this.state.type}</h2>
-            </div>
-        )
-    }
+    const classes = useStyles();
 
-
+    return(
+        <div>
+            <Card className={classes.root} variant ={"outlined"}>
+                <CardContent>
+                    <Typography className={classes.title} color="primary" gutterBottom>
+                        User's Info
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                        Name: {firstName} {lastName}
+                        <br />
+                        ID: {userId}
+                        <br />
+                        Type: {type}
+                    </Typography>
+                </CardContent>
+            </Card>
+        </div>
+    )
 }
 
 export default UserInfo;
