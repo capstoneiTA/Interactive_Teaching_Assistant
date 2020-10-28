@@ -3,6 +3,7 @@ import SessionConnect from './SessionConnect';
 import SessionJoin from './SessionJoin';
 import UserInfo from './UserInfo';
 import SessionEnrollment from './SessionEnrollment';
+import ActivityCreate from "./ActivityCreation/ActivityCreate";
 
 
 class Dashboard extends Component {
@@ -28,6 +29,9 @@ class Dashboard extends Component {
                 </div>
                 <div style={{padding: "10px"}}>
                     <SessionEnrollment userId={this.user.User_ID}/>
+                </div>
+                <div style={{padding: "10px"}}>
+                    <ActivityCreate />
                 </div>
             </div>
         )
