@@ -26,7 +26,7 @@ export default function StudentExitTicketDisplay(props) {
                 Exit Ticket
             </h1>
          <form>
-            <TextField className = {classes.h1,classes.root}
+            <TextField className = {classes.h1+classes.root}
                 id= "standard-basic"
                 label= "prompt"
                 placeholder= "prompt"

@@ -18,7 +18,7 @@
 
     }));
 
-    export default function StudentExitTicketDisplay(props) {
+    export default function ExitTicketCreation(props) {
       const [value, setValue] = useState('');
       const [prompt, setPrompt] = useState('');
       const classes = useStyles();
@@ -47,7 +47,7 @@
                  Create Exit Ticket
              </h1>
           <form>
-             <TextField className = {classes.h1,classes.root}
+             <TextField className = {classes.h1+classes.root}
                  id= "standard-basic"
                  label= "Exit Ticket Name"
                  placeholder= "Exit Ticket Name"
@@ -55,7 +55,7 @@
                  value= {value}
                  onChange= {handleChange}
              />
-             <TextField className = {classes.h1,classes.root}
+             <TextField className = {classes.h1+classes.root}
                  id= "standard-basic"
                  label= "prompt"
                  name= "prompt"

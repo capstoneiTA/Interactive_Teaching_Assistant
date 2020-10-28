@@ -6,6 +6,7 @@ import Fade from '@material-ui/core/Fade';
 import SelectActivity from "./SelectActivity";
 import CreateQuiz from "./CreateQuiz";
 import {QuizContextProvider} from "./QuizContext";
+import ExitTicketCreation from "./ExitTicketCreation";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +46,7 @@ const ActivityCreate = () => {
         }else if(choice === 'Poll'){
 
         }else if(choice === 'Exit Ticket'){
-
+            setMenu(<ExitTicketCreation/>)
         }
     };
     const [menu, setMenu] = useState(<SelectActivity activities={['Quiz', 'Poll', 'Exit Ticket']} parentCallback={selectActivityCallback}/>);
