@@ -6,8 +6,8 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import LaunchScreen from "./components/Launch/LaunchScreen";
 import Dashboard from "./components/Dashboard";
 import ClassSession from "./components/ClassSession";
-import exitTicket from "./components/exitTicket";
-import StudentExitTicketDisplay from "./components/StudentExitTicketDisplay";
+import exitTicket from "./components/ActivityCreation/ExitTicketCreation";
+import StudentExitTicketDisplay from "./components/ActivityInit/StudentExitTicketDisplay";
 
 ReactDOM.render(
   <React.StrictMode>
