@@ -45,4 +45,5 @@ app.listen(PORT, function() {
 require("./endpoints/session-api.js")(app, axios);
 require("./endpoints/uMeter-api")(app, axios);
 require("./endpoints/sign_login-api.js")(app, axios);
+require("./endpoints/CreateExitTicket-api.js")(app, axios);
 require("./endpoints/chat-api")(app, axios);

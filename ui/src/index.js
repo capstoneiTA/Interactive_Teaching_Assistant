@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import LaunchScreen from "./components/Launch/LaunchScreen";
 import Dashboard from "./components/Dashboard";
 import ClassSession from "./components/ClassSession";
+import exitTicket from "./components/exitTicket";
+import StudentExitTicketDisplay from "./components/StudentExitTicketDisplay";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,6 +17,8 @@ ReactDOM.render(
               <Route path='/launch' component={LaunchScreen} />
               <Route path='/dashboard' component={Dashboard} />
               <Route path='/classSession' component={ClassSession} />
+              <Route path='/exitTicket' component={exitTicket} />
+              <Route path='/StudentExitTicketDisplay' component={StudentExitTicketDisplay} />
           </Switch>
       </Router>
   </React.StrictMode>,
