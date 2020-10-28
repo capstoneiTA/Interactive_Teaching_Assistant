@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TeacherUnderstandingMeter from "./uMeter_UI_Teacher";
 import StudentUnderstandingMeter from "./uMeter_UI_Student";
+import Chat from './Messaging/Chat'
 
 class ClassSession extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class ClassSession extends Component {
                 <div>
                     <h1>Class Session</h1>
                     <StudentUnderstandingMeter value={5} user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
+                    <Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
                 </div>
             )
         }else{
@@ -29,6 +31,7 @@ class ClassSession extends Component {
                 <div>
                     <h1>Class Session</h1>
                     <TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
+                    <Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
                 </div>
             )
         }
