@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 class SignOption extends Component {
     constructor(props) {
@@ -8,31 +10,40 @@ class SignOption extends Component {
 
     render() {
         return (
-            <div style={linkDivStyle}>
-                <div style={linkStyle}>
-                    <Link to='/launch/signin'>Sign In</Link>
-                </div>
-                <br/>
-                <div style={linkStyle}>
-                    <Link to='/launch/signup'>Sign Up</Link>
-                </div>
-
-            </div>
+            <Grid
+                container
+                direction='column'
+                alignItems='center'
+                style={gridStyle}
+            >
+                <Button
+                    variant='contained'
+                    component={Link}
+                    to={'/launch/signin'}
+                    style={buttonStyle}
+                >
+                    Sign In
+                </Button>
+                <Button
+                    variant='contained'
+                    component={Link}
+                    to={'/launch/signup'}
+                    style={buttonStyle}
+                >
+                    Sign Up
+                </Button>
+            </Grid>
         );
     }
 }
 
-const linkDivStyle = {
+const gridStyle = {
     marginTop: '50px'
 };
 
-const linkStyle = {
-    textAlign: 'center',
-    width: '60px',
-    margin: 'auto',
-    padding: '10px',
-    borderRadius: '5px',
-    backgroundColor: 'lightgray'
+const buttonStyle = {
+    width: '95px',
+    marginBottom: '30px'
 };
 
 export default SignOption;
