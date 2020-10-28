@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 //material ui
 import Button from '@material-ui/core/Button';
@@ -28,6 +29,7 @@ const SessionEnrollment = ({userId}) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -42,8 +44,30 @@ const SessionEnrollment = ({userId}) => {
         })
     };
 
-    const handleSessionClick = () => {
+    const handleSessionClick = (enrollment) => {
         //take student to the page.
+        //e.preventDefault();
+        console.log('body to be posted to session/join:','SessionName:', enrollment, 'userId ', userId);
+
+        //join session
+        axios.post(apiUrl + '/session/join', {sessionName:enrollment, userId:userId}).then(res=>{
+            //Get user information
+            axios.get(apiUrl + '/userInfo', {params: {userId: userId}}).then(userRes=>{
+                //start understanding meter listener
+                axios.post(apiUrl + '/uMeter/create', {sessionId: res.data.sessionId, userId: userId}).then(function (uMeterRes) {
+                    console.log(uMeterRes.data);
+                    // routing should go here
+                    history.push({
+                            pathname: '/classSession',
+                            state: {user: userRes.data.user, sessionName: enrollment, sessionId: res.data.sessionId}
+                        }
+                    );
+                });
+            });
+
+        }).catch(error => {
+            console.log('ERROR in SessionJoin: ', error)
+        })
     };
 
 
@@ -105,7 +129,7 @@ const SessionEnrollment = ({userId}) => {
                                     <ClickAwayListener onClickAway={handleClose}>
                                         <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                             {response.message.map((enrollment =>
-                                                <MenuItem key={enrollment} onClick={handleClose}>{enrollment}</MenuItem>
+                                                <MenuItem key={enrollment} onClick={handleSessionClick(enrollment)}>{enrollment}</MenuItem>
                                             ))}
                                         </MenuList>
                                     </ClickAwayListener>
