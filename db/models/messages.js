@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes)=> {
         },
         Reply_To: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+            allowNull: true,
             unique: false,
             references: {
                 model: 'Messages',
@@ -40,16 +40,6 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false
         },
-        Date:{
-            type: DataTypes.DATEONLY,
-            allowNull: false,
-            unique: false
-        },
-        Time:{
-            type: DataTypes.TIME,
-            allowNull: false,
-            unique: false
-        }
     });
 
     return Message;
