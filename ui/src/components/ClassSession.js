@@ -28,6 +28,7 @@ class ClassSession extends Component {
 
         this.quizzes = [this.quizExample, this.quizExample, this.quizExample, this.quizExample];
     }
+
     render() {
         if(this.user.type === 'Student'){
             return (

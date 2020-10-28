@@ -5,7 +5,7 @@ import UserInfo from './UserInfo';
 import SessionEnrollment from './SessionEnrollment';
 import ActivityCreate from "./ActivityCreation/ActivityCreate";
 
-
+//what is this props.location.state
 class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -16,19 +16,48 @@ class Dashboard extends Component {
         }
     }
     render() {
-        return (
-            <div>
-                <h1>Dashboard</h1>
-                <UserInfo user={this.user}/>
-          
-                <div style={{padding: "10px"}}>
-                    <SessionConnect CreatedBy={this.user.User_ID} />
+        if (this.user.type === 'Teacher') {
+            return (
+                <div>
+                    <div style={{padding: "10px"}}>
+                        <h1>Dashboard</h1>
+                        <hr />
+                    </div>
+
+                    <div style={{padding: "10px"}}>
+                        <UserInfo user={this.user}/>
+                    </div>
+
+                    <div style={{padding: "10px"}}>
+                        <SessionConnect CreatedBy={this.user.User_ID} />
+                    </div>
+                    <div style={{padding: "10px"}}>
+                        <SessionJoin userId={this.user.User_ID} />
+                    </div>
+                    <div style={{padding: "10px"}}>
+                        <SessionEnrollment userId={this.user.User_ID}/>
+                    </div>
                 </div>
-                <div style={{padding: "10px"}}>
-                    <SessionJoin userId={this.user.User_ID} />
-                </div>
-                <div style={{padding: "10px"}}>
-                    <SessionEnrollment userId={this.user.User_ID}/>
+            )
+        }
+        else {
+            return (
+                <div>
+                    <div style={{padding: "10px"}}>
+                        <h1>Dashboard</h1>
+                        <hr />
+                    </div>
+
+                    <div style={{padding: "10px"}}>
+                        <UserInfo user={this.user}/>
+                    </div>
+
+                    <div style={{padding: "10px"}}>
+                        <SessionJoin userId={this.user.User_ID} />
+                    </div>
+                    <div style={{padding: "10px"}}>
+                        <SessionEnrollment userId={this.user.User_ID}/>
+                    </div>
                 </div>
                 <div style={{padding: "10px"}}>
                     <ActivityCreate />

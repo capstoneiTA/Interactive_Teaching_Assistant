@@ -1,10 +1,35 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import axios from "axios";
+//material ui
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { makeStyles } from '@material-ui/core/styles';
 
 const apiUrl = `http://localhost:8080`;
 
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+    },
+    paper: {
+        marginRight: theme.spacing(2),
+    },
+}));
+
 const SessionEnrollment = ({userId}) => {
-    const [response, setResponse] = useState({message: []})
+    const [response, setResponse] = useState({message: []});
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const anchorRef = React.useRef(null);
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,23 +42,106 @@ const SessionEnrollment = ({userId}) => {
         }).catch(error => {
             console.log('ERROR in SessionEnrollment: ', error)
         })
+    };
 
+    const handleSessionClick = (enrollment) => {
+        //take student to the page.
+        //e.preventDefault();
+        console.log('body to be posted to session/join:','SessionName:', enrollment, 'userId ', userId);
+
+        //join session
+        axios.post(apiUrl + '/session/join', {sessionName:enrollment, userId:userId}).then(res=>{
+            //Get user information
+            axios.get(apiUrl + '/userInfo', {params: {userId: userId}}).then(userRes=>{
+                //start understanding meter listener
+                axios.post(apiUrl + '/uMeter/create', {sessionId: res.data.sessionId, userId: userId}).then(function (uMeterRes) {
+                    console.log(uMeterRes.data);
+                    // routing should go here
+                    history.push({
+                            pathname: '/classSession',
+                            state: {user: userRes.data.user, sessionName: enrollment, sessionId: res.data.sessionId}
+                        }
+                    );
+                });
+            });
+
+        }).catch(error => {
+            console.log('ERROR in SessionJoin: ', error)
+        })
+    };
+
+
+
+    //styling
+    const handleToggle = () => {
+        setOpen((prevOpen) => !prevOpen);
+    };
+
+    const handleClose = (event) => {
+        if (anchorRef.current && anchorRef.current.contains(event.target)) {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    function handleListKeyDown(event) {
+        if (event.key === 'Tab') {
+            event.preventDefault();
+            setOpen(false);
+        }
     }
 
+    // return focus to the button when we transitioned from !open -> open
+    const prevOpen = React.useRef(open);
+    React.useEffect(() => {
+        if (prevOpen.current === true && open === false) {
+            anchorRef.current.focus();
+        }
 
+        prevOpen.current = open;
+    }, [open]);
+
+
+    //add an onclick listener for the item inside the list to join
     return (
         <div>
-            <form onSubmit = { handleSubmit }>
-                <label>view Enrollments</label>
-                <button type="submit">View session enrollments</button>
-            </form>
-            <div>
-                {response.message.map(enrollment => (
-                    <li key={enrollment}>{enrollment}</li>
-            ))}
+            <div className={classes.root}>
+                <div>
+                    <form onSubmit={handleSubmit}>
+                        <Button
+                            type={"submit"}
+                            ref={anchorRef}
+                            aria-controls={open ? 'menu-list-grow' : undefined}
+                            aria-haspopup="true"
+                            onClick={handleToggle}
+                        >
+                            Enrollment List
+                        </Button>
+                    </form>
+                    <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                                {...TransitionProps}
+                                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                            >
+                                <Paper>
+                                    <ClickAwayListener onClickAway={handleClose}>
+                                        <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                                            {response.message.map((enrollment =>
+                                                <MenuItem key={enrollment} onClick={handleSessionClick(enrollment)}>{enrollment}</MenuItem>
+                                            ))}
+                                        </MenuList>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Grow>
+                        )}
+                    </Popper>
+                </div>
             </div>
-
         </div>
+
     )
-}
+};
+
 export default SessionEnrollment;

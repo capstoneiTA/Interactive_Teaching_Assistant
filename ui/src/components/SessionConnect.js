@@ -1,21 +1,40 @@
 import React, { useState } from 'react';
 import axios from "axios";
 
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import InputAdornment from "@material-ui/core/InputAdornment";
+
 const apiUrl = `http://localhost:8080`;
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '150ch',
+        },
+    },
+    iconButton: {
+        padding: 5,
+    },
+}));
 
 const SessionConnect = ({CreatedBy}) => {
-    const [sessionName, setSessionName] = useState('')
-    const [response, setResponse] = useState({message: ''})
+    const [sessionName, setSessionName] = useState('');
+    const [response, setResponse] = useState({message: ''});
 
     const handleChange = (e) =>{
         setSessionName( e.target.value );
-      }
+      };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         console.log('body to be posted to session/create:','SessionName:', sessionName, 'CreatedBy: ', CreatedBy);
+
+
         axios.post(apiUrl + '/session/create', {sessionName, CreatedBy})
         .then(res=>{
           console.log(res);
@@ -31,23 +50,38 @@ const SessionConnect = ({CreatedBy}) => {
         }).catch(error => {
             console.log('ERROR in SessionConnect: ', error)
         })
+    };
 
-    }
-
+    const classes = useStyles();
 
     return (
         <div>
-            <form onSubmit = { handleSubmit }>
-                <label> Create a session Name
-                    <input type="text" name="sessionName" onChange={handleChange}/>
-                </label>
-                <button type="submit">Create Session</button>
+            <form className={classes.root} role="form" onSubmit={handleSubmit}>
+                <label>Create Session: </label>
+                <div className="row">
+                    <div className="form-group col-4">
+                        <TextField
+                            label="New Session Name"
+                            variant="outlined"
+                            onChange={handleChange}
+                            size="normal"
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">
+                                    <IconButton type="submit" className={classes.iconButton} aria-label="Create">
+                                        <ArrowForwardIosIcon />
+                                    </IconButton>
+                                </InputAdornment>,
+                            }}
+
+                        />
+                    </div>
+                </div>
             </form>
+
             <div>
                 {response.message}
             </div>
-
         </div>
     )
-}
+};
 export default SessionConnect;
