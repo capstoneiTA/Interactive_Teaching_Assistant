@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Button } from '@material-ui/core';
 import SessionConnect from './SessionConnect';
 import SessionJoin from './SessionJoin';
 import UserInfo from './UserInfo';
 import SessionEnrollment from './SessionEnrollment';
-
+import exitTicket from './exitTicket';
 
 class Dashboard extends Component {
     constructor(props) {
