@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
+import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import MenuItem from '@material-ui/core/MenuItem';
 
 class SignUp extends Component {
     constructor(props) {
@@ -12,7 +18,7 @@ class SignUp extends Component {
             lastName: '',
             email: '',
             password: '',
-            type: '',
+            type: 'Student',
         }
 
         this.apiGatewayUrl = 'http://localhost:8080';
@@ -75,59 +81,73 @@ class SignUp extends Component {
     render() {
         return (
             <div style={containerStyle}>
-                <div style={backLinkStyle}>
-                    <Link to='/launch/opt'>&larr;</Link>
-                </div>
-                <form onSubmit={this.handleSubmit} style={formStyle}>
-                    <label>
-                        First Name:
-                        <input type='text'
-                               value={this.state.firstName}
-                               required
-                               onChange={this.firstNameHandler}
-                               style={textInputStyle}
-                        />
-                    </label>
+                <IconButton component={Link}
+                            to={'/launch/opt'}
+                            style={backButtonStyle}>
+                    <KeyboardBackspaceIcon/>
+                </IconButton>
+                <form onSubmit={this.handleSubmit} >
+                    <TextField
+                        id='standard-basic'
+                        label='First Name'
+                        type='text'
+                        required
+                        InputLabelProps={{required: false}}
+                        onChange={this.firstNameHandler}
+                        style={textInputStyle}
+                    />
                     <br/>
-                    <label>
-                        Last Name:
-                        <input type='text'
-                               value={this.state.lastName}
-                               required
-                               onChange={this.lastNameHandler}
-                               style={textInputStyle}
-                        />
-                    </label>
+                    <TextField
+                        id='standard-basic'
+                        label='Last Name'
+                        type='text'
+                        required
+                        InputLabelProps={{required: false}}
+                        onChange={this.lastNameHandler}
+                        style={textInputStyle}
+                    />
                     <br/>
-                    <label>
-                        Email:
-                        <input type='email'
-                               value={this.state.email}
-                               required
-                               onChange={this.emailHandler}
-                               style={textInputStyle}
-                        />
-                    </label>
+                    <TextField
+                        id='standard-basic'
+                        label='Email'
+                        type='email'
+                        required
+                        InputLabelProps={{required: false}}
+                        onChange={this.emailHandler}
+                        style={textInputStyle}
+                    />
                     <br/>
-                    <label>
-                        Password:
-                        <input type='text'
-                               value={this.state.password}
-                               required
-                               onChange={this.passwordHandler}
-                               style={textInputStyle}
-                        />
-                    </label>
+                    <TextField
+                        id='standard-basic'
+                        label='Password'
+                        type='password'
+                        required
+                        InputLabelProps={{required: false}}
+                        onChange={this.passwordHandler}
+                        style={textInputStyle}
+                    />
                     <br/>
-                    <label>
-                        Teacher or Student
-                        <select onChange={this.typeHandler} style={textInputStyle}>
-                            <option value='Teacher'>Teacher</option>
-                            <option value='Student'>Student</option>
-                        </select>
-                    </label>
+                    <InputLabel
+                        htmlFor="select"
+                    >
+                    </InputLabel>
+                    <NativeSelect
+                        id="select"
+                        style={textInputStyle}
+                        onChange={this.typeHandler}
+                    >
+                        <option value="Student">Student</option>
+                        <option value="Teacher">Teacher</option>
+                    </NativeSelect>
                     <br/>
-                    <input type='submit' value='Sign Up' style={signUpLinkStyle}/>
+                    <Button
+                        variant='contained'
+                        type='submit'
+                        value='Sign Up'
+                        style={signUpButtonStyle}
+                    >
+                        Sign Up
+                    </Button>
                     <br/>
                     <div id='errorMsg' style={errorMsgStyle}></div>
                 </form>
@@ -139,39 +159,30 @@ class SignUp extends Component {
 
 const containerStyle = {
     marginTop: '50px',
-};
-
-const backLinkStyle = {
-    textAlign: 'center',
-    width: '30px',
+    width: 'max-content',
     margin: 'auto',
-    marginBottom: '20px',
-    padding: '5px 3px',
-    borderRadius: '5px',
-    backgroundColor: 'lightgray',
-    transform: 'translateX(-120px)'
-};
+    textAlign: 'center',
+}
 
-const signUpLinkStyle = {
+const backButtonStyle = {
+    marginLeft: '-15px',
+    marginBottom: '5px',
+    transform: 'translateX(-65px)',
+}
+
+const signUpButtonStyle = {
     marginTop: '20px',
     marginBottom: '30px',
-    marginRight: '10px',
-};
-
-const formStyle = {
-    width: '260px',
-    margin: 'auto',
-    textAlign: 'right',
-    transform: 'translateX(-20px)',
-};
+    textAlign: 'center',
+}
 
 const textInputStyle = {
-    margin: '10px',
-};
+    marginBottom: '30px',
+}
 
 const errorMsgStyle = {
     color: 'red',
     textAlign: 'center',
-};
+}
 
 export default SignUp;

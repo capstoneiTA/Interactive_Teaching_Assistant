@@ -3,6 +3,7 @@ import SessionConnect from './SessionConnect';
 import SessionJoin from './SessionJoin';
 import UserInfo from './UserInfo';
 import SessionEnrollment from './SessionEnrollment';
+import ActivityCreate from "./ActivityCreation/ActivityCreate";
 
 //what is this props.location.state
 class Dashboard extends Component {
@@ -58,10 +59,11 @@ class Dashboard extends Component {
                         <SessionEnrollment userId={this.user.User_ID}/>
                     </div>
                 </div>
-            )
-        }
-
-
+                <div style={{padding: "10px"}}>
+                    <ActivityCreate />
+                </div>
+            </div>
+        )
     }
 }
 
