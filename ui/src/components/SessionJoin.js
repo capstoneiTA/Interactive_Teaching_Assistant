@@ -3,23 +3,25 @@ import {withRouter} from 'react-router-dom';
 import axios from "axios";
 
 import { makeStyles } from '@material-ui/core/styles';
+import {withStyles} from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const apiUrl = `http://localhost:8080`;
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
     root: {
         '& > *': {
             margin: theme.spacing(1),
-            width: '25ch',
+            width: '150ch',
         },
     },
     iconButton: {
-        padding: 10,
+        padding:5,
     },
-}));
+});
 
 class SessionJoin extends Component  {
     constructor(props) {
@@ -73,21 +75,27 @@ class SessionJoin extends Component  {
     };
 
     render(){
-        const classes = this.props;
+        const {classes} = this.props;
         return (
             <div>
                 <form className={classes.root} role="form" onSubmit={this.handleSubmit}>
                     <label>Join Session: </label>
                     <div className="row">
-                        <div className="form-group col-5">
-                            {/*<input type={"text"} className={"form-control"} placeholder={"Session's Name"} onChange={this.handleChange}/>*/}
-                            <TextField label="Session Name" variant="filled" onChange={this.handleChange}/>
-                        </div>
-                        <div className="col-5">
-                            {/*<button type="submit" className="btn btn-primary" style={{width: "15%"}}> Join </button>*/}
-                            <IconButton type="submit" className={classes.iconButton} aria-label="Join">
-                                <ArrowForwardIosIcon />
-                            </IconButton>
+                        <div className="form-group col-3">
+                            <TextField
+                                label="Session Name"
+                                variant="outlined"
+                                onChange={this.handleChange}
+                                size="normal"
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">
+                                        <IconButton type="submit" className={classes.iconButton} aria-label="Join">
+                                            <ArrowForwardIosIcon />
+                                        </IconButton>
+                                    </InputAdornment>,
+                                }}
+
+                            />
                         </div>
                     </div>
                 </form>
@@ -99,4 +107,4 @@ class SessionJoin extends Component  {
         )
     }
 }
-export default withRouter(SessionJoin);
+export default withStyles(styles, {withTheme: true})(withRouter(SessionJoin));

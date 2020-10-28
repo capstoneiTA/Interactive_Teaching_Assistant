@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
 import axios from "axios";
 
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import InputAdornment from "@material-ui/core/InputAdornment";
+
 const apiUrl = `http://localhost:8080`;
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '150ch',
+        },
+    },
+    iconButton: {
+        padding: 5,
+    },
+}));
 
 const SessionConnect = ({CreatedBy}) => {
-    const [sessionName, setSessionName] = useState('')
-    const [response, setResponse] = useState({message: ''})
+    const [sessionName, setSessionName] = useState('');
+    const [response, setResponse] = useState({message: ''});
 
     const handleChange = (e) =>{
         setSessionName( e.target.value );
-      }
+      };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -33,31 +50,38 @@ const SessionConnect = ({CreatedBy}) => {
         }).catch(error => {
             console.log('ERROR in SessionConnect: ', error)
         })
+    };
 
-    }
-
+    const classes = useStyles();
 
     return (
         <div>
-            <div>
-                <form role="form" onSubmit={handleSubmit}>
-                    <label>Create Session: </label>
-                    <div className="row">
-                        <div className="form-group col-5">
-                            <input type={"text"} className={"form-control"} placeholder={"Session's Name"} onChange={handleChange}/>
-                        </div>
-                        <div className="col-5">
-                            <button type="submit" className="btn btn-primary" style={{width: "15%"}}>Create</button>
-                        </div>
+            <form className={classes.root} role="form" onSubmit={handleSubmit}>
+                <label>Create Session: </label>
+                <div className="row">
+                    <div className="form-group col-4">
+                        <TextField
+                            label="New Session Name"
+                            variant="outlined"
+                            onChange={handleChange}
+                            size="normal"
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">
+                                    <IconButton type="submit" className={classes.iconButton} aria-label="Create">
+                                        <ArrowForwardIosIcon />
+                                    </IconButton>
+                                </InputAdornment>,
+                            }}
+
+                        />
                     </div>
-
-                </form>
-
-                <div>
-                    {response.message}
                 </div>
+            </form>
+
+            <div>
+                {response.message}
             </div>
         </div>
     )
-}
+};
 export default SessionConnect;
