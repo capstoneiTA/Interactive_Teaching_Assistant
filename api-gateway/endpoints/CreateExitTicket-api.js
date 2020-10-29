@@ -1,12 +1,16 @@
-const dbUrl = 'http://db:5000';
+
+const sessionUrl = 'http://session:7000';
 module.exports = function(app,axios)
 
 {
-    app.post("/ticket/create", function(req,res){
+
+    app.post("/ExitTicket/create", function(req,res){
 
         let quizName = req.body.quizName;
         let prompt = req.body.prompt;
-        axios.post(dbUrl + '/create/ticket', {quizName: quizName, prompt: prompt}).then(function(response){
+        let userId = req.body.userId;
+        let quizType = req.body.quizType
+        axios.post(sessionUrl + '/ExitTicket/create', {quizName: quizName, prompt: prompt, userId:userId, quizType:quizType}).then(function(response){
           res.send(response.data);
         }).catch(function(error){
            res.send(error);
@@ -20,9 +24,10 @@ module.exports = function(app,axios)
         res.send('failure');
     });
 
-    app.get('/quizInfo', function(req, res){
+
+    app.get('/ExitTicket/quizInfo', function(req, res){
         let quizId = req.query.quizId;
-        axios.get(dbUrl + '/quizInfo', {params: {quizId: quizId}}).then(function(response){
+        axios.get(sessionUrl + '/quizInfo', {params: {quizId: quizId}}).then(function(response){
             res.send(response.data);
         }).catch(function(error){
             res.send(error);
