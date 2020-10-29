@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes)=> {
        Prompt: {
             type: DataTypes.STRING(768),
             allowNull: false,
-            unique: true
+            unique: false
         }
 
 
