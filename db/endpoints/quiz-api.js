@@ -24,8 +24,8 @@ module.exports = function(app, db) {
                         question.options.forEach(function(option, index){
                             db.Multiple_Choice_Option.create({
                                 Quiz_Question_ID: Question.Quiz_Question_ID,
-                                Option_Text: option,
-                                isCorrect: question.corrects[index]
+                                Option_Text: option.optionText,
+                                isCorrect: option.isCorrect
                             }).then(function(){
                                 //Option add success!
                             }).catch(function(error){
@@ -59,19 +59,61 @@ module.exports = function(app, db) {
 
         let foundQuizzes = getQuizzes(userId, res, response);
         foundQuizzes.then((Quizzes)=>{
+            let quizzesAdded = 0;
+            if(Quizzes.length > 0){
+                response.anyQuizzes = true;
+                for(let Quiz of Quizzes){
+                    let quiz = {};
+                    quiz.quizName = Quiz.Quiz_Name;
+                    quiz.quizQuestions = [];
+                    let foundQuestions = getQuizQuestions(Quiz, res);
+                    foundQuestions.then((Questions)=>{
+                        let questionsAdded = 0;
+                        for(let Question of Questions){
+                            let question_object = {};
+                            question_object.prompt = Question.Prompt;
+                            question_object.options = [];
+
+                            let foundQuestionOptions = getQuestionOptions(Question, res);
+                            foundQuestionOptions.then((Options)=>{
+                                for(let Option of Options){
+                                    let option_object = {};
+                                    option_object.option = Option.Option_Text;
+                                    option_object.isCorrect = Option.isCorrect;
+                                    question_object.options.push(option_object);
+                                }
+                                quiz.quizQuestions.push(question_object);
+                                questionsAdded ++;
+                                if(questionsAdded === Questions.length){
+                                    quizzes.push(quiz);
+                                    quizzesAdded ++;
+                                    if(quizzesAdded === Quizzes.length){
+                                        response.quizzes = quizzes;
+                                        res.send(response);
+                                    }
+                                }
+                            });
+                        }
+                    })
+                }
+            }else{
+                response.anyQuizzes = false;
+            }
 
         });
-        res.send(true);
-
-
     });
+
+
+
+    /********HELPER FUNCTIONS********/
 
     async function getQuizzes(userId, res, response){
         let foundQuizzes = await db.Quiz.findAll({
             where: {
-                User_ID: userId
+                User_ID: userId,
+                Quiz_Type: 'Multiple Choice'
             }
-        }).then(async function(Quizzes){
+        }).then(function(Quizzes){
             let foundQuizzes = [];
             if(Quizzes.length > 0){
                 response.anyQuizzes = true;
@@ -90,57 +132,41 @@ module.exports = function(app, db) {
         return foundQuizzes;
     }
 
-    async function getQuizQuestions(Quizzes){
-        let quizzes = []
-        for(let Quiz of Quizzes){
-            let quiz = {};
-            quiz.quizName = Quiz.Quiz_Name;
-            quiz.quizQuestions = [];
-        }
+    async function getQuizQuestions(Quiz, res){
+        let foundQuizQuestions = await db.QuizQuestion.findAll({
+            where: {
+                Quiz_ID: Quiz.Quiz_ID
+            }
+        }).then((Questions)=>{
+            let questions = [];
+            for(let Question of Questions){
+                questions.push(Question);
+            }
+            return questions;
+        }).catch((error)=>{
+            res.send(error);
+        });
+
+        return foundQuizQuestions;
+
     }
 
+    async function getQuestionOptions(Question, res){
+        let foundQuestionOptions = await db.Multiple_Choice_Option.findAll({
+            where: {
+                Quiz_Question_ID: Question.Quiz_Question_ID
+            }
+        }).then((Options)=>{
+            let options = [];
+            for(let Option of Options){
+                options.push(Option);
+            }
+            return options;
+        }).catch((error)=>{
+            res.send(error);
+        });
 
-
-    // response.anyQuizzes = true;
-    //
-    // await Promise.all(Quizzes.map((Quiz)=>{
-    //     let quiz = {};
-    //     quiz.quizName = Quiz.Quiz_Name;
-    //     quiz.quizQuestions = [];
-    //     db.QuizQuestion.findAll({
-    //         where: {
-    //             Quiz_ID: Quiz.Quiz_ID
-    //         }
-    //     }).then( async function(Questions){
-    //
-    //         await Promise.all(Questions.map((question)=>{
-    //             let question_object = {};
-    //             question_object.prompt = question.Prompt;
-    //             question_object.options = [];
-    //             db.Multiple_Choice_Option.findAll({
-    //                 where:{
-    //                     Quiz_Question_ID: question.Quiz_Question_ID
-    //                 }
-    //             }).then(async function(Options){
-    //
-    //                 await Promise.all(Options.map((option)=>{
-    //                     let option_object = {};
-    //                     option_object.option = option.Option_Text;
-    //                     option_object.isCorrect = option.isCorrect;
-    //                     question_object.options.push(option_object);
-    //                 }));
-    //             }).catch(function(error){
-    //                 console.log(error.message);
-    //                 // res.send(error); //option retrieval error
-    //             });
-    //
-    //             quiz.quizQuestions.push(question_object);
-    //         }));
-    //
-    //     }).catch(function(error){
-    //         res.send(error); //Question Retrieval Error
-    //     });
-    //     quizzes.push(quiz);
-    // }));
+        return foundQuestionOptions;
+    }
 
 };

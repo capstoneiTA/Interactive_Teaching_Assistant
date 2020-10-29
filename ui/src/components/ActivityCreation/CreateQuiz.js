@@ -20,8 +20,18 @@ const CreateQuiz=()=>{
     };
 
     const createQuiz = () => {
-        console.log(quizInfo);
-
+        //combine options with corrects
+        let newQuizInfo = {...quizInfo};
+        let newQuizQuestions = [...newQuizInfo.quizQuestions];
+        for(let question of newQuizQuestions){
+            for(let i = 0; i < question.options.length; i ++){
+                question.options[i] = {optionText: question.options[i], isCorrect: question.corrects[i]};
+            }
+            delete question.corrects;
+        }
+        newQuizInfo.quizQuestions = newQuizQuestions;
+        setQuizInfo(newQuizInfo);
+        console.log(newQuizInfo);
     };
 
     const handleChange = (e)=>{
