@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from "./AuthContext";
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
@@ -137,3 +138,4 @@ const errorMsgStyle = {
 }
 
 export default SignIn;
+
