@@ -46,6 +46,7 @@ module.exports = function(app, db) {
 
         }).catch(function(error){
             response.quizCreation = false;
+            response.error = error.message;
             res.send(response);
         })
 

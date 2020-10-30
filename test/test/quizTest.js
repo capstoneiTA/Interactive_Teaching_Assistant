@@ -16,17 +16,17 @@ let testQuiz = {quizName: 'My First Quiz', quizQuestions: [
     ]
 };
 
-// describe('Quiz Creation', function () {
-//
-//     describe('Teacher creates a quiz', function(){
-//         it('should successfully enter quiz json into the database', function () {
-//             return axios.post(apiGatewayUrl + '/quiz/create', {userId: 1, quiz:testQuiz, quizType: 'Multiple Choice'}).then(function (res) {
-//                 expect(res.data.questionsCreate).to.equal(true);
-//             })
-//         });
-//     });
-//
-// });
+describe('Quiz Creation', function () {
+
+    describe('Teacher creates a quiz', function(){
+        it('should successfully enter quiz json into the database', function () {
+            return axios.post(apiGatewayUrl + '/quiz/create', {userId: 1, quiz:testQuiz, quizType: 'Multiple Choice'}).then(function (res) {
+                expect(res.data.questionsCreate).to.equal(true);
+            })
+        });
+    });
+
+});
 
 describe('Quiz Retrieval', function () {
 

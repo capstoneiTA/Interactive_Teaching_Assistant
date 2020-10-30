@@ -3,12 +3,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import CreateQuizQuestion from "./CreateQuizQuestion";
 import TextField from "@material-ui/core/TextField";
 import {QuizContext, QuizContextProvider} from "./QuizContext";
+import UserContext from "../Dashboard";
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
 
 }));
 
-const CreateQuiz=()=>{
+const apiGatewayUrl = `http://localhost:8080`;
+
+const CreateQuiz=({user})=>{
     const classes = useStyles();
     const [questions, setQuestions] = useState([<CreateQuizQuestion />]);
     const {quizInfo, setQuizInfo} = useContext(QuizContext);
@@ -31,12 +35,14 @@ const CreateQuiz=()=>{
         }
         newQuizInfo.quizQuestions = newQuizQuestions;
         setQuizInfo(newQuizInfo);
-        console.log(newQuizInfo);
+        axios.post(apiGatewayUrl + '/quiz/create', {userId: user.User_ID, quiz:newQuizInfo, quizType: 'Multiple Choice'}).then(function (res) {
+                console.log('Response to Quiz Create: ' + res.data.questionsCreate);
+        })
     };
 
     const handleChange = (e)=>{
         let newQuizInfo = {...quizInfo};
-        newQuizInfo.quizTitle = e.target.value;
+        newQuizInfo.quizName = e.target.value;
         setQuizInfo(newQuizInfo);
     };
 
