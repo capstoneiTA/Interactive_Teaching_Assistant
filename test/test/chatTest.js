@@ -17,14 +17,34 @@ describe('Chat creation', function () {
     });
 });
 
-// describe('Message creation', function () {
+describe('chat update', function () {
 
-//     describe('message creation', function(){ // should change this test
-//         it('message should be created', function () {
-//             return axios.post(apiGatewayUrl + '/chat/create', {userId: 1, sessionId: 2, replyTo: null, messsageContent: 'helloWorld'}).then(function (res) {
-//                 expect(res.data).to.equal(true);
-//             })
+    describe('message creation', function(){ // should change this test
+        it('message should be created', function () {
+            return axios.post(apiGatewayUrl + '/chat/update', {userId: 1, sessionId: 2, replyTo: null, messageContent: 'helloWorld'}).then(function (res) {
+                // console.log(res.data)
+                expect(res.data.messageContent).to.equal('helloWorld');
+                // expect(res.data.name).to.equal('Helloworld');
+                // expect(res.data.message).to.equal('Helloworld');
+                // expect(res.data.message).to.equal('Helloworld');
+            })
+        });
+    });
+});
+
+// describe('chat get', function () {
+
+//     describe('chat get', function(){ // should change this test
+//         it('chat should be returned', function () {
+//             return axios.get(apiGatewayUrl + '/chat', {
+//                 params: {
+//                     sessionId: 2
+//                 }
+//             }).then(function (res) {
+//                 console.log(res.data)
+//                 expect(res.data.messages).to.equal([])
 //         });
 //     });
+// });
 // });
 

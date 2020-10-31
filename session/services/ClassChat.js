@@ -17,14 +17,14 @@ class ClassChat {
 
     listen() {
         this.namespace.on('connection', (socket)=>{
-            this.namespace.emit('plswork', 'Helloworld')
-            console.log('socket has joined chat')
-            socket.on('chat update', (userId,  newMessage) => {
+            // this.namespace.emit('plswork', 'Helloworld')
+            // console.log('socket has joined chat')
 
-                console.log('ChatUpdate')
+            socket.on('chat update', (userId,  newMessage) => {
+                console.log('Chat Update!')
                 this.update(userId, newMessage);
-            
             });
+
 
     })
 
