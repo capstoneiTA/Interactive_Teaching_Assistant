@@ -2,7 +2,7 @@
  * Naming scheme: http://[Container Name]:[Container Port]
  */
 const dbUrl = 'http://db:5000';
-const Session = require("../services/Session.js");
+const Quiz = require("../services/Quiz.js");
 
 module.exports = function(app, axios, io) {
     //keeps track of created sessions to prevent creating multiple sessions
@@ -30,6 +30,21 @@ module.exports = function(app, axios, io) {
         }).catch(function(error){
             res.send(error);
         });
+    });
+
+    app.get("/quiz/start", function(req, res) {
+        //Get session creation data from post request
+        let sessionName = req.query.sessionName;
+        let response = {};
+
+        if(!currentQuizzes.includes(sessionName)){
+            const quiz = new Quiz(sessionName, io);
+            currentQuizzes.push(sessionName);
+        }
+
+        response.quizListenerStarted = true;
+        res.send(response);
+
     });
 
 

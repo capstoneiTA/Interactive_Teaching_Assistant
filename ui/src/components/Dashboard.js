@@ -42,7 +42,7 @@ class Dashboard extends Component {
                         <SessionEnrollment userId={this.user.User_ID}/>
                     </div>
                     <div style={{padding: "10px"}}>
-                        <ActivityCreate user={this.user} quizzes = {this.state.quizzes}/>
+                        <ActivityCreate user={this.user} />
                     </div>
                 </div>
             )

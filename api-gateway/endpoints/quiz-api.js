@@ -42,4 +42,20 @@ module.exports = function(app, axios) {
             res.send(error);
         });
     });
+
+    /**
+     * Creates a new quiz with the json quiz object
+     * @param sessionName {String} name of the session that the quiz is associated with
+     * @returns {quizListenerStarted {boolean}} if true, then the quiz listener is running
+     */
+    app.get("/quiz/start", function(req, res) {
+        //Get session creation data from post request
+        let sessionName = req.query.sessionName;
+
+        axios.get(sessionUrl + '/quiz/start', {params: {sessionName: sessionName}}).then(function(response){
+            res.send(response.data);
+        }).catch(function(error){
+            res.send(error);
+        });
+    });
 };

@@ -5,6 +5,7 @@ import TeacherClassSessionMenu from "./TeacherClassSessionMenu";
 import QuizAccordionList from "./ActivityInit/QuizAcordionList";
 import Chat from './Messaging/Chat';
 import axios from 'axios';
+import StudentActivityContainer from "./ActivityRun/StudentActivityContainer";
 
 class ClassSession extends Component {
     constructor(props) {
@@ -28,14 +29,15 @@ class ClassSession extends Component {
                 <div>
                     <h1>Class Session</h1>
                     <StudentUnderstandingMeter value={5} user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
-                    <Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
+                    <StudentActivityContainer user={this.user} sessionName={this.sessionName} />
+                    <Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId} />
                 </div>
             )
         }else{
             return (
                 <div>
                     <h1>Class Session</h1>
-                    <TeacherClassSessionMenu item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>} item2={<QuizAccordionList user={this.user} />}/>
+                    <TeacherClassSessionMenu item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>} item2={<QuizAccordionList sessionName = {this.sessionName} user={this.user} />}/>
                     <Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
                 </div>
             )

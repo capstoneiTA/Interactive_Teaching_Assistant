@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProgressBar from "react-bootstrap/ProgressBar";
 import {generateNewNodeTag} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
 import axios from "axios";
+import socketIOClient from "socket.io-client";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,11 +30,22 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function QuizAccordionList({user}) {
+export default function QuizAccordionList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
     const apiGatewayUrl = `http://localhost:8080`;
     let quizzesInfo = [];
+
+    //Socket info
+    const ENDPOINT = "http://localhost:7000/";
+    let socket = socketIOClient(ENDPOINT + sessionName);
+    let sockId = 'empty';
+
+    const socketStart=()=>{
+        socket.on('connect', () => {
+            sockId = socket.id;
+        });
+    };
 
     const getQuizzes = ()=>{
         if(user.type === 'Teacher'){
@@ -80,13 +92,16 @@ export default function QuizAccordionList({user}) {
     };
     let startQuiz = (e)=>{
         let index = parseInt(e.target.name);
-        console.log("starting quiz: " + quizzesInfo[index].quizName);
-        console.log(quizzesInfo[index]);
+        axios.get(apiGatewayUrl + '/quiz/start', {params: {sessionName: sessionName}}).then(function (res) {
+            //Send quiz to students
+            socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
+        })
     };
 
     useEffect(()=>{
         //Generate quiz components on teacher screen
         getQuizzes();
+        socketStart();
     }, []);
 
     return (
