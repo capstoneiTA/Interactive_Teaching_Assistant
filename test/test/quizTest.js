@@ -31,7 +31,7 @@ describe('Quiz Retrieval', function () {
     describe('Teacher Retrieves Quizzes', function(){
         it('should successfully retrieve all quizzes for a given users', function () {
             return axios.get(apiGatewayUrl + '/quiz/retrieve', {params: {userId: 1}}).then(function (res) {
-                console.log(res.data);
+                console.log("Quiz object", res.data);
                 expect(res.data).to.equal(true);
             })
         });

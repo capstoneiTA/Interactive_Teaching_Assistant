@@ -56,8 +56,8 @@ module.exports = function(app, db) {
         let userId = req.query.userId;
         let response = {};
 
-        let foundQuizzes = getQuizzes(userId, res, response);
-        res.send(true);
+        response.quizObject = getQuizzes(userId, res, response);
+        res.send(response);
     });
 
     async function getQuizzes(userId, response) {
@@ -101,12 +101,9 @@ module.exports = function(app, db) {
                 option_object.option = option.Option_Text;
                 option_object.isCorrect = option.isCorrect;
                 question.options.push(option_object);
+                quiz.quizQuestionsList.push(question);
             });
 
-            let createRes = await optionDetails;
-            quiz.quizQuestionsList.push(question);
-
-            console.log(quiz);
             return quiz;
         }
     }
