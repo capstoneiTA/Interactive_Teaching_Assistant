@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import axios from "axios";
 import {QuizContext} from "../ActivityCreation/QuizContext";
 import {ChatContext} from "./ChatContext";
+import ChatBox from './ChatBox'
 const apiUrl = `http://localhost:8080`;
 const ENDPOINT = "http://localhost:7000/";
 
@@ -65,7 +66,9 @@ const Chat = ({user, sessionName, sessionId}) => {
 
     return (
         <>
-        <h1>CHAT</h1>
+        <ChatBox handleChange={handleChange} handleSubmit={handleSubmit} value={value} messages={messages}/>
+
+        {/* <h1>CHAT</h1>
         <form onSubmit={e => handleSubmit(e)}>
         <label>
           Name:
@@ -77,7 +80,7 @@ const Chat = ({user, sessionName, sessionId}) => {
         {messages.map((msg)=> (
           <p>{msg}</p>
         ))}
-      </div>
+      </div> */}
         </>
     )
 }
