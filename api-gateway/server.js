@@ -5,19 +5,12 @@ const axios = require('axios');
 const passport = require('./config/passport.js');
 const session = require("express-session");
 
-
+//Prevent cors errors
+app.use(cors());
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded({extended: true}));
  // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
-//Prevent cors errors
-
-// Parse URL-encoded bodies (as sent by HTML forms)
-app.use(express.urlencoded({extended: true}));
-// Parse JSON bodies (as sent by API clients)
-app.use(express.json());
-//Prevent cors errors
-app.use(cors());
 
 app.use(session({ secret: "cats" }));
 app.use(passport.initialize());
