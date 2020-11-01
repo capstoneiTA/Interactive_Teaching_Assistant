@@ -66,8 +66,8 @@ export default function QuizAccordionList({user, sessionName}) {
     };
 
     const generateQuizList=(quizzes)=>{
+        let newQuizList = [...quizList];
         quizzes.map((quiz, quizIndex) => {
-            let newQuizList = [...quizList];
             newQuizList.push(<Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -94,8 +94,8 @@ export default function QuizAccordionList({user, sessionName}) {
                     </Typography>
                 </AccordionDetails>
             </Accordion>)
-            setQuizList(newQuizList);
-        })
+        });
+        setQuizList(newQuizList);
     };
     let startQuiz = (e)=>{
         let index = parseInt(e.target.name);
