@@ -82,9 +82,11 @@ const SessionEnrollment = ({userId}) => {
     };
 
     const handleClose = (event, session) => {
-        handleSessionClick(session);
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
-            return;
+        if (session) {
+            handleSessionClick(session);
+            if (anchorRef.current && anchorRef.current.contains(event.target)) {
+                return;
+            }
         }
 
         setOpen(false);
