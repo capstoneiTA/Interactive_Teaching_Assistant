@@ -17,29 +17,37 @@ const Chat = ({user, sessionName, sessionId}) => {
             if(res.data.chat_created === true){
                 socket.on('connect', function(){
                     sockid = socket.id;
-                })
+                });
                 listen();
             }else{
                 console.log('chat listener creation error');
             }
         });
-      
     }, []);
+
+
+    useEffect(()=>{
+        updateMessages=(data)=>{
+            setMessages(data);
+        };
+    }, [messages]);
 
     const listen =()=>{
         socket.on('chat message from server', function(data){
-            console.log('Incoming message:', data);
+            console.log('Incoming message for : ' + sockid +  ' ' + data);
             //Update messages state
             updateMessages(data);
         });
     };
 
-    const updateMessages=(data)=>{
+    let updateMessages=(data)=>{
+        console.log("The first definition");
         let newMessages = [...messages];
         newMessages.push(data);
         setMessages(newMessages);
         console.log(newMessages);
     };
+
 
 
     const handleChange = (e) => {

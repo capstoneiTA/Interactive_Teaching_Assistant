@@ -7,8 +7,7 @@ class ClassChat {
      *
      */
     constructor(sessionName, io) {
-        this.messages = ['hello', 'goodbye'];
-        this.history = {};
+        this.messages = [];
         this.io = io;
         this.sessionName = sessionName;
         this.namespace = io.of('/' + sessionName);
@@ -31,7 +30,8 @@ class ClassChat {
 
         this.namespace.on('connection', socket => {
             socket.on('chat message from client', (msg)=>{
-                this.namespace.emit('chat message from server', msg);
+                this.messages.push(msg);
+                this.namespace.emit('chat message from server', this.messages);
             })
         })
 
