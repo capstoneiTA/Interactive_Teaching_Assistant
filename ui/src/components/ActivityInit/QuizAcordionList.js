@@ -33,11 +33,18 @@ const useStyles = makeStyles((theme) => ({
 export default function QuizAccordionList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
-    const apiGatewayUrl = `http://localhost:8080`;
     let quizzesInfo = [];
+    let apiGatewayUrl = '';
+    let ENDPOINT = '';
+    if(process.env.REACT_APP_DEPLOY === "False"){
+        apiGatewayUrl = `http://localhost:8080`;
+        ENDPOINT = "http://localhost:7000/";
+    }else{
+        apiGatewayUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+        ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
+    }
 
     //Socket info
-    const ENDPOINT = "http://localhost:7000/";
     let socket = socketIOClient(ENDPOINT + sessionName);
     let sockId = 'empty';
 

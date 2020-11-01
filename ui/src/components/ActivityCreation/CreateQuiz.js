@@ -10,7 +10,12 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const apiGatewayUrl = `http://localhost:8080`;
+let apiGatewayUrl = '';
+if(process.env.REACT_APP_DEPLOY === "False"){
+    apiGatewayUrl = `http://localhost:8080`;
+}else{
+    apiGatewayUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+}
 
 const CreateQuiz=({user})=>{
     const classes = useStyles();
