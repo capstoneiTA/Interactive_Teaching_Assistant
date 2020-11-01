@@ -6,6 +6,7 @@ import Fade from '@material-ui/core/Fade';
 import SelectActivity from "./SelectActivity";
 import CreateQuiz from "./CreateQuiz";
 import {QuizContextProvider} from "./QuizContext";
+import Button from "@material-ui/core/Button";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -62,9 +63,9 @@ const ActivityCreate = () => {
 
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
+            <Button type="button" onClick={handleOpen}>
                 Create Activity
-            </button>
+            </Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

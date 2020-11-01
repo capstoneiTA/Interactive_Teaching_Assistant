@@ -64,7 +64,7 @@ const SessionConnect = ({CreatedBy}) => {
                             label="New Session Name"
                             variant="outlined"
                             onChange={handleChange}
-                            size="normal"
+                            size="medium"
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">
                                     <IconButton type="submit" className={classes.iconButton} aria-label="Create">
