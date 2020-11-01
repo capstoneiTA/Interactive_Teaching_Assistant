@@ -24,7 +24,7 @@ module.exports = function(app, axios, io) {
 
     });
 
-    app.post("/chat/create", function(req, res) {
+    app.post("/chat/join", function(req, res) {
         // console.log('chat created post')
         // Get session creation data from post request
         let sessionName = req.body.sessionName;
@@ -34,12 +34,27 @@ module.exports = function(app, axios, io) {
             chatList.push(sessionName);
             response.chat_already_created = false;
             response.chat_created = true;
-            res.send(response)
+            res.send(response);
         } else {
             response.chat_already_created = true;
             response.chat_created = true;
             res.send(response);
         }
+    });
+
+    app.post("/chat/send/:room", function(req, res) {
+        // Get session creation data from post request
+        let room = req.params.room
+        let message = req.body.message
+        let userId = req.body.userId
+        let response = {}
+        response.room = room //= {messageContent: messageContent, sessionId: sessionId, userId: userId, timeStamp: timeStamp, replyTo: replyTo}
+        response.message= message
+        response.userId = userId
+        console.log('response session', response)
+        io.sockets.in(room).emit('message', {room:room, message: message, userId: userId})
+        res.send(response);
+
     });
 
     app.get("/chat", function(req, res) {

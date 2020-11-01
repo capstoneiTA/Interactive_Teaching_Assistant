@@ -10,7 +10,7 @@ describe('Chat creation', function () {
 
     describe('chat creation', function(){ // should change this test
         it('chat should be created', function () {
-            return axios.post(apiGatewayUrl + '/chat/create', {sessionName: 'test'}).then(function (res) {
+            return axios.post(apiGatewayUrl + '/chat/join', {sessionName: 'test'}).then(function (res) {
                 expect(res.data.chat_created).to.equal(true);
             })
         });

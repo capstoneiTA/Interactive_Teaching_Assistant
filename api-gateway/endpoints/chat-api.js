@@ -21,11 +21,11 @@ module.exports = function(app, axios, io) {
         });
     });
 
-    app.post("/chat/create", function(req, res) {
+    app.post("/chat/join", function(req, res) {
         // console.log('chat created post')
         // Get session creation data from post request
         let sessionName = req.body.sessionName;
-        axios.post(sessionUrl + '/chat/create', {sessionName: sessionName}).then(function (response) {
+        axios.post(sessionUrl + '/chat/join', {sessionName: sessionName}).then(function (response) {
             res.send(response.data);
         }).catch(function (error) {
             res.send(error);
@@ -33,6 +33,20 @@ module.exports = function(app, axios, io) {
 
     
     });
+
+    app.post("/chat/send/:room"), function(req, res) {
+        let room = req.params.room
+        let message = req.body.message
+        let userId = req.body.userId
+
+        axios.post(sessionUrl + '/chat/send/:room', {room: room, message: message, userId: userId}).then(function (response) {
+            res.send(response.data);
+        }).catch(function (error) {
+            res.send(error);
+        });
+    }
+
+
 
     app.get("/chat", function(req, res) {
         //Get session creation data from post request
