@@ -1,43 +1,35 @@
-import React, {useEffect, useState} from 'react'
-import io from 'socket.io-client'
+import React, {useEffect, useState} from 'react';
+import io from 'socket.io-client';
 import axios from "axios";
 const apiUrl = `http://localhost:8080`;
 const ENDPOINT = "http://localhost:7000/";
 
-let socket;
-
 const Chat = ({user, sessionName, sessionId}) => {
     const [value, setValue] = useState('')
     const [messages, setMessages] = useState(['test_message'])
-
-
-    if (!socket){
-      // socket = io(ENDPOINT + sessionName);
-      socket = io(ENDPOINT + sessionName);
-    }
+    let socket = io(ENDPOINT + sessionName);
     let sockid = '';
 
     useEffect(()=>{
-      socket.on('connect', function(){
-        sockid = socket.id;
-        console.log(sockid)
-
-        // socket.emit('room', sessionName)
-      })
+        axios.post(apiUrl + '/chat/join', {sessionName: 'test'}).then(function (res) {
+            if(res.data.chat_created === true){
+                socket.on('connect', function(){
+                    sockid = socket.id;
+                    console.log(sockid);
+                    listen();
+                })
+            }else{
+                console.log('chat listener creation error');
+            }
+        });
       
-    },[])
+    },[]);
 
-    socket.on('message', function(data){
-      console.log('Incoming message:', data)
-    })
-
-    socket.on('RECEIVE_MESSAGE', (data)=>{
-      console.log(data)
-    })
-
-    // socket.on()
-
-
+    const listen =()=>{
+        socket.on('chat message', function(data){
+            console.log('Incoming message:', data)
+        });
+    };
 
 
     const handleChange = (e) => {
