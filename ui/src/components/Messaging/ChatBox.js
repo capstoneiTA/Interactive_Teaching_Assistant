@@ -66,8 +66,7 @@ const ChatBox = ({handleSubmit, handleChange, value, messages}) => {
             <h1>Chat</h1>
             <List dense={true}>
             {messages.map((msg) => (
-                <ListItem>
-                    <div>{console.log(msg)}</div>
+                <ListItem key={msg}>
                 <ListItemAvatar>
                   <Avatar>
                     <FolderIcon />
