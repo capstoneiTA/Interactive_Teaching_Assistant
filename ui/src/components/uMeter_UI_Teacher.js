@@ -6,7 +6,13 @@ import ProgressBar from 'react-bootstrap/ProgressBar';
 import SimpleUMeter from "./SimpleUMeter";
 
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:7000/";
+
+let ENDPOINT = '';
+if(process.env.REACT_APP_DEPLOY === "False"){
+    ENDPOINT = "http://localhost:7000/";
+}else{
+    ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
+}
 
 class TeacherUnderstandingMeter extends Component {
     constructor(props) {

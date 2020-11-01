@@ -3,12 +3,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import CreateQuizQuestion from "./CreateQuizQuestion";
 import TextField from "@material-ui/core/TextField";
 import {QuizContext, QuizContextProvider} from "./QuizContext";
+import UserContext from "../Dashboard";
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
 
 }));
 
-const CreateQuiz=()=>{
+let apiGatewayUrl = '';
+if(process.env.REACT_APP_DEPLOY === "False"){
+    apiGatewayUrl = `http://localhost:8080`;
+}else{
+    apiGatewayUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+}
+
+const CreateQuiz=({user})=>{
     const classes = useStyles();
     const [questions, setQuestions] = useState([<CreateQuizQuestion />]);
     const {quizInfo, setQuizInfo} = useContext(QuizContext);
@@ -20,13 +29,25 @@ const CreateQuiz=()=>{
     };
 
     const createQuiz = () => {
-        console.log(quizInfo);
-
+        //combine options with corrects
+        let newQuizInfo = {...quizInfo};
+        let newQuizQuestions = [...newQuizInfo.quizQuestions];
+        for(let question of newQuizQuestions){
+            for(let i = 0; i < question.options.length; i ++){
+                question.options[i] = {optionText: question.options[i], isCorrect: question.corrects[i]};
+            }
+            delete question.corrects;
+        }
+        newQuizInfo.quizQuestions = newQuizQuestions;
+        setQuizInfo(newQuizInfo);
+        axios.post(apiGatewayUrl + '/quiz/create', {userId: user.User_ID, quiz:newQuizInfo, quizType: 'Multiple Choice'}).then(function (res) {
+                console.log('Response to Quiz Create: ' + res.data.questionsCreate);
+        })
     };
 
     const handleChange = (e)=>{
         let newQuizInfo = {...quizInfo};
-        newQuizInfo.quizTitle = e.target.value;
+        newQuizInfo.quizName = e.target.value;
         setQuizInfo(newQuizInfo);
     };
 

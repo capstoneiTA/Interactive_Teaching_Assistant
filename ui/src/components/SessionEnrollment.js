@@ -11,7 +11,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { makeStyles } from '@material-ui/core/styles';
 
-const apiUrl = `http://localhost:8080`;
+let apiUrl = '';
+if(process.env.REACT_APP_DEPLOY === "False"){
+    apiUrl = `http://localhost:8080`;
+}else{
+    apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+}
+
 
 
 

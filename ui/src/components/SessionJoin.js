@@ -9,7 +9,12 @@ import IconButton from '@material-ui/core/IconButton';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import InputAdornment from "@material-ui/core/InputAdornment";
 
-const apiUrl = `http://localhost:8080`;
+let apiUrl = '';
+if(process.env.REACT_APP_DEPLOY === "False"){
+    apiUrl = `http://localhost:8080`;
+}else{
+    apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`
+}
 
 const styles = (theme) => ({
     root: {

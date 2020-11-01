@@ -1,13 +1,24 @@
 import React, {useEffect, useState} from 'react'
 import socketIOClient from 'socket.io-client'
 import axios from "axios";
-const apiUrl = `http://localhost:8080`;
 
+let apiUrl = '';
+if(process.env.REACT_APP_DEPLOY === "False"){
+    apiUrl = `http://localhost:8080`;
+}else{
+    apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`
+}
 
 const Chat = ({user, sessionName, sessionId}) => {
     const [value, setValue] = useState('')
 
-    const ENDPOINT = "http://localhost:7000/";
+    let ENDPOINT = '';
+    if(process.env.REACT_APP_DEPLOY === "False"){
+        ENDPOINT = `http://localhost:7000/`;
+    }else{
+        ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
+    }
+
     let socket = socketIOClient(ENDPOINT + sessionName);
 
     axios.post(apiUrl + '/chat/create', {sessionId: sessionId, userId: user.User_ID}).then(function (chatRes) {

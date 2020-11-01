@@ -76,4 +76,5 @@ app.listen(port, () =>{
 require("./endpoints/session-api.js")(app, db);
 require("./endpoints/uMeter-api.js")(app, db);
 require("./endpoints/authentication-api.js")(app,db);
-
+require("./endpoints/CreateExitTicket-api.js")(app,db);
+require("./endpoints/quiz-api.js")(app,db);

@@ -7,6 +7,7 @@ import SelectActivity from "./SelectActivity";
 import CreateQuiz from "./CreateQuiz";
 import {QuizContextProvider} from "./QuizContext";
 import Button from "@material-ui/core/Button";
+import ExitTicketCreation from "./ExitTicketCreation";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ActivityCreate = () => {
+const ActivityCreate = ({user}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -42,11 +43,11 @@ const ActivityCreate = () => {
 
     const selectActivityCallback = (choice)=>{
         if(choice === 'Quiz'){
-            setMenu(<QuizContextProvider><CreateQuiz/></QuizContextProvider>)
+            setMenu(<QuizContextProvider><CreateQuiz user={user}/></QuizContextProvider>)
         }else if(choice === 'Poll'){
 
         }else if(choice === 'Exit Ticket'){
-
+            setMenu(<ExitTicketCreation/>)
         }
     };
     const [menu, setMenu] = useState(<SelectActivity activities={['Quiz', 'Poll', 'Exit Ticket']} parentCallback={selectActivityCallback}/>);
