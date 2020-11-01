@@ -50,13 +50,11 @@ const SessionEnrollment = ({userId}) => {
         })
     };
 
-    const handleSessionClick = (enrollment) => {
-        //take student to the page.
-        //e.preventDefault();
-        console.log('body to be posted to session/join:','SessionName:', enrollment, 'userId ', userId);
+    const handleSessionClick = (session) => {
+        console.log('selected session ','SessionName:', session);
 
-        //join session
-        axios.post(apiUrl + '/session/join', {sessionName:enrollment, userId:userId}).then(res=>{
+        // //join session
+        axios.post(apiUrl + '/session/join', {sessionName:session, userId:userId}).then(res=>{
             //Get user information
             axios.get(apiUrl + '/userInfo', {params: {userId: userId}}).then(userRes=>{
                 //start understanding meter listener
@@ -65,7 +63,7 @@ const SessionEnrollment = ({userId}) => {
                     // routing should go here
                     history.push({
                             pathname: '/classSession',
-                            state: {user: userRes.data.user, sessionName: enrollment, sessionId: res.data.sessionId}
+                            state: {user: userRes.data.user, sessionName: session, sessionId: res.data.sessionId}
                         }
                     );
                 });
@@ -83,7 +81,8 @@ const SessionEnrollment = ({userId}) => {
         setOpen((prevOpen) => !prevOpen);
     };
 
-    const handleClose = (event) => {
+    const handleClose = (event, session) => {
+        handleSessionClick(session);
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return;
         }
@@ -108,8 +107,6 @@ const SessionEnrollment = ({userId}) => {
         prevOpen.current = open;
     }, [open]);
 
-
-    //add an onclick listener for the item inside the list to join
     return (
         <div>
             <div className={classes.root}>
@@ -134,9 +131,9 @@ const SessionEnrollment = ({userId}) => {
                                 <Paper>
                                     <ClickAwayListener onClickAway={handleClose}>
                                         <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                                            {response.message.map((enrollment =>
-                                                <MenuItem key={enrollment} onClick={handleSessionClick(enrollment)}>{enrollment}</MenuItem>
-                                            ))}
+                                            {response.message.map((enrollment, index) =>
+                                                    <MenuItem key={index} onClick={(event) => handleClose(event, enrollment)}>{enrollment}</MenuItem>
+                                            )}
                                         </MenuList>
                                     </ClickAwayListener>
                                 </Paper>

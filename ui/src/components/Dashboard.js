@@ -11,7 +11,6 @@ import axios from "axios";
 class Dashboard extends Component {
     constructor(props) {
         super(props);
-
         if (this.props.location.state !== undefined) {
             this.user = this.props.location.state.user;
         } else {
@@ -39,10 +38,10 @@ class Dashboard extends Component {
                         <SessionJoin userId={this.user.User_ID}/>
                     </div>
                     <div style={{padding: "10px"}}>
-                        <SessionEnrollment userId={this.user.User_ID}/>
+                        <ActivityCreate user={this.user} />
                     </div>
                     <div style={{padding: "10px"}}>
-                        <ActivityCreate user={this.user} />
+                        <SessionEnrollment userId={this.user.User_ID}/>
                     </div>
                 </div>
             )

@@ -91,7 +91,7 @@ class SessionJoin extends Component  {
                                 label="Session Name"
                                 variant="outlined"
                                 onChange={this.handleChange}
-                                size="normal"
+                                size="medium"
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">
                                         <IconButton type="submit" className={classes.iconButton} aria-label="Join">
