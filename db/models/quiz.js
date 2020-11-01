@@ -10,14 +10,14 @@ module.exports = (sequelize, DataTypes)=> {
         unique: true
     },
     User_ID: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: false,
-        references: {
-            model: 'Users',
-            key: 'User_ID'
-        }
-    },
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: false,
+            references: {
+                model: 'Users',
+                key: 'User_ID'
+            }
+        },
     Quiz_Name: {
         type: DataTypes.STRING(100),
         allowNull: false,

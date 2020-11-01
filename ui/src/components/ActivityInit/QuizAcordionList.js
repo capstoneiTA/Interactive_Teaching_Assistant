@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProgressBar from "react-bootstrap/ProgressBar";
 import {generateNewNodeTag} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
+import axios from "axios";
+import socketIOClient from "socket.io-client";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,13 +30,38 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function QuizAccordionList({quizzes}) {
+export default function QuizAccordionList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
+    const apiGatewayUrl = `http://localhost:8080`;
+    let quizzesInfo = [];
+
+    //Socket info
+    const ENDPOINT = "http://localhost:7000/";
+    let socket = socketIOClient(ENDPOINT + sessionName);
+    let sockId = 'empty';
+
+    const socketStart=()=>{
+        socket.on('connect', () => {
+            sockId = socket.id;
+        });
+    };
+
+    const getQuizzes = ()=>{
+        if(user.type === 'Teacher'){
+            axios.get(apiGatewayUrl + '/quiz/retrieve', {params: {userId: user.User_ID}}).then(function (res) {
+                if(res.data.anyQuizzes){
+                    quizzesInfo = res.data.quizzes;
+                    generateQuizList(res.data.quizzes);
+                }
+            })
+        }
+    };
 
     const generateQuizList=(quizzes)=>{
         quizzes.map((quiz, quizIndex) => {
-            quizList.push(<Accordion>
+            let newQuizList = [...quizList];
+            newQuizList.push(<Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
@@ -48,11 +75,11 @@ export default function QuizAccordionList({quizzes}) {
                         {quiz.quizQuestions.map((question)=>{
                             return <div>
                                 <h3>{question.prompt}</h3>
-                                {question.options.map((option, optionIndex)=>{
-                                    if(question.corrects[optionIndex]){
-                                        return <p className={classes.correct}>{option}</p>
+                                {question.options.map((option)=>{
+                                    if(option.isCorrect){
+                                        return <p className={classes.correct}>{option.option}</p>
                                     }else{
-                                        return <p className={classes.incorrect}>{option}</p>
+                                        return <p className={classes.incorrect}>{option.option}</p>
                                     }
                                 })}
                             </div>
@@ -60,18 +87,22 @@ export default function QuizAccordionList({quizzes}) {
                     </Typography>
                 </AccordionDetails>
             </Accordion>)
+            setQuizList(newQuizList);
         })
     };
-    const startQuiz = (e)=>{
+    let startQuiz = (e)=>{
         let index = parseInt(e.target.name);
-        console.log(quizzes[index]);
+        axios.get(apiGatewayUrl + '/quiz/start', {params: {sessionName: sessionName}}).then(function (res) {
+            //Send quiz to students
+            socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
+        })
     };
 
-    //Generate quiz components on teacher screen
-    generateQuizList(quizzes);
-
-
-
+    useEffect(()=>{
+        //Generate quiz components on teacher screen
+        getQuizzes();
+        socketStart();
+    }, []);
 
     return (
         <div className={classes.root}>

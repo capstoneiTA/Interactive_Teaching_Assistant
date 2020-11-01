@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import { Button } from '@material-ui/core';
 import SessionConnect from './SessionConnect';
 import SessionJoin from './SessionJoin';
@@ -6,10 +6,12 @@ import UserInfo from './UserInfo';
 import SessionEnrollment from './SessionEnrollment';
 import exitTicket from './ActivityCreation/ExitTicketCreation';
 import ActivityCreate from "./ActivityCreation/ActivityCreate";
+import axios from "axios";
 
 class Dashboard extends Component {
     constructor(props) {
         super(props);
+
         if (this.props.location.state !== undefined) {
             this.user = this.props.location.state.user;
         } else {
@@ -40,7 +42,7 @@ class Dashboard extends Component {
                         <SessionEnrollment userId={this.user.User_ID}/>
                     </div>
                     <div style={{padding: "10px"}}>
-                        <ActivityCreate/>
+                        <ActivityCreate user={this.user} />
                     </div>
                 </div>
             )
