@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import io from 'socket.io-client';
 import axios from "axios";
+import {QuizContext} from "../ActivityCreation/QuizContext";
+import {ChatContext} from "./ChatContext";
 const apiUrl = `http://localhost:8080`;
 const ENDPOINT = "http://localhost:7000/";
 
 const Chat = ({user, sessionName, sessionId}) => {
-    const [value, setValue] = useState('')
-    const [messages, setMessages] = useState(['test_message'])
+    const [value, setValue] = useState('');
+    const {messages, setMessages} = useContext(ChatContext);
     let socket = io(ENDPOINT + sessionName);
     let sockid = '';
 
@@ -15,42 +17,42 @@ const Chat = ({user, sessionName, sessionId}) => {
             if(res.data.chat_created === true){
                 socket.on('connect', function(){
                     sockid = socket.id;
-                    console.log(sockid);
-                    listen();
                 })
+                listen();
             }else{
                 console.log('chat listener creation error');
             }
         });
       
-    },[]);
+    }, []);
 
     const listen =()=>{
-        socket.on('chat message', function(data){
-            console.log('Incoming message:', data)
+        socket.on('chat message from server', function(data){
+            console.log('Incoming message:', data);
+            //Update messages state
+            updateMessages(data);
         });
+    };
+
+    const updateMessages=(data)=>{
+        let newMessages = [...messages];
+        newMessages.push(data);
+        setMessages(newMessages);
+        console.log(newMessages);
     };
 
 
     const handleChange = (e) => {
         setValue(e.target.value)
-      }
+      };
     
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log('submitting: ', value)
-      socket.emit('message', value)
-      // socket.emit('SEND_MESSAGE', {
-      //   user: user,
-      //   message: value
-      // })
-      // axios.post(apiUrl + '/chat/update', {sessionId: sessionId, userId: user.User_ID, messageContent: value}).then(function (chatRes) {
-      //       console.log(chatRes.data);
-      //     })
-      // alert('A name was submitted: ' + value);
-      // setMessages([...messages, value])
-      // console.log(messages)
-    }
+      console.log('submitting: ', value);
+      socket.emit('chat message from client', value);
+
+      //Clear text box here
+    };
 
 
     return (
