@@ -14,7 +14,7 @@ const Chat = ({user, sessionName, sessionId}) => {
     let sockid = '';
 
     useEffect(()=>{
-        axios.post(apiUrl + '/chat/join', {sessionName: 'test'}).then(function (res) {
+        axios.post(apiUrl + '/chat/join', {sessionName: sessionName}).then(function (res) {
             if(res.data.chat_created === true){
                 socket.on('connect', function(){
                     sockid = socket.id;
@@ -35,7 +35,8 @@ const Chat = ({user, sessionName, sessionId}) => {
 
     const listen =()=>{
         socket.on('chat message from server', function(data){
-            console.log('Incoming message for : ' + sockid +  ' ' + data);
+            // console.log('DATA: ', data)
+            // console.log('Incoming message for : ' + sockid +  ' ' + data[0]+ ' ' + data[1]);
             //Update messages state
             updateMessages(data);
         });
@@ -46,7 +47,7 @@ const Chat = ({user, sessionName, sessionId}) => {
         let newMessages = [...messages];
         newMessages.push(data);
         setMessages(newMessages);
-        console.log(newMessages);
+        // console.log(newMessages);
     };
 
 
@@ -57,8 +58,9 @@ const Chat = ({user, sessionName, sessionId}) => {
     
     const handleSubmit = (e) => {
       e.preventDefault();
-      console.log('submitting: ', value);
-      socket.emit('chat message from client', value);
+      // console.log('submitting: ', value);
+      socket.emit('chat message from client', value, user);
+      setValue('')
 
       //Clear text box here
     };

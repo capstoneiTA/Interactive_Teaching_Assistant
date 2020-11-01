@@ -29,8 +29,11 @@ class ClassChat {
 
 
         this.namespace.on('connection', socket => {
-            socket.on('chat message from client', (msg)=>{
-                this.messages.push(msg);
+            socket.on('chat message from client', (msg, user)=>{
+                console.log(msg, " AND ", user.firstName, " ", user.lastName)
+                let data = [msg, user.firstName + ' ' + user.lastName]
+                console.log(data)
+                this.messages.push(data);
                 this.namespace.emit('chat message from server', this.messages);
             })
         })
