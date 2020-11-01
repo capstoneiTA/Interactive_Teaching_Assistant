@@ -6,7 +6,13 @@ import StudentQuiz from "./StudentQuiz";
 
 export default function StudentActivityContainer({user, sessionName}) {
     const [status, setStatus] = useState('no activity started');
-    const ENDPOINT = "http://localhost:7000/";
+
+    let ENDPOINT = '';
+    if(process.env.REACT_APP_DEPLOY === "False"){
+        ENDPOINT = 'http://localhost:7000/';
+    }else{
+        ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
+    }
     //Socket info
     let socket = socketIOClient(ENDPOINT + sessionName);
     let sockId = 'empty';
