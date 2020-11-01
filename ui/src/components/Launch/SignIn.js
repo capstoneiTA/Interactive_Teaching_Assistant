@@ -14,7 +14,12 @@ class SignIn extends Component {
             email: '',
             password: '',
         }
-        this.apiGatewayUrl = 'http://localhost:8080';
+        this.apiGatewayUrl = '';
+        if(process.env.REACT_APP_DEPLOY === "False"){
+            this.apiGatewayUrl = 'http://localhost:8080';
+        }else{
+            this.apiGatewayUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+        }
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }

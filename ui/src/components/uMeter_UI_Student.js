@@ -4,9 +4,16 @@ import axios from 'axios';
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:7000/";
 
-const apiGatewayUrl = `http://localhost:8080`;
+let ENDPOINT = '';
+let apiGatewayUrl = '';
+if(process.env.REACT_APP_DEPLOY === "False"){
+    ENDPOINT = "http://localhost:7000/";
+    apiGatewayUrl = `http://localhost:8080`;
+}else{
+    ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
+    apiGatewayUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+}
 
 class StudentUnderstandingMeter extends Component {
     constructor(props) {

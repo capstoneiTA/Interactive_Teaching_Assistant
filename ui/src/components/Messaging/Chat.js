@@ -1,17 +1,26 @@
 import React, {useContext, useEffect, useState} from 'react';
 import io from 'socket.io-client';
 import axios from "axios";
+
 import {QuizContext} from "../ActivityCreation/QuizContext";
 import {ChatContext} from "./ChatContext";
 import ChatBox from './ChatBox'
-const apiUrl = `http://localhost:8080`;
 const ENDPOINT = "http://localhost:7000/";
+
+
+let apiUrl = '';
+if(process.env.REACT_APP_DEPLOY === "False"){
+    apiUrl = `http://localhost:8080`;
+}else{
+    apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`
+}
+
 
 const Chat = ({user, sessionName, sessionId}) => {
     const [value, setValue] = useState('');
     const {messages, setMessages} = useContext(ChatContext);
-    let socket = io(ENDPOINT + sessionName);
     let sockid = '';
+
 
     useEffect(()=>{
         axios.post(apiUrl + '/chat/join', {sessionName: sessionName}).then(function (res) {
@@ -25,6 +34,16 @@ const Chat = ({user, sessionName, sessionId}) => {
             }
         });
     }, []);
+
+    let ENDPOINT = '';
+    if(process.env.REACT_APP_DEPLOY === "False"){
+        ENDPOINT = `http://localhost:7000/`;
+    }else{
+        ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
+    }
+
+    let socket = socketIOClient(ENDPOINT + sessionName);
+
 
 
     useEffect(()=>{
