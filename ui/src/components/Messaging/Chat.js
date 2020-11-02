@@ -1,24 +1,28 @@
 import React, {useContext, useEffect, useState} from 'react';
-import io from 'socket.io-client';
+import socketIOClient from 'socket.io-client';
 import axios from "axios";
 
 import {QuizContext} from "../ActivityCreation/QuizContext";
 import {ChatContext} from "./ChatContext";
-import ChatBox from './ChatBox'
-const ENDPOINT = "http://localhost:7000/";
+import ChatBox from './ChatBox';
 
 
 let apiUrl = '';
+let ENDPOINT = '';
 if(process.env.REACT_APP_DEPLOY === "False"){
     apiUrl = `http://localhost:8080`;
+    ENDPOINT = `http://localhost:7000/`;
+
 }else{
-    apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`
+    apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+    ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
 }
 
 
 const Chat = ({user, sessionName, sessionId}) => {
     const [value, setValue] = useState('');
     const {messages, setMessages} = useContext(ChatContext);
+    let socket = socketIOClient(ENDPOINT + sessionName);
     let sockid = '';
 
 
@@ -34,15 +38,6 @@ const Chat = ({user, sessionName, sessionId}) => {
             }
         });
     }, []);
-
-    let ENDPOINT = '';
-    if(process.env.REACT_APP_DEPLOY === "False"){
-        ENDPOINT = `http://localhost:7000/`;
-    }else{
-        ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
-    }
-
-    let socket = socketIOClient(ENDPOINT + sessionName);
 
 
 

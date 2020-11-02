@@ -44,10 +44,8 @@ class ClassSession extends Component {
             return (
                 <div>
                     <h1>Class Session</h1>
-
-                    <ChatContextProvider><Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/></ChatContextProvider>
                     <TeacherClassSessionMenu item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>} item2={<QuizAccordionList sessionName = {this.sessionName} user={this.user} />}/>
-                 
+                    <ChatContextProvider><Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/></ChatContextProvider>
                 </div>
             )
         }
