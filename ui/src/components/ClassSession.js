@@ -3,9 +3,13 @@ import TeacherUnderstandingMeter from "./uMeter_UI_Teacher";
 import StudentUnderstandingMeter from "./uMeter_UI_Student";
 import TeacherClassSessionMenu from "./TeacherClassSessionMenu";
 import QuizAccordionList from "./ActivityInit/QuizAcordionList";
-import Chat from './Messaging/Chat';
+
+import Chat from './Messaging/Chat'
+import {ChatContextProvider} from "./Messaging/ChatContext";
+
 import axios from 'axios';
 import StudentActivityContainer from "./ActivityRun/StudentActivityContainer";
+
 
 class ClassSession extends Component {
     constructor(props) {
@@ -29,8 +33,11 @@ class ClassSession extends Component {
                 <div>
                     <h1>Class Session</h1>
                     <StudentUnderstandingMeter value={5} user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
+
+                    <ChatContextProvider><Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/></ChatContextProvider>
+
                     <StudentActivityContainer user={this.user} sessionName={this.sessionName} />
-                    <Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId} />
+             
                 </div>
             )
         }else{
@@ -38,7 +45,7 @@ class ClassSession extends Component {
                 <div>
                     <h1>Class Session</h1>
                     <TeacherClassSessionMenu item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>} item2={<QuizAccordionList sessionName = {this.sessionName} user={this.user} />}/>
-                    <Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
+                    <ChatContextProvider><Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/></ChatContextProvider>
                 </div>
             )
         }
