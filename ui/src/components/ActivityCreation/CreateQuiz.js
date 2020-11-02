@@ -32,17 +32,21 @@ const CreateQuiz=({user})=>{
         //combine options with corrects
         let newQuizInfo = {...quizInfo};
         let newQuizQuestions = [...newQuizInfo.quizQuestions];
-        for(let question of newQuizQuestions){
-            for(let i = 0; i < question.options.length; i ++){
-                question.options[i] = {optionText: question.options[i], isCorrect: question.corrects[i]};
+
+        //prevent crash on resubmit
+        if(newQuizQuestions !== undefined &&  newQuizQuestions[0].corrects !== undefined){
+            for(let question of newQuizQuestions){
+                for(let i = 0; i < question.options.length; i ++){
+                    question.options[i] = {optionText: question.options[i], isCorrect: question.corrects[i]};
+                }
+                delete question.corrects;
             }
-            delete question.corrects;
-        }
-        newQuizInfo.quizQuestions = newQuizQuestions;
-        setQuizInfo(newQuizInfo);
-        axios.post(apiGatewayUrl + '/quiz/create', {userId: user.User_ID, quiz:newQuizInfo, quizType: 'Multiple Choice'}).then(function (res) {
+            newQuizInfo.quizQuestions = newQuizQuestions;
+            setQuizInfo(newQuizInfo);
+            axios.post(apiGatewayUrl + '/quiz/create', {userId: user.User_ID, quiz:newQuizInfo, quizType: 'Multiple Choice'}).then(function (res) {
                 console.log('Response to Quiz Create: ' + res.data.questionsCreate);
-        })
+            })
+        }
     };
 
     const handleChange = (e)=>{
