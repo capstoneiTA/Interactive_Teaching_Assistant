@@ -7,7 +7,7 @@ import LaunchScreen from "./components/Launch/LaunchScreen";
 import Dashboard from "./components/Dashboard";
 import ClassSession from "./components/ClassSession";
 import exitTicket from "./components/ActivityCreation/ExitTicketCreation";
-import StudentExitTicketDisplay from "./components/ActivityInit/StudentExitTicketDisplay";
+import StudentExitTicketDisplay from "./components/ActivityInit/StudentExitTicket";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +18,7 @@ ReactDOM.render(
               <Route path='/dashboard' component={Dashboard} />
               <Route path='/classSession' component={ClassSession} />
               <Route path='/exitTicket' component={exitTicket} />
-              <Route path='/StudentExitTicketDisplay' component={StudentExitTicketDisplay} />
+              <Route path='/StudentExitTicket' component={StudentExitTicketDisplay} />
           </Switch>
       </Router>
   </React.StrictMode>,

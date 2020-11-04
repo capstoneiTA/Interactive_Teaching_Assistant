@@ -17,3 +17,16 @@ describe('Exit Ticket Create', function () {
         });
     });
   });
+
+  describe('Exit Ticket exist', function () {
+
+      describe('check if exit/prompt exist ', function(){
+          it("check if exit/prompt exist" , function () {
+              return axios.get(apiGatewayUrl + '/ExitTicket/question',{ quizId: "1"})
+               .then(function (res) {
+                  console.log(res.data);
+                  expect(res.data.ExitTicket).to.equal(true);
+              })
+          });
+      });
+    });

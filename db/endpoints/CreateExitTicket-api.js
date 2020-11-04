@@ -9,7 +9,7 @@ module.exports = function(app,db)
     let quizType = req.body.quizType;
     let response= {};
 
-
+-
        // get exit ticket info on post
 
         db.Quiz.create({
@@ -29,16 +29,15 @@ module.exports = function(app,db)
                  res.send(response);
 
             }).catch(function(error){
-                       response.ExitAdd = error.message;
-                       res.send(response);
+                  response.ExitAdd = error.message;
+                  res.send(response);
 
-                     });
+            });
 
          }
        ).catch(function(error){
          response.ExitAdd = error.message;
          res.send(response);
-
        });
     });
 };

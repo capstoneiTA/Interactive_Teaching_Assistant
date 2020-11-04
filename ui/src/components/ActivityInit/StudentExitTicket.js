@@ -1,5 +1,5 @@
-import React from 'react';
 
+import React, {useState} from 'react';
 import { Button } from '@material-ui/core';
 import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,8 +18,19 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function StudentExitTicketDisplay(props) {
-  const classes = useStyles();
+
+export default function StudentExitTicket(props) {
+      const [answer, setAnswer] = useState('');
+      const classes = useStyles();
+      const submitAnswer = () =>{
+      const ExitTicketAnswer = {
+            'Answer': answer
+        }
+           console.log(ExitTicketAnswer);
+      }
+      const AnswerChange = e => {
+            setAnswer(e.target.value);
+      }
     return (
          <div className={classes.root}>
             <h1 className= {classes.h1}>
@@ -38,6 +49,8 @@ export default function StudentExitTicketDisplay(props) {
                 id= "answer"
                 name= "answer"
                 placeholder= "Enter response"
+                value= {answer}
+                onChange = {AnswerChange}
                 rows= "4"
                 cols= "50"
          />
@@ -46,6 +59,7 @@ export default function StudentExitTicketDisplay(props) {
                 variant= "contained"
                 color= "primary"
                 size= "small"
+                onClick = {submitAnswer}
                 >
                   Submit
                 </Button>
