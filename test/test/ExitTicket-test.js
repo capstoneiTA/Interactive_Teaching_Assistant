@@ -22,10 +22,10 @@ describe('Exit Ticket Create', function () {
 
       describe('check if exit/prompt exist ', function(){
           it("check if exit/prompt exist" , function () {
-              return axios.get(apiGatewayUrl + '/ExitTicket/question',{ quizId: "1"})
+              return axios.get(apiGatewayUrl + '/ExitTicket/question',{params: { quizId: "1"}})
                .then(function (res) {
                   console.log(res.data);
-                  expect(res.data.ExitTicket).to.equal(true);
+                  expect(res.data.ticketExist).to.equal(true);
               })
           });
       });

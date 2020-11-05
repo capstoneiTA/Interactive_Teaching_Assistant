@@ -4,23 +4,21 @@ module.exports = function(app, db) {
         //let prompt = req.query.prompt;
         let userId = req.query.userId;
         let quizId = req.query.quizId;
-        let prompt= [];
+       // let prompt= [];
         let response = {};
         // Get session creation data from post request
-        db.QuizQuestion.findAll({
+        db.QuizQuestion.findOne({
             where: {
                 'Quiz_ID': quizId,
             }
         }).then(function(QuizQuestion) {
-                if(QuizQuestion.length > 0){
-                 response.ExitTicket = true;
+                 response.ticketExist = (QuizQuestion !== null);
+                 response.prompt = QuizQuestion.Prompt;
                  res.send(response);
-                 console.log(response)
-                }
 
         }).catch(function(error){
-                response.ExitTicket = false;
-                res.send(response);
+                response.ticketExist = false;
+                res.send(error);
         });
 
       });
