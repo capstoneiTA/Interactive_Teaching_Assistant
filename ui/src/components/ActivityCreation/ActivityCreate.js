@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ActivityCreate = () => {
+const ActivityCreate = ({user}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 

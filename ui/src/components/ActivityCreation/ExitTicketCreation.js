@@ -32,31 +32,31 @@
  function ExitTicketCreation({user}) {
       const [value, setValue] = useState('');
       const [prompt, setPrompt] = useState('');
-      //const [userId, setuserId] = useState(uuserId);
+
       const classes = useStyles();
-      let res = {};
 
       const handleChange = e => {
       //console.log(e.target.getAttribute('value'));
        setValue(e.target.value);
       }
-
       const PromptChange = e => {
       //console.log(e.target.getAttribute('value'));
       setPrompt(e.target.value);
       }
 
-     const submitValues = (e) => {
-        e.preventDefault();
+     const submitValues = ({user}) => {
+        //e.preventDefault();
         const ExitTicketInfo = {
             'Exit Ticket Name': value,
             'Prompt': prompt
         }
-         console.log('body to be posted to session/create:','quizName:', value, 'prompt: ', prompt, 'userId:', userId);
-         axios.post(apiGatewayUrl + '/ExitTicket/create', {quizName: value, prompt: prompt, userId: userId, quizType:'Exit Ticket'})
+         console.log('create:','quizName:', value, 'prompt: ', prompt, 'userId:', user.userId);
+         axios.post(apiGatewayUrl + '/ExitTicket/create', {quizName: value, prompt: prompt, userId:user.User_ID, quizType:'Exit Ticket'})
         .then(function (res) {
            console.log(res.data);
-        })
+        }, (error)=> {
+            console.log(error);
+        });
         console.log(ExitTicketInfo);
      }
 
@@ -88,6 +88,7 @@
                variant= "contained"
                color= "primary"
                size= "small"
+               type= 'submit'
                onSubmit = {submitValues}
                 >Submit
               </Button>
