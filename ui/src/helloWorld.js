@@ -4,7 +4,12 @@ import SessionConnect from "./components/SessionConnect";
 import SessionJoin from "./components/SessionJoin";
 import SessionEnrollment from './components/SessionEnrollment';
 
-const apiUrl = `http://localhost:8080`;
+let apiUrl = '';
+if(process.env.REACT_APP_DEPLOY === "False"){
+    apiUrl = `http://localhost:8080`;
+}else{
+    apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+}
 
 class HelloWorld extends Component {
     state = {

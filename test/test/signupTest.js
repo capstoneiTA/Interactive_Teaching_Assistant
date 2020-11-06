@@ -49,7 +49,7 @@ describe('wrong password', function () {
 
         it("api-gateway needs to handle a correct email but wrong password ", function (){
             return axios.post(apiGatewayUrl + '/login', {email: "test4@email.com" , password: "wrongPassword"}).then(function (res) {
-                expect(res.data.errors[0].message).to.equal('The Users password is incorrect');
+                expect(res.data).to.equal('failure');
             })
         });
     });

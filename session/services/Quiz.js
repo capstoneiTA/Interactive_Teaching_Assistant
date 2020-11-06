@@ -3,10 +3,24 @@ class Quiz {
      * Represents a quiz which can hold multiple choice, fill in the blank, and open ended questions
      * @constructor
      */
-    constructor() {
-        this.multipleChoiceQs = [];
-        this.fillInTheBlankQs = [];
-        this.openEndedQs = [];
+    constructor(sessionName, io) {
+        this.sessionName = sessionName;
+        this.io = io;
+        this.namespace = io.of('/' + sessionName);
+        this.listen();
+    }
+
+    //Create a listener here and a function to handle connections from students then send to teacher
+    listen(){
+        this.namespace.on('connection', (socket)=>{
+            socket.on('teacher start quiz', (teacherSocketId, quiz) => {
+                this.handleStartQuiz(teacherSocketId, quiz);
+            });
+        });
+    }
+
+    handleStartQuiz(teacherSocketId, quiz){
+        this.namespace.emit('quiz for students', teacherSocketId, quiz);
     }
 
     /**
@@ -70,3 +84,5 @@ class Quiz {
     }
 
 }
+
+module.exports = Quiz;
