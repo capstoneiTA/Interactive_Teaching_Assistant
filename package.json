@@ -1,0 +1,28 @@
+{
+  "name": "interactive_teaching_assistant",
+  "version": "1.0.0",
+  "description": "## Instructions to run the application - Download and install docker here: https://docs.docker.com/get-docker/ - Download and install node here: https://nodejs.org/en/download/ - From the root directory run `docker-compose up --build` - If the application runs successfully, it should appear on http://localhost:3000/ - To remove containers, run `docker-compose down`",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "use-socket.io-client": "^1.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/capstoneiTA/Interactive_Teaching_Assistant.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/capstoneiTA/Interactive_Teaching_Assistant/issues"
+  },
+  "homepage": "https://github.com/capstoneiTA/Interactive_Teaching_Assistant#readme"
+}

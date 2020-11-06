@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import { Button } from '@material-ui/core';
 import SessionConnect from './SessionConnect';
 import SessionJoin from './SessionJoin';
@@ -6,6 +6,7 @@ import UserInfo from './UserInfo';
 import SessionEnrollment from './SessionEnrollment';
 import exitTicket from './ActivityCreation/ExitTicketCreation';
 import ActivityCreate from "./ActivityCreation/ActivityCreate";
+import axios from "axios";
 
 class Dashboard extends Component {
     constructor(props) {
@@ -37,10 +38,10 @@ class Dashboard extends Component {
                         <SessionJoin userId={this.user.User_ID}/>
                     </div>
                     <div style={{padding: "10px"}}>
-                        <SessionEnrollment userId={this.user.User_ID}/>
+                        <ActivityCreate user={this.user} />
                     </div>
                     <div style={{padding: "10px"}}>
-                        <ActivityCreate/>
+                        <SessionEnrollment userId={this.user.User_ID}/>
                     </div>
                 </div>
             )
