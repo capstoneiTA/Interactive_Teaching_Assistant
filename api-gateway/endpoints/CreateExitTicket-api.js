@@ -6,11 +6,12 @@ module.exports = function(app,axios)
 
     app.post("/ExitTicket/create", function(req,res){
 
-        let quizName = req.body.quizName;
-        let prompt = req.body.prompt;
+      //  let quizName = req.body.quizName;
+       // let prompt = req.body.prompt;
+        let quiz = req.body.quiz;
         let userId = req.body.userId;
         let quizType = req.body.quizType
-        axios.post(sessionUrl + '/ExitTicket/create', {quizName: quizName, prompt: prompt, userId:userId, quizType:quizType}).then(function(response){
+        axios.post(sessionUrl + '/ExitTicket/create', {userId: userId, quiz: quiz, quizType:quizType}).then(function(response){
           res.send(response.data);
         }).catch(function(error){
            res.send(error);

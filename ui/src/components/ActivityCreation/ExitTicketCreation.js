@@ -1,13 +1,13 @@
-    import React, {useState} from 'react';
+    import React, {useState, useContext, createContext,useForm} from 'react';
     import { Button } from '@material-ui/core';
     import { Icon } from '@material-ui/core';
     import { Grid, TextField } from '@material-ui/core';
     import { makeStyles } from '@material-ui/core/styles';
-   // import UserInfo from './components/UserInfo';
     import UserContext from "../Dashboard";
     import { FormControl,InputLabel, Input,FormHelperText } from '@material-ui/core';
     import SaveIcon from '@material-ui/icons/Save';
     import axios from "axios";
+    import {TicketContext, TicketContextProvider} from "./TicketContext";
 
     let apiGatewayUrl = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
@@ -29,35 +29,40 @@
 
     }));
 
- function ExitTicketCreation({user}) {
+const ExitTicketCreation=({user})=> {
+
       const [value, setValue] = useState('');
       const [prompt, setPrompt] = useState('');
-
+      const {quizInfo, setQuizInfo} = useContext(TicketContext);
       const classes = useStyles();
 
-      const handleChange = e => {
-      //console.log(e.target.getAttribute('value'));
+       const handleChange = e => {
+       let newQuizInfo = {...quizInfo};
        setValue(e.target.value);
-      }
-      const PromptChange = e => {
-      //console.log(e.target.getAttribute('value'));
-      setPrompt(e.target.value);
+       newQuizInfo.quizName = e.target.value;
+       setQuizInfo(newQuizInfo);
       }
 
-     const submitValues = ({user}) => {
-        //e.preventDefault();
-        const ExitTicketInfo = {
-            'Exit Ticket Name': value,
-            'Prompt': prompt
-        }
+      const PromptChange = e => {
+      let newQuizInfo = {...quizInfo};
+      setPrompt(e.target.value);
+      newQuizInfo.prompt = e.target.value;
+      setQuizInfo(newQuizInfo);
+
+      }
+
+     const submitValues = (e) => {
+        e.preventDefault();
+        let newQuizInfo = {...quizInfo};
          console.log('create:','quizName:', value, 'prompt: ', prompt, 'userId:', user.userId);
-         axios.post(apiGatewayUrl + '/ExitTicket/create', {quizName: value, prompt: prompt, userId:user.User_ID, quizType:'Exit Ticket'})
+         axios.post(apiGatewayUrl + '/ExitTicket/create', {userId:user.User_ID, quiz: newQuizInfo,  quizType:'Exit Ticket'})
         .then(function (res) {
            console.log(res.data);
         }, (error)=> {
             console.log(error);
         });
-        console.log(ExitTicketInfo);
+        setValue('');
+        setPrompt('');
      }
 
         return (
@@ -83,13 +88,13 @@
                  value= {prompt}
                  onChange= {PromptChange}
              />
-              <Icon color="primary">add_circle</Icon>
+
               <Button className= {classes.root}
                variant= "contained"
                color= "primary"
                size= "small"
                type= 'submit'
-               onSubmit = {submitValues}
+               onClick = {submitValues}
                 >Submit
               </Button>
           </form>

@@ -4,8 +4,9 @@ module.exports = function(app,db)
     app.post("/ExitTicket/create", function(req,res){
 
     let quizName = req.body.quizName;
-    let prompt = req.body.prompt;
+    //let prompt = req.body.prompt;
     let userId = req.body.userId;
+    let quiz = req.body.quiz;
     let quizType = req.body.quizType;
     let response= {};
 
@@ -14,7 +15,7 @@ module.exports = function(app,db)
 
         db.Quiz.create({
             //db name field : let value
-            Quiz_Name: quizName,
+            Quiz_Name: quiz.quizName,
             //Prompt: prompt,
             User_ID: userId,
             Quiz_Type: quizType
@@ -22,7 +23,7 @@ module.exports = function(app,db)
 
             db.QuizQuestion.create({
                 Quiz_ID: Quiz.Quiz_ID,
-                Prompt: prompt,
+                Prompt: quiz.prompt,
 
             }).then(function(){
                  response.ExitAdd = true;

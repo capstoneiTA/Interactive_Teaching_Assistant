@@ -1,4 +1,3 @@
-
 import React, {useState} from 'react';
 import { Button } from '@material-ui/core';
 import { Grid, TextField } from '@material-ui/core';
@@ -17,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 }));
-
 
 export default function StudentExitTicket(props) {
       const [answer, setAnswer] = useState('');
