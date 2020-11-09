@@ -17,11 +17,9 @@ function TabPanel(props) {
             aria-labelledby={`vertical-tab-${index}`}
             {...other}
         >
-            {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
+            <div style={{ display: value === 0? 'block': 'none'}}>
+                {children}
+            </div>
         </div>
     );
 }
@@ -51,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+//Main code
 export default function TeacherClassSessionMenu({item1, item2}) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
@@ -74,6 +73,7 @@ export default function TeacherClassSessionMenu({item1, item2}) {
                 <Tab label="Polls" {...a11yProps(2)} />
                 <Tab label="Exit Tickets" {...a11yProps(3)} />
             </Tabs>
+
             <TabPanel value={value} index={0}>
                 {item1}
             </TabPanel>
