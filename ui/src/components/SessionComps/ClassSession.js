@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import TeacherUnderstandingMeter from "./uMeter_UI_Teacher";
-import StudentUnderstandingMeter from "./uMeter_UI_Student";
+import TeacherUnderstandingMeter from "../uMeters/uMeter_UI_Teacher";
+import StudentUnderstandingMeter from "../uMeters/uMeter_UI_Student";
 import TeacherClassSessionMenu from "./TeacherClassSessionMenu";
-import QuizAccordionList from "./ActivityInit/QuizAcordionList";
+import QuizAccordionList from "../ActivityInit/QuizAcordionList";
 
-import Chat from './Messaging/Chat'
-import {ChatContextProvider} from "./Messaging/ChatContext";
+import Chat from '../Messaging/Chat'
+import {ChatContextProvider} from "../Messaging/ChatContext";
 
 import axios from 'axios';
-import StudentActivityContainer from "./ActivityRun/StudentActivityContainer";
+import StudentActivityContainer from "../ActivityRun/StudentActivityContainer";
 
 
 class ClassSession extends Component {
