@@ -14,8 +14,6 @@ function TabPanel(props) {
             id={`vertical-tabpanel-${index}`}
             aria-labelledby={`vertical-tab-${index}`}
             {...other}>
-            <div>the value is: {value}</div>
-            <div>The index is: {index}</div>
             <div style={{ display: value === index ? 'block': 'none'}}>
                 {children}
             </div>
