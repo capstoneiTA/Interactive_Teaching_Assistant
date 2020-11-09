@@ -13,11 +13,13 @@ function TabPanel(props) {
             hidden={value !== index}
             id={`vertical-tabpanel-${index}`}
             aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            <div style={{ display: value === 0? 'block': 'none'}}>
+            {...other}>
+            <div>the value is: {value}</div>
+            <div>The index is: {index}</div>
+            <div style={{ display: value === index ? 'block': 'none'}}>
                 {children}
             </div>
+
         </div>
     );
 }
