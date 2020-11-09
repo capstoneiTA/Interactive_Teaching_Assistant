@@ -16,7 +16,6 @@ export default function StudentActivityContainer({quiz}) {
                     })}
                 </div>
             })}
-
         </div>
     )
 
