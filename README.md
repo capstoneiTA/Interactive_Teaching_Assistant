@@ -13,12 +13,15 @@ Ultimately, the Interactive Teaching Assistant aims to lessen the challenges tha
 ## Instructions to run the application
 - Download and install docker here: https://docs.docker.com/get-docker/
 - Download and install node here: https://nodejs.org/en/download/
-- From the root directory run `docker-compose up --build`
+- Clone the latest release version  
+- From the root directory run `docker-compose up --build` (Only for first time installation)
 - If the application runs successfully, it should appear on http://localhost:3000/
 - To remove containers, run `docker-compose down`
+- To start next time, run `docker-compose up` 
 
 
 ## Instructions to run mocha test suite
+- Start the application with `docker-compose up`
 - From the root directory run `docker-compose run test npm test`
 - After changes to the code, run `docker-compose down` before running a new test run
 
