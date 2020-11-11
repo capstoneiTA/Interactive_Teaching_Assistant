@@ -6,27 +6,40 @@ const axios = require('axios');
  */
 const apiGatewayUrl = `http://api-gateway:8080`;
 
-describe('Exit Ticket Create', function () {
+/*describe('Exit Ticket Create', function () {
 
     describe('will create exit ticket for teacher ', function(){
         it("create exit ticket" , function () {
-            return axios.post(apiGatewayUrl + '/ExitTicket/create', {quizName: "test", prompt: "testPrompt", userId: "1", quizType:"Exit Ticket"}).then(function (res) {
+            return axios.post(apiGatewayUrl + '/ExitTicket/create', { userId: "1", quiz:quiz quizType:"Exit Ticket"}).then(function (res) {
                 console.log(res.data);
                 expect(res.data.ExitAdd).to.equal(true);
             })
         });
     });
   });
+*/
+//  describe('Exit Ticket exist', function () {
+//
+//      describe('check if exit/prompt exist ', function(){
+//          it("check if exit/prompt exist" , function () {
+//              return axios.get(apiGatewayUrl + '/ExitTicket/question',{params: { userId : "128"}})
+//               .then(function (res) {
+//                  console.log(res.data);
+//                   expect(res.data.quizzes.length > 0).to.equal(true);
+//              })
+//          });
+//      });
+//    });
 
-  describe('Exit Ticket exist', function () {
+    describe('Exit Ticket response', function () {
 
-      describe('check if exit/prompt exist ', function(){
-          it("check if exit/prompt exist" , function () {
-              return axios.get(apiGatewayUrl + '/ExitTicket/question',{params: { quizId: "1"}})
-               .then(function (res) {
-                  console.log(res.data);
-                  expect(res.data.ticketExist).to.equal(true);
-              })
+          describe('response being stored ', function(){
+              it("new answer text" , function () {
+                  return axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId : "1", questionId: "1", FITB_Id: "1", answerText: "my response", userId: "1" })
+                   .then(function (res) {
+                      console.log(res.data);
+                       expect(res.data.contentExist).to.equal(true);
+                  })
+              });
           });
-      });
-    });
+        });

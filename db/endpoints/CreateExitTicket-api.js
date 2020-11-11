@@ -25,7 +25,13 @@ module.exports = function(app,db)
                 Quiz_ID: Quiz.Quiz_ID,
                 Prompt: quiz.prompt,
 
-            }).then(function(){
+            }).then(function(quiz){
+                if(quizType === 'Exit Ticket'){
+                    db.Fill_In_The_Blank_Options.create({
+                    Quiz_Question_ID: quiz.Quiz_Question_ID,
+
+                    }).then(function(){
+
                  response.ExitAdd = true;
                  res.send(response);
 
@@ -36,9 +42,10 @@ module.exports = function(app,db)
             });
 
          }
-       ).catch(function(error){
+       }).catch(function(error){
          response.ExitAdd = error.message;
          res.send(response);
        });
     });
+});
 };

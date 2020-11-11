@@ -55,9 +55,12 @@ module.exports= (sequelize, DataTypes)=> {
             key: 'Session_ID'
         }
 
-
+    },
+    Student_Response: {
+        type: DataTypes.STRING(758),
+        allowNull: true,
+        unique: false,
     }
-
 
     });
     return Quiz_Question_Response;

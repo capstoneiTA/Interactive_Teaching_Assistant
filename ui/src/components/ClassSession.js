@@ -3,7 +3,7 @@ import TeacherUnderstandingMeter from "./uMeter_UI_Teacher";
 import StudentUnderstandingMeter from "./uMeter_UI_Student";
 import TeacherClassSessionMenu from "./TeacherClassSessionMenu";
 import QuizAccordionList from "./ActivityInit/QuizAcordionList";
-
+import TicketList from "./ActivityInit/TicketList";
 import Chat from './Messaging/Chat'
 import {ChatContextProvider} from "./Messaging/ChatContext";
 
@@ -44,7 +44,7 @@ class ClassSession extends Component {
             return (
                 <div>
                     <h1>Class Session</h1>
-                    <TeacherClassSessionMenu item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>} item2={<QuizAccordionList sessionName = {this.sessionName} user={this.user} />}/>
+                    <TeacherClassSessionMenu item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>} item2={<QuizAccordionList sessionName = {this.sessionName} user={this.user} />} item3={<TicketList sessionName = {this.sessionName} user={this.user} />} />
                     <ChatContextProvider><Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/></ChatContextProvider>
                 </div>
             )
