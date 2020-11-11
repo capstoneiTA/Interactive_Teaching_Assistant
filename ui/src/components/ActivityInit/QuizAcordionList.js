@@ -5,8 +5,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ProgressBar from "react-bootstrap/ProgressBar";
-import {generateNewNodeTag} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
+
 import axios from "axios";
 import socketIOClient from "socket.io-client";
 

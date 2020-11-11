@@ -22,11 +22,6 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false
         },
-        isCorrect: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            unique: false
-        }
     });
 
     return Poll_Option;

@@ -54,10 +54,7 @@ module.exports= (sequelize, DataTypes)=> {
             model: 'Sessions',
             key: 'Session_ID'
         }
-
-
     }
-
 
     });
     return Quiz_Question_Response;

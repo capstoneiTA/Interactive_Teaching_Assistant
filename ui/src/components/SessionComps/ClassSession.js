@@ -7,7 +7,6 @@ import QuizAccordionList from "../ActivityInit/QuizAcordionList";
 import Chat from '../Messaging/Chat'
 import {ChatContextProvider} from "../Messaging/ChatContext";
 
-import axios from 'axios';
 import StudentActivityContainer from "../ActivityRun/StudentActivityContainer";
 
 
