@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import SessionConnect from "./components/SessionConnect";
-import SessionJoin from "./components/SessionJoin";
-import SessionEnrollment from './components/SessionEnrollment';
+import SessionConnect from "./components/SessionComps/SessionConnect";
+import SessionJoin from "./components/SessionComps/SessionJoin";
+import SessionEnrollment from './components/SessionComps/SessionEnrollment';
 
 let apiUrl = '';
 if(process.env.REACT_APP_DEPLOY === "False"){

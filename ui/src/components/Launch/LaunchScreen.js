@@ -4,7 +4,7 @@ import SignOption from './SignOption.js';
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import Dashboard from "../Dashboard";
-import ClassSession from "../ClassSession";
+import ClassSession from "../SessionComps/ClassSession";
 import logo from '../../Assets/itaLogo.png';
 
 class LaunchScreen extends Component {

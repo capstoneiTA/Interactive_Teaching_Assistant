@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -15,13 +13,11 @@ function TabPanel(props) {
             hidden={value !== index}
             id={`vertical-tabpanel-${index}`}
             aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
+            {...other}>
+            <div style={{ display: value === index ? 'block': 'none'}}>
+                {children}
+            </div>
+
         </div>
     );
 }
@@ -51,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+//Main code
 export default function TeacherClassSessionMenu({item1, item2}) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
@@ -74,6 +71,7 @@ export default function TeacherClassSessionMenu({item1, item2}) {
                 <Tab label="Polls" {...a11yProps(2)} />
                 <Tab label="Exit Tickets" {...a11yProps(3)} />
             </Tabs>
+
             <TabPanel value={value} index={0}>
                 {item1}
             </TabPanel>

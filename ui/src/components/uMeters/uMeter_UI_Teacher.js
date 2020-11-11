@@ -88,8 +88,6 @@ class TeacherUnderstandingMeter extends Component {
         this.setState( {studentMeters:newStudentMeters}) ;
     };
 
-
-
     render() {
         return (
             <div>

@@ -11,13 +11,8 @@ class simpleUMeter extends Component {
         this.lastName = this.props.lastName;
     }
 
-
-
     render() {
         return (
-            // <div>
-            //     <h2>{this.value}</h2>
-            // </div>
             <div style={{ margin: 50 }}>
                 <p>{this.value}</p>
                 <p>{this.firstName} {this.lastName}</p>

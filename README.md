@@ -10,7 +10,7 @@ Ultimately, the Interactive Teaching Assistant aims to lessen the challenges tha
 
 
 
-## Instructions to run the application locally
+## Instructions to run the application
 - Download and install docker here: https://docs.docker.com/get-docker/
 - Download and install node here: https://nodejs.org/en/download/
 - Clone the latest release version  
@@ -26,7 +26,7 @@ Ultimately, the Interactive Teaching Assistant aims to lessen the challenges tha
 - After changes to the code, run `docker-compose down` before running a new test run
 
 
-## Site URL (Latest released version)
+## Site URL (Just Added. Recommended over installing and running locally)
 http://ec2-52-15-164-12.us-east-2.compute.amazonaws.com:3000/
 
 ## Usage and Testing Instructions
