@@ -4,7 +4,7 @@ import SignOption from './SignOption.js';
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import Dashboard from "../Dashboard";
-import ClassSession from "../ClassSession";
+import ClassSession from "../SessionComps/ClassSession";
 import logo from '../../Assets/itaLogo.png';
 
 class LaunchScreen extends Component {
@@ -20,7 +20,6 @@ class LaunchScreen extends Component {
                     <Route path='/launch/signup' component={SignUp} />
                     <Route path='/dashboard' component={Dashboard} />
                     <Route path='/classSession' component={ClassSession} />
-
                 </Switch>
             </div>
         );

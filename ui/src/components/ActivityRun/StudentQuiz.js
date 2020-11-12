@@ -104,7 +104,6 @@ export default function StudentActivityContainer({quiz, socket, user}) {
                     </div>
                 </Fade>
             </Modal>
-
         </div>
     )
 }

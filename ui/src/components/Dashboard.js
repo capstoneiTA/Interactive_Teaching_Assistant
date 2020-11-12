@@ -1,9 +1,9 @@
 import React, {Component, useState} from 'react';
 import { Button } from '@material-ui/core';
-import SessionConnect from './SessionConnect';
-import SessionJoin from './SessionJoin';
+import SessionConnect from './SessionComps/SessionConnect';
+import SessionJoin from './SessionComps/SessionJoin';
 import UserInfo from './UserInfo';
-import SessionEnrollment from './SessionEnrollment';
+import SessionEnrollment from './SessionComps/SessionEnrollment';
 import exitTicket from './ActivityCreation/ExitTicketCreation';
 import ActivityCreate from "./ActivityCreation/ActivityCreate";
 import axios from "axios";
