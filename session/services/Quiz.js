@@ -16,12 +16,20 @@ class Quiz {
             socket.on('teacher start quiz', (teacherSocketId, quiz) => {
                 this.handleStartQuiz(teacherSocketId, quiz);
             });
+            socket.on('student submit quiz', (answersInfo, userId)=>{
+                this.handleStudentSubmitQuiz(answersInfo, userId);
+            })
         });
     }
 
     handleStartQuiz(teacherSocketId, quiz){
         this.namespace.emit('quiz for students', teacherSocketId, quiz);
     }
+
+    handleStudentSubmitQuiz(answersInfo, studentId) {
+        this.namespace.emit('quiz submission from student', answersInfo, studentId);
+    }
+
 
     /**
      * methed compiles all questions into one list in a random order

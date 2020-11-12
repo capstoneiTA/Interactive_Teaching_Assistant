@@ -3,9 +3,10 @@ import React, {Component, useEffect, useState} from 'react';
 
 import socketIOClient from "socket.io-client";
 import StudentQuiz from "./StudentQuiz";
+import {StudentAnswersContextProvider} from "./StudentAnswersContext";
 
 export default function StudentActivityContainer({user, sessionName}) {
-    const [status, setStatus] = useState('no activity started');
+    const [activity, setActivity] = useState('no activity started');
 
     let ENDPOINT = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
@@ -34,13 +35,13 @@ export default function StudentActivityContainer({user, sessionName}) {
     const listen=()=>{
        socket.on('quiz for students', (teacherSockId, quiz)=>{
            console.log(quiz);
-           setStatus(<StudentQuiz quiz={quiz}/>);
+           setActivity(<StudentAnswersContextProvider><StudentQuiz quiz={quiz} socket={socket} user={user}/></StudentAnswersContextProvider>);
        })
     };
 
     return(
         <div>
-            {status}
+            {activity}
         </div>
     )
 

@@ -35,6 +35,7 @@ export default function QuizAccordionList({user, sessionName}) {
     const [quizList, setQuizList] = useState([]);
     let quizzesInfo = [];
     let apiGatewayUrl = '';
+    let quizAnswers = {};
     let ENDPOINT = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
         apiGatewayUrl = `http://localhost:8080`;
@@ -52,6 +53,11 @@ export default function QuizAccordionList({user, sessionName}) {
         socket.on('connect', () => {
             sockId = socket.id;
         });
+
+        socket.on('quiz submission from student', (answersInfo, userId)=>{
+            console.log("Student: " + userId + " submitted their quiz");
+            console.log(answersInfo);
+        })
     };
 
     const getQuizzes = ()=>{
@@ -102,6 +108,8 @@ export default function QuizAccordionList({user, sessionName}) {
         axios.get(apiGatewayUrl + '/quiz/start', {params: {sessionName: sessionName}}).then(function (res) {
             //Send quiz to students
             socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
+            console.log(quizzesInfo[index]);
+            quizAnswers = quizzesInfo[index];
         })
     };
 
