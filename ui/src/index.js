@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AuthContext} from "./components/Launch/AuthContext";
+import { AuthContextProvider } from "./components/Launch/AuthContext";
 //Meters components
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import StudentExitTicketDisplay from "./components/ActivityInit/StudentExitTicke
 
 ReactDOM.render(
   <React.StrictMode>
-      <AuthContext.Provider>
+      <AuthContextProvider>
           <Router>
               <Switch>
                   <Redirect exact from='/' to='/launch'/>
@@ -23,7 +23,7 @@ ReactDOM.render(
                   <Route path='/StudentExitTicketDisplay' component={StudentExitTicketDisplay} />
               </Switch>
           </Router>
-      </AuthContext.Provider>
+      </AuthContextProvider>
 
   </React.StrictMode>,
   document.getElementById('root')

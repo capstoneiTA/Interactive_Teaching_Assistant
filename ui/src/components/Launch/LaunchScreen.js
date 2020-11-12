@@ -20,7 +20,6 @@ class LaunchScreen extends Component {
                     <Route path='/launch/signup' component={SignUp} />
                     <Route path='/dashboard' component={Dashboard} />
                     <Route path='/classSession' component={ClassSession} />
-
                 </Switch>
             </div>
         );

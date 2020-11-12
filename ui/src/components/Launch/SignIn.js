@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from "./AuthContext";
@@ -7,53 +7,42 @@ import Button from '@material-ui/core/Button'
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import TextField from '@material-ui/core/TextField';
 
-class SignIn extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            email: '',
-            password: '',
-        }
-        this.apiGatewayUrl = '';
-        if(process.env.REACT_APP_DEPLOY === "False"){
-            this.apiGatewayUrl = 'http://localhost:8080';
-        }else{
-            this.apiGatewayUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
-        }
+const SignIn = (props) => {
+    const {user, setUser, setIsLoggedIn} = useContext(AuthContext);
 
-        this.handleSubmit = this.handleSubmit.bind(this);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const apiGatewayUrl = 'http://localhost:8080';
+
+    const emailHandler = (e) => {
+        setEmail(e.target.value);
     }
 
-    emailHandler = (e) => {
-        this.setState({
-            email: e.target.value
-        })
+    const passwordHandler = (e) => {
+        setPassword(e.target.value);
     }
 
-    passwordHandler = (e) => {
-        this.setState({
-            password: e.target.value
-        })
-    }
-
-    handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
-        let that = this;
+        // console.log('email: ', email, 'password: ', password);
 
         //post request
-        axios.post(this.apiGatewayUrl + '/login', {email: this.state.email , password: this.state.password}).then(function (res) {
+        axios.post(apiGatewayUrl + '/login', {email: email , password}).then(function (res) {
 
             console.log('res data: ', res.data);
 
             if(res.data.success === true){
-                //redirect to dashboard
-                that.props.history.push({
-                        pathname: '/dashboard',
-                        state: {user: res.data.user}
-                    }
-                    );
+                //save user to AuthContext
+                setUser(res.data.user);
+                setIsLoggedIn(true);
+                // redirect to dashboard
+                props.history.push({
+                    pathname: '/dashboard',
+                    state: {user: res.data.user}
+                });
+
             } else {
                 const errorMsg = document.getElementById('errorMsg');
                 const error = 'Login Failed';
@@ -61,52 +50,49 @@ class SignIn extends Component {
             }
         });
 
-
-    };
-
-    render() {
-        return (
-            <div style={containerStyle}>
-                <IconButton component={Link}
-                            to={'/launch/opt'}
-                            style={backButtonStyle}>
-                    <KeyboardBackspaceIcon/>
-                </IconButton>
-                <form onSubmit={this.handleSubmit} >
-                    <TextField
-                        id='standard-basic'
-                        label='Email'
-                        type='email'
-                        required
-                        InputLabelProps={{required: false}}
-                        onChange={this.emailHandler}
-                        style={textInputStyle}
-                    />
-                    <br/>
-                    <TextField
-                        id='standard-basic'
-                        label='Password'
-                        type='password'
-                        required
-                        InputLabelProps={{required: false}}
-                        onChange={this.passwordHandler}
-                        style={textInputStyle}
-                    />
-                    <br/>
-                    <Button
-                        variant='contained'
-                        type='submit'
-                        value='Sign In'
-                        style={signInButtonStyle}
-                    >
-                        Sign In
-                    </Button>
-                    <br/>
-                    <div id='errorMsg' style={errorMsgStyle}></div>
-                </form>
-            </div>
-        );
     }
+
+    return (
+        <div style={containerStyle}>
+            <IconButton component={Link}
+                        to={'/launch/opt'}
+                        style={backButtonStyle}>
+                <KeyboardBackspaceIcon/>
+            </IconButton>
+            <form onSubmit={handleSubmit} >
+                <TextField
+                    id='standard-basic'
+                    label='Email'
+                    type='email'
+                    required
+                    InputLabelProps={{required: false}}
+                    onChange={emailHandler}
+                    style={textInputStyle}
+                />
+                <br/>
+                <TextField
+                    id='standard-basic'
+                    label='Password'
+                    type='password'
+                    required
+                    InputLabelProps={{required: false}}
+                    onChange={passwordHandler}
+                    style={textInputStyle}
+                />
+                <br/>
+                <Button
+                    variant='contained'
+                    type='submit'
+                    value='Sign In'
+                    style={signInButtonStyle}
+                >
+                    Sign In
+                </Button>
+                <br/>
+                <div id='errorMsg' style={errorMsgStyle}></div>
+            </form>
+        </div>
+    );
 }
 
 const containerStyle = {
@@ -138,4 +124,5 @@ const errorMsgStyle = {
 }
 
 export default SignIn;
+
 
