@@ -9,12 +9,11 @@ module.exports = function(app, db) {
         db.Poll.create({
             User_ID: userId,
             Poll_Name: pollName
-        }).then(function(Poll){
+        }).then(function(){
             response.pollCreation = true;
             res.send(response);
         }).catch(function(error){
-            response.pollCreation = false;
-            response.error = error.message;
+            response.pollCreation = error.message;
             res.send(response);
         })
     });
