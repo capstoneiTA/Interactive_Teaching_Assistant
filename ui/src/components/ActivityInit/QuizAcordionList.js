@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -9,6 +9,9 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import {generateNewNodeTag} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
+import {ActivityMonitorContext} from "../ActivityMonitor/ActivityMonitorContext";
+import QuizMonitor from "../ActivityMonitor/QuizMonitor";
+import {QuizMonitorContextProvider} from "../ActivityMonitor/QuizMonitorContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function QuizAccordionList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
+    const {monitor, setMonitor} = useContext(ActivityMonitorContext);
     let quizzesInfo = [];
     let apiGatewayUrl = '';
     let quizAnswers = {};
@@ -53,11 +57,6 @@ export default function QuizAccordionList({user, sessionName}) {
         socket.on('connect', () => {
             sockId = socket.id;
         });
-
-        socket.on('quiz submission from student', (answersInfo, userId)=>{
-            console.log("Student: " + userId + " submitted their quiz");
-            console.log(answersInfo);
-        })
     };
 
     const getQuizzes = ()=>{
@@ -110,6 +109,7 @@ export default function QuizAccordionList({user, sessionName}) {
             socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
             console.log(quizzesInfo[index]);
             quizAnswers = quizzesInfo[index];
+            setMonitor(<QuizMonitorContextProvider><QuizMonitor quiz={quizzesInfo[index]}/></QuizMonitorContextProvider>)
         })
     };
 
