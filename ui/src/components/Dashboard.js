@@ -1,5 +1,6 @@
 import React, {Component, useState} from 'react';
 import { Button } from '@material-ui/core';
+import PageHeader from "./PageHeader";
 import SessionConnect from './SessionComps/SessionConnect';
 import SessionJoin from './SessionComps/SessionJoin';
 import UserInfo from './UserInfo';
@@ -49,14 +50,16 @@ class Dashboard extends Component {
         } else {
             return (
                 <div>
-                    <div style={{padding: "10px"}}>
-                        <h1>Dashboard</h1>
-                        <hr/>
-                    </div>
+                    <PageHeader text={"Student Dashboard"} history={this.props.history}/>
 
-                    <div style={{padding: "10px"}}>
-                        <UserInfo user={this.user}/>
-                    </div>
+                    {/*<div style={{padding: "10px"}}>*/}
+                    {/*    <h1>Dashboard</h1>*/}
+                    {/*    <hr/>*/}
+                    {/*</div>*/}
+
+                    {/*<div style={{padding: "10px"}}>*/}
+                    {/*    <UserInfo user={this.user}/>*/}
+                    {/*</div>*/}
 
                     <div style={{padding: "10px"}}>
                         <SessionJoin userId={this.user.User_ID}/>
