@@ -5,7 +5,7 @@ import socketIOClient from "socket.io-client";
 import StudentQuiz from "./StudentQuiz";
 import {StudentAnswersContextProvider} from "./StudentAnswersContext";
 
-export default function StudentActivityContainer({user, sessionName}) {
+export default function StudentActivityContainer({user, sessionName, sessionId}) {
     const [activity, setActivity] = useState('no activity started');
 
     let ENDPOINT = '';
@@ -35,7 +35,7 @@ export default function StudentActivityContainer({user, sessionName}) {
     const listen=()=>{
        socket.on('quiz for students', (teacherSockId, quiz)=>{
            console.log(quiz);
-           setActivity(<StudentAnswersContextProvider><StudentQuiz quiz={quiz} socket={socket} user={user}/></StudentAnswersContextProvider>);
+           setActivity(<StudentAnswersContextProvider><StudentQuiz quiz={quiz} socket={socket} user={user} sessionId={sessionId}/></StudentAnswersContextProvider>);
        })
     };
 

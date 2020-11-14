@@ -107,7 +107,29 @@ module.exports = function(app, db) {
         });
     });
 
+    app.post("/quiz/responseStore", function (req, res) {
+        //Get session creation data from post request
+        let userId = req.body.userId;
+        let response = req.body.response;
+        let sessionId = req.body.sessionId;
+        let resp = {};
 
+        for(let answer of response.answers){
+            db.QuizQuestionResponse.create({
+                User_ID: userId,
+                Quiz_Question_ID: answer.questionId,
+                MC_Option_ID: answer.answerId,
+                Session_ID: sessionId
+            }).then(function(){
+                resp.responseStored = true;
+                res.send(resp);
+            }).catch(function(error){
+                res.send(error);
+            })
+        }
+
+
+    });
 
     /********HELPER FUNCTIONS********/
 

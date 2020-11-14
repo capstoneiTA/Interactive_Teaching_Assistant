@@ -52,7 +52,7 @@ export default function QuizMonitor({quiz}) {
     }, []);
 
     const listen=()=>{
-        quizSocket.on('quiz submission from student', (answersInfo, studentId)=>{
+        quizSocket.on('quiz submission from student', (answersInfo, studentId, sessionId)=>{
             if(!studentsFinished.includes(studentId)){
                 updateResponses(answersInfo);
                 studentsFinished.push(studentId);

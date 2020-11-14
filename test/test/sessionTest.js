@@ -89,6 +89,7 @@ describe('Session enrollment retrieval', function(){
 
     describe(`User can retrieve their session enrollments`, function(){
         it('database should return the number of enrollments as well as the enrollment names', function () {
+            this.timeout(10000);
             return axios.get(apiGatewayUrl + '/session/enrollments', {
                 params: {
                     userId: 2

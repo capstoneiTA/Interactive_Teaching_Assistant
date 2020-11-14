@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function StudentActivityContainer({quiz, socket, user}) {
+export default function StudentQuiz({quiz, socket, user, sessionId}) {
     const {answersInfo, setAnswersInfo} = useContext(StudentAnswersContext);
     const[open, setOpen] = useState(true);
     const classes = useStyles();
@@ -70,7 +70,7 @@ export default function StudentActivityContainer({quiz, socket, user}) {
     };
 
     const handleQuizSubmission = () =>{
-        socket.emit('student submit quiz', answersInfo, user.User_ID);
+        socket.emit('student submit quiz', answersInfo, user.User_ID, sessionId);
         console.log('Quiz Submitted!');
         setOpen(false);
 

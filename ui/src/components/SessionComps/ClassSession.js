@@ -38,7 +38,7 @@ class ClassSession extends Component {
 
                     <ChatContextProvider><Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/></ChatContextProvider>
 
-                    <StudentActivityContainer user={this.user} sessionName={this.sessionName} />
+                    <StudentActivityContainer user={this.user} sessionName={this.sessionName} sessionId={this.sessionId}/>
              
                 </div>
             )

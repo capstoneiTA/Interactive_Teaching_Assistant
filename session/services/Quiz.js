@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 class Quiz {
     /**
      * Represents a quiz which can hold multiple choice, fill in the blank, and open ended questions
@@ -16,8 +18,8 @@ class Quiz {
             socket.on('teacher start quiz', (teacherSocketId, quiz) => {
                 this.handleStartQuiz(teacherSocketId, quiz);
             });
-            socket.on('student submit quiz', (answersInfo, userId)=>{
-                this.handleStudentSubmitQuiz(answersInfo, userId);
+            socket.on('student submit quiz', (answersInfo, userId, sessionId)=>{
+                this.handleStudentSubmitQuiz(answersInfo, userId, sessionId);
             })
         });
     }
@@ -26,8 +28,16 @@ class Quiz {
         this.namespace.emit('quiz for students', teacherSocketId, quiz);
     }
 
-    handleStudentSubmitQuiz(answersInfo, studentId) {
-        this.namespace.emit('quiz submission from student', answersInfo, studentId);
+    handleStudentSubmitQuiz(answersInfo, studentId, sessionId) {
+        const dbUrl = `http://db:5000`;
+        //Send the student submission to the teacher
+        this.namespace.emit('quiz submission from student', answersInfo, studentId, sessionId);
+
+        //Save student submission to the database
+        console.log("Saving student response from studentId: " + studentId)
+        axios.post(dbUrl + '/quiz/responseStore', {userId: studentId, response: answersInfo, sessionId: sessionId}).then(function (res) {
+            console.log("Student Response recorded: " + res.data.responseStored);
+        })
     }
 
 
