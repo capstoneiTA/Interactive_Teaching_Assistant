@@ -43,11 +43,13 @@ const ActivityCreate = ({user}) => {
 
     const selectActivityCallback = (choice)=>{
         if(choice === 'Quiz'){
-            setMenu(<QuizContextProvider><CreateQuiz user={user}/></QuizContextProvider>)
+            setMenu(<QuizContextProvider><CreateQuiz user={user} setOpen={setOpen} parentCallback={selectActivityCallback}/></QuizContextProvider>);
         }else if(choice === 'Poll'){
 
         }else if(choice === 'Exit Ticket'){
-            setMenu(<ExitTicketCreation/>)
+            setMenu(<ExitTicketCreation/>);
+        }else if(choice === 'Initial'){
+            setMenu(<SelectActivity activities={['Quiz', 'Poll', 'Exit Ticket']} parentCallback={selectActivityCallback}/>);
         }
     };
     const [menu, setMenu] = useState(<SelectActivity activities={['Quiz', 'Poll', 'Exit Ticket']} parentCallback={selectActivityCallback}/>);

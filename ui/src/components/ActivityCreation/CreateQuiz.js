@@ -4,6 +4,7 @@ import CreateQuizQuestion from "./CreateQuizQuestion";
 import TextField from "@material-ui/core/TextField";
 import {QuizContext, QuizContextProvider} from "./QuizContext";
 import axios from 'axios';
+import SelectActivity from "./SelectActivity";
 const useStyles = makeStyles((theme) => ({
 
 }));
@@ -15,7 +16,7 @@ if(process.env.REACT_APP_DEPLOY === "False"){
     apiGatewayUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
 }
 
-const CreateQuiz=({user})=>{
+const CreateQuiz=({user, setOpen, parentCallback})=>{
     const classes = useStyles();
     const [questions, setQuestions] = useState([<CreateQuizQuestion />]);
     const {quizInfo, setQuizInfo} = useContext(QuizContext);
@@ -43,6 +44,8 @@ const CreateQuiz=({user})=>{
             setQuizInfo(newQuizInfo);
             axios.post(apiGatewayUrl + '/quiz/create', {userId: user.User_ID, quiz:newQuizInfo, quizType: 'Multiple Choice'}).then(function (res) {
                 console.log('Response to Quiz Create: ' + res.data.questionsCreate);
+                setOpen(false);
+                parentCallback('Initial');
             })
         }
     };
