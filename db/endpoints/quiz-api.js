@@ -113,6 +113,7 @@ module.exports = function(app, db) {
         let response = req.body.response;
         let sessionId = req.body.sessionId;
         let resp = {};
+        let count = 0;
 
         for(let answer of response.answers){
             db.QuizQuestionResponse.create({
@@ -122,10 +123,14 @@ module.exports = function(app, db) {
                 Session_ID: sessionId
             }).then(function(){
                 resp.responseStored = true;
-                res.send(resp);
+                count ++;
+                if(count === response.answers.length){
+                    res.send(resp);
+                }
             }).catch(function(error){
                 res.send(error);
             })
+
         }
 
 
