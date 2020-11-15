@@ -4,7 +4,7 @@ import SessionConnect from './SessionComps/SessionConnect';
 import SessionJoin from './SessionComps/SessionJoin';
 import UserInfo from './UserInfo';
 import SessionEnrollment from './SessionComps/SessionEnrollment';
-import exitTicket from './ActivityCreation/ExitTicketCreation';
+import exitTicket from './ActivityCreation/ExitTicket/ExitTicketCreation';
 import ActivityCreate from "./ActivityCreation/ActivityCreate";
 import axios from "axios";
 

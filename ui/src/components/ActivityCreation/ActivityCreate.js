@@ -4,10 +4,10 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import SelectActivity from "./SelectActivity";
-import CreateQuiz from "./CreateQuiz";
-import {QuizContextProvider} from "./QuizContext";
+import CreateQuiz from "./Quiz/CreateQuiz";
+import {QuizContextProvider} from "./Quiz/QuizContext";
 import Button from "@material-ui/core/Button";
-import ExitTicketCreation from "./ExitTicketCreation";
+import ExitTicketCreation from "./ExitTicket/ExitTicketCreation";
 
 
 const useStyles = makeStyles((theme) => ({

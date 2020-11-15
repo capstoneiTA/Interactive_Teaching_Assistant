@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import socketIOClient from 'socket.io-client';
 import axios from "axios";
 
-import {QuizContext} from "../ActivityCreation/QuizContext";
+import {QuizContext} from "../ActivityCreation/Quiz/QuizContext";
 import {ChatContext} from "./ChatContext";
 import ChatBox from './ChatBox';
 

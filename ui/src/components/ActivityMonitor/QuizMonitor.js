@@ -136,6 +136,8 @@ export default function QuizMonitor({quiz}) {
         initMonitorValues();
     }, []);
 
+
+
     return(
         <div>
             <Modal

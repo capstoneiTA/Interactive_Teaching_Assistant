@@ -45,12 +45,16 @@ class ClassSession extends Component {
             return (
                 <div>
                     <h1>Class Session</h1>
-                    <ActivityMonitorContextProvider><TeacherClassSessionMenu
+
+
+                    <ActivityMonitorContextProvider>
+                        <TeacherClassSessionMenu
                         item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>}
                         item2={<QuizAccordionList sessionName = {this.sessionName} user={this.user} />}
-                    />
-                    <TeacherActivityMonitorContainer sessionName = {this.sessionName}/>
+                        />
+                        <TeacherActivityMonitorContainer sessionName = {this.sessionName}/>
                     </ActivityMonitorContextProvider>
+
 
                     <ChatContextProvider>
                         <Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
