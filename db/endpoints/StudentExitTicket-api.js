@@ -17,6 +17,7 @@ module.exports = function(app, db) {
                for(let Quiz of Quizzes){
                 let quiz = {};
                 quiz.quizName = Quiz.Quiz_Name;
+                quiz.quizId = Quiz.Quiz_ID;
                 quiz.quizQuestions = [];
 
                 let foundQuestions = getQuizQuestions(Quiz, res);
@@ -25,6 +26,7 @@ module.exports = function(app, db) {
                     for(let Question of Questions){
                         let question_object = {};
                         question_object.prompt = Question.Prompt;
+                        question_object.questionId= Question.Quiz_Question_ID;
                         quiz.quizQuestions.push(question_object);
                         questionsAdded ++;
                     if(questionsAdded === Questions.length){
@@ -96,46 +98,25 @@ module.exports = function(app, db) {
 
         let sessionId = req.body.sessionId;
         let questionId = req.body.questionId;
-        let FITB_Id = req.body.FITB_Id;
         let userId = req.body.userId;
         let answerText = req.body.answerText;
-
         let response= {};
            // get exit ticket info on post
-        db.Quiz_Question.findOne({
-              where:{
-              'Quiz_Question_ID': questionId,
-              }
-        }).then(function(){
-                db.Quiz_Question_Response.create({
-                //db name field : let value
-                Quiz_Question_ID: Quiz_Question.questionId,
-                FITB_Option_ID: FITB_Id,
+
+            db.QuizQuestionResponse.create({
+                Quiz_Question_ID: questionId,
                 Session_ID: sessionId,
                 User_ID: userId,
-
-           }).then(function(Quiz_Question_Response){
-
-                db.Fill_In_The_Blank_Option.create({
-                    FITB_Option_ID : QuizQuestionResponse.FITB_Id,
-                    Quiz_Question_ID: QuizQuestion.questionId,
-                    Answer_Text: answerText,
-                }).then(function(){
-                    response.contentExist = true;
-                    res.send(response);
-
-           }).catch(function(){
-                response.studentExist = true;
+                Student_Response: answerText,
+           }).then(function(){
+                response.contentExist = true;
                 res.send(response);
-           });
-
            }).catch(function(error){
-               response.contentExist = error.message;
+               response.error= error.message;
                res.send(response);
-
            });
 
-        });
+
     });
 };
 

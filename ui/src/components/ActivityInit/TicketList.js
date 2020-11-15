@@ -5,8 +5,6 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ProgressBar from "react-bootstrap/ProgressBar";
-import {generateNewNodeTag} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
 
@@ -18,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
     },
-    startButton: {
+    Button: {
         marginLeft: '20px',
     },
 
@@ -40,11 +38,12 @@ export default function TicketList({user, sessionName}) {
 
     //Socket info
     let socket = socketIOClient(ENDPOINT + sessionName);
-    let sockId = 'empty';
+    let socket_Id = 'empty';
 
     const socketStart=()=>{
         socket.on('connect', () => {
-            sockId = socket.id;
+            socket_Id = socket.id;
+            console.log(socket_Id);
         });
     };
 
@@ -69,7 +68,7 @@ export default function TicketList({user, sessionName}) {
                     id="panel1a-header"
                 >
                     <Typography className={classes.heading}>{quiz.quizName}</Typography>
-                    <button className={classes.startButton}  name={quizIndex}>Start</button>
+                    <button className={classes.Button} onClick={startExit} name={quizIndex}>Start</button>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
@@ -84,11 +83,12 @@ export default function TicketList({user, sessionName}) {
         });
         setQuizList(newQuizList);
     };
-    let startQuiz = (e)=>{
+    let startExit = (e)=>{
         let index = parseInt(e.target.name);
-        axios.get(apiGatewayUrl + '/quiz/start', {params: {sessionName: sessionName}}).then(function (res) {
+        axios.get(apiGatewayUrl + '/ExitTicket/initiate', {params: {sessionName: sessionName}}).then(function (res) {
             //Send quiz to students
-            socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
+            socket.emit('teacher start exit', socket_Id, quizzesInfo[index]);
+            console.log(quizzesInfo[index]);
         })
     };
 

@@ -54,7 +54,7 @@ const ExitTicketCreation=({user})=> {
      const submitValues = (e) => {
         e.preventDefault();
         let newQuizInfo = {...quizInfo};
-         console.log('create:','quizName:', value, 'prompt: ', prompt, 'userId:', user.userId);
+         console.log('create:','quizName:', value, 'prompt: ', prompt, 'userId:', user.User_ID);
          axios.post(apiGatewayUrl + '/ExitTicket/create', {userId:user.User_ID, quiz: newQuizInfo,  quizType:'Exit Ticket'})
         .then(function (res) {
            console.log(res.data);

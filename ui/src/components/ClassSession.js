@@ -6,10 +6,9 @@ import QuizAccordionList from "./ActivityInit/QuizAcordionList";
 import TicketList from "./ActivityInit/TicketList";
 import Chat from './Messaging/Chat'
 import {ChatContextProvider} from "./Messaging/ChatContext";
-
 import axios from 'axios';
 import StudentActivityContainer from "./ActivityRun/StudentActivityContainer";
-
+import StudentExitActivity from "./ActivityRun/StudentExitActivity";
 
 class ClassSession extends Component {
     constructor(props) {
@@ -17,9 +16,11 @@ class ClassSession extends Component {
 
         if(this.props.location.state !==undefined){
             this.user = this.props.location.state.user;
+
             console.log(this.user);
             this.sessionName = this.props.location.state.sessionName;
             this.sessionId = this.props.location.state.sessionId;
+
         }else{
             this.user = '';
             this.sessionName = '';
@@ -33,13 +34,13 @@ class ClassSession extends Component {
                 <div>
                     <h1>Class Session</h1>
                     <StudentUnderstandingMeter value={5} user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
-
                     <ChatContextProvider><Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/></ChatContextProvider>
-
-                    <StudentActivityContainer user={this.user} sessionName={this.sessionName} />
-             
+                     <StudentExitActivity user={this.user} sessionName={this.sessionName} sessionId={this.sessionId}/>
+                    <StudentActivityContainer user={this.user} sessionName={this.sessionName} sessionId={this.sessionId}/>
                 </div>
+
             )
+
         }else{
             return (
                 <div>

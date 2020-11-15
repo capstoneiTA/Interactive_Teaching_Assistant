@@ -6,18 +6,29 @@ const axios = require('axios');
  */
 const apiGatewayUrl = `http://api-gateway:8080`;
 
-/*describe('Exit Ticket Create', function () {
+//describe('Exit Ticket Create', function () {
+//
+//    describe('will create exit ticket for teacher ', function(){
+//        it("create exit ticket" , function () {
+//            return axios.post(apiGatewayUrl + '/ExitTicket/create', { userId: "1", quiz:quiz, quizType:"Exit Ticket"}).then(function (res) {
+//                console.log(res.data);
+//                expect(res.data.ExitAdd).to.equal(true);
+//            })
+//        });
+//    });
+//  });
 
-    describe('will create exit ticket for teacher ', function(){
-        it("create exit ticket" , function () {
-            return axios.post(apiGatewayUrl + '/ExitTicket/create', { userId: "1", quiz:quiz quizType:"Exit Ticket"}).then(function (res) {
-                console.log(res.data);
-                expect(res.data.ExitAdd).to.equal(true);
+describe('Exit Ticket Started', function () {
+
+    describe('Teacher presses start', function(){
+        it('should receive a response that the quiz listener started or that it is already running', function () {
+            return axios.get(apiGatewayUrl + '/ExitTicket/initiate', {params:{sessionName: 'test'}}).then(function (res) {
+                expect(res.data.quizListenerStarted).to.equal(true);
             })
         });
     });
-  });
-*/
+
+});
 //  describe('Exit Ticket exist', function () {
 //
 //      describe('check if exit/prompt exist ', function(){
@@ -35,7 +46,7 @@ const apiGatewayUrl = `http://api-gateway:8080`;
 
           describe('response being stored ', function(){
               it("new answer text" , function () {
-                  return axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId : "1", questionId: "1", FITB_Id: "1", answerText: "my response", userId: "1" })
+                  return axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId : 1, questionId: 1, answerText: "my response", userId: 1})
                    .then(function (res) {
                       console.log(res.data);
                        expect(res.data.contentExist).to.equal(true);

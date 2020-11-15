@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {Component,createContext, useContext, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CreateQuizQuestion from "./CreateQuizQuestion";
 import TextField from "@material-ui/core/TextField";

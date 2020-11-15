@@ -6,8 +6,6 @@ module.exports = function(app,axios)
 
     app.post("/ExitTicket/create", function(req,res){
 
-      //  let quizName = req.body.quizName;
-       // let prompt = req.body.prompt;
         let quiz = req.body.quiz;
         let userId = req.body.userId;
         let quizType = req.body.quizType
@@ -25,6 +23,16 @@ module.exports = function(app,axios)
         res.send('failure');
     });
 
+    app.get("/ExitTicket/initiate", function(req, res) {
+        //Get session creation data from post request
+        let sessionName = req.query.sessionName;
+
+        axios.get(sessionUrl + '/ExitTicket/initiate', {params: {sessionName: sessionName}}).then(function(response){
+            res.send(response.data);
+        }).catch(function(error){
+            res.send(error);
+        });
+    });
 
     app.get('/ExitTicket/quizInfo', function(req, res){
         let quizId = req.query.quizId;
