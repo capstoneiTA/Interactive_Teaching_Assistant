@@ -14,6 +14,7 @@ module.exports = function (app, db) {
     })
       .then(function () {
         response.messageCreation = true;
+        response.messageContents = messageContents;
         res.send(response);
       })
       .catch(function (error) {
@@ -33,6 +34,7 @@ module.exports = function (app, db) {
       },
     })
       .then(function (Messages) {
+        console.log("MESSAGES", Messages);
         response.messages = Messages;
         res.send(response);
       })

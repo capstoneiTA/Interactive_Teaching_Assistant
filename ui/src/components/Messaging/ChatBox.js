@@ -69,7 +69,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
       <div className={classes.root}>
         <List dense={true}>
           {messages.map((msg) => {
-            if (msg.user.User_ID === user.User_ID) {
+            if (msg.userId === user.User_ID) {
               return (
                 <>
                   <ListItem
@@ -84,10 +84,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                         <AccountCircle />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText
-                      primary={msg.user.firstName + " " + msg.user.lastName}
-                      secondary={msg.msg}
-                    />
+                    <ListItemText primary={msg.userId} secondary={msg.msg} />
                     <ListItemSecondaryAction>
                       <IconButton edge="end" aria-label="delete">
                         <MoreVertIcon onClick={onOptionsClick} />
@@ -106,10 +103,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                         <AccountCircle />
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText
-                      primary={msg.user.firstName + " " + msg.user.lastName}
-                      secondary={msg.msg}
-                    />
+                    <ListItemText primary={msg.userId} secondary={msg.msg} />
                     <ListItemSecondaryAction>
                       <IconButton edge="end" aria-label="delete">
                         <MoreVertIcon />

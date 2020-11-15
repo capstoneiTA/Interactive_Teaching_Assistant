@@ -33,10 +33,27 @@ const Chat = ({ user, sessionName, sessionId }) => {
             sockid = socket.id;
           });
           listen();
-          socket.emit("get messages", sockid);
         } else {
           console.log("chat listener creation error");
         }
+      });
+    axios
+      .get(apiUrl + "/messages/get", {
+        params: {
+          sessionId: sessionId,
+        },
+      })
+      .then(function (res) {
+        console.log("GETRES", res);
+        let newMessages = [...messages];
+        res.data.messages.map((msg) =>
+          newMessages.push({ msg: msg.Message_Content, userId: msg.User_ID })
+        );
+        console.log("NEWMESSGES", newMessages);
+        setMessages(newMessages);
+      })
+      .catch(function (res) {
+        console.log(res);
       });
   }, []);
 
@@ -48,10 +65,6 @@ const Chat = ({ user, sessionName, sessionId }) => {
 
   const listen = () => {
     socket.on("chat message from server", function (data) {
-      updateMessages(data);
-    });
-    // this should probably be removed when db connection is added
-    socket.on("initial messages", function (data) {
       updateMessages(data);
     });
   };
@@ -71,7 +84,24 @@ const Chat = ({ user, sessionName, sessionId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log('submitting: ', value);
-    socket.emit("chat message from client", { msg: value, user: user });
+    axios
+      .post(apiUrl + "/messages/create", {
+        sessionId: sessionId,
+        messageContents: value,
+        userId: user.User_ID,
+        replyTo: null,
+      })
+      .then(function (res) {
+        if (res.data.messageCreation === true) {
+          console.log("MESSAGE CREATED SUCCESS");
+        } else {
+          console.log("FAILED");
+        }
+      });
+    socket.emit("chat message from client", {
+      msg: value,
+      userId: user.User_ID,
+    });
     setValue("");
 
     //Clear text box here

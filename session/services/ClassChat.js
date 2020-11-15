@@ -17,13 +17,10 @@ class ClassChat {
   listen() {
     this.namespace.on("connection", (socket) => {
       socket.on("chat message from client", (message) => {
-        let data = { msg: message.msg, user: message.user };
-        console.log(data);
+        let data = { msg: message.msg, userId: message.userId };
+        // console.log(data);
         this.messages.push(data);
         this.namespace.emit("chat message from server", this.messages);
-      });
-      socket.on("get messages", (message) => {
-        this.namespace.emit("initial messages", this.messages);
       });
     });
   }
