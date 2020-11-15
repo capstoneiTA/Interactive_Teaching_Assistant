@@ -11,6 +11,8 @@ import axios from 'axios';
 import StudentActivityContainer from "../ActivityRun/StudentActivityContainer";
 import {ActivityMonitorContextProvider} from "../ActivityMonitor/ActivityMonitorContext";
 import TeacherActivityMonitorContainer from "../ActivityMonitor/TeacherActivityMonitorContainer";
+import StudentExitActivity from "../ActivityRun/StudentExitActivity";
+import TicketList from "../ActivityInit/TicketList";
 
 
 class ClassSession extends Component {
@@ -35,9 +37,8 @@ class ClassSession extends Component {
                 <div>
                     <h1>Class Session</h1>
                     <StudentUnderstandingMeter value={5} user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>
-
                     <ChatContextProvider><Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/></ChatContextProvider>
-
+                    <StudentExitActivity user={this.user} sessionName={this.sessionName} sessionId={this.sessionId}/>
                     <StudentActivityContainer user={this.user} sessionName={this.sessionName} sessionId={this.sessionId}/>
              
                 </div>
@@ -49,6 +50,7 @@ class ClassSession extends Component {
                     <ActivityMonitorContextProvider><TeacherClassSessionMenu
                         item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>}
                         item2={<QuizAccordionList sessionName = {this.sessionName} user={this.user} />}
+                        item3={<TicketList sessionName = {this.sessionName} user={this.user} />}
                     />
                     <TeacherActivityMonitorContainer sessionName = {this.sessionName}/>
                     </ActivityMonitorContextProvider>

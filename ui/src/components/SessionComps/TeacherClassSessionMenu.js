@@ -47,8 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-//Main code
-export default function TeacherClassSessionMenu({item1, item2}) {
+export default function TeacherClassSessionMenu({item1, item2,item3}) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -82,7 +81,7 @@ export default function TeacherClassSessionMenu({item1, item2}) {
                 Polls Go Here
             </TabPanel>
             <TabPanel value={value} index={3}>
-                Exit Tickets Go Here
+                {item3}
             </TabPanel>
         </div>
     );

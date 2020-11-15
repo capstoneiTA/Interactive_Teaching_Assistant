@@ -52,13 +52,13 @@ describe('Quiz Retrieval', function () {
 
 describe('Quiz Start', function () {
 
-    describe('Teacher starts a quiz', function(){
-        it('should receive a response that the quiz listener started or that it is already running', function () {
-            return axios.get(apiGatewayUrl + '/quiz/start', {params:{sessionName: 'test'}}).then(function (res) {
-                expect(res.data.quizListenerStarted).to.equal(true);
-            })
-        });
-    });
+   describe('Teacher starts a quiz', function(){
+       it('should receive a response that the quiz listener started or that it is already running', function () {
+           return axios.get(apiGatewayUrl + '/quiz/start', {params:{sessionName: 'test'}}).then(function (res) {
+               expect(res.data.quizListenerStarted).to.equal(true);
+           })
+       });
+   });
 
 });
 

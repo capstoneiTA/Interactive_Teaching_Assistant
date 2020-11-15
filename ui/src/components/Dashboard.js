@@ -41,6 +41,7 @@ class Dashboard extends Component {
                         <ActivityCreate user={this.user} />
                     </div>
                     <div style={{padding: "10px"}}>
+
                         <SessionEnrollment userId={this.user.User_ID}/>
                     </div>
                 </div>
