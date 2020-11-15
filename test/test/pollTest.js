@@ -65,7 +65,6 @@ describe('Save Poll Response', function () {
             {questionId: 12, answerId: 255},
             {questionId: 13, answerId: 555},
         ],
-        pollId: 24
     };
 
     describe('Poll session saves the response sent by the student', function(){

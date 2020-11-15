@@ -26,15 +26,6 @@ module.exports = (sequelize, DataTypes)=> {
                 key: 'Poll_Question_ID'
             }
         },
-        Poll_ID: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            unique: false,
-            references: {
-                model: 'Polls',
-                key: 'Poll_ID'
-            }
-        },
         Poll_Option_ID: {
             type: DataTypes.INTEGER,
             allowNull: false,

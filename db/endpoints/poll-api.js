@@ -126,7 +126,9 @@ module.exports = function(app, db) {
                 resp.responseStored = true;
                 res.send(resp);
             }).catch(function(error){
-                res.send(error.message);
+                resp.responseStored = false;
+                resp.error = error.message;
+                res.send(resp);
             })
         }
     });
