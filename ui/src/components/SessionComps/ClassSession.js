@@ -51,6 +51,7 @@ class ClassSession extends Component {
                         <TeacherClassSessionMenu
                         item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>}
                         item2={<QuizAccordionList sessionName = {this.sessionName} user={this.user} />}
+
                         />
                         <TeacherActivityMonitorContainer sessionName = {this.sessionName}/>
                     </ActivityMonitorContextProvider>

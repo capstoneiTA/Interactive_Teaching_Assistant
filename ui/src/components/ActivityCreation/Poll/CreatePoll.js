@@ -32,16 +32,15 @@ const CreatePoll=({user})=>{
         let newPollQuestions = [...newPollInfo.pollQuestions];
 
         //prevent crash on resubmit
-        if(newPollQuestions !== undefined &&  newPollQuestions[0].corrects !== undefined){
+        if(newPollQuestions !== undefined){
             for(let question of newPollQuestions){
                 for(let i = 0; i < question.options.length; i ++){
-                    question.options[i] = {optionText: question.options[i], isCorrect: question.corrects[i]};
+                    question.options[i] = {optionText: question.options[i]};
                 }
-                delete question.corrects;
             }
             newPollInfo.pollQuestions = newPollQuestions;
             setPollInfo(newPollInfo);
-            axios.post(apiGatewayUrl + '/poll/create', {pollName:newPollInfo.pollName, userId: user.User_ID}).then(function (res) {
+            axios.post(apiGatewayUrl + '/poll/create', {poll:newPollInfo, userId: user.User_ID}).then(function (res) {
                 console.log('Response to Poll Create: ' + res.data.pollCreation);
             })
         }
