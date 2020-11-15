@@ -5,6 +5,7 @@ import axios from "axios";
 import { QuizContext } from "../ActivityCreation/QuizContext";
 import { ChatContext } from "./ChatContext";
 import ChatBox from "./ChatBox";
+import ChatDrawer from "./ChatDrawer";
 
 let apiUrl = "";
 let ENDPOINT = "";
@@ -19,6 +20,7 @@ if (process.env.REACT_APP_DEPLOY === "False") {
 const Chat = ({ user, sessionName, sessionId }) => {
   const [value, setValue] = useState("");
   const { messages, setMessages } = useContext(ChatContext);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   let socket = socketIOClient(ENDPOINT + sessionName);
   let sockid = "";
 
@@ -31,6 +33,7 @@ const Chat = ({ user, sessionName, sessionId }) => {
             sockid = socket.id;
           });
           listen();
+          socket.emit("get messages", sockid);
         } else {
           console.log("chat listener creation error");
         }
@@ -45,6 +48,12 @@ const Chat = ({ user, sessionName, sessionId }) => {
 
   const listen = () => {
     socket.on("chat message from server", function (data) {
+      // console.log('DATA: ', data)
+      // console.log('Incoming message for : ' + sockid +  ' ' + data[0]+ ' ' + data[1]);
+      //Update messages state
+      updateMessages(data);
+    });
+    socket.on("initial messages", function (data) {
       // console.log('DATA: ', data)
       // console.log('Incoming message for : ' + sockid +  ' ' + data[0]+ ' ' + data[1]);
       //Update messages state
@@ -67,7 +76,7 @@ const Chat = ({ user, sessionName, sessionId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log('submitting: ', value);
-    socket.emit("chat message from client", value, user);
+    socket.emit("chat message from client", { msg: value, user: user });
     setValue("");
 
     //Clear text box here
@@ -75,12 +84,15 @@ const Chat = ({ user, sessionName, sessionId }) => {
 
   return (
     <>
-      <ChatBox
+      <ChatDrawer
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         value={value}
         messages={messages}
         user={user}
+        drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
+        updateMessages={updateMessages}
       />
 
       {/* <h1>CHAT</h1>
