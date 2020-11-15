@@ -18,7 +18,8 @@ const headerStyle = {
     backgroundColor: '#A4C3E3',
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    zIndex: '2',
 }
 
 const headerTextStyle = {

@@ -98,6 +98,7 @@ const sessionJoinStyle = {
 
 const hrStyle = {
     marginBottom: '50px',
+    borderTop: '2px solid lightgray',
 }
 
 export default Dashboard;
