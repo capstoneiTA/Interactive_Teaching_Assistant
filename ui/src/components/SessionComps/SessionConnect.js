@@ -61,15 +61,17 @@ const SessionConnect = ({CreatedBy}) => {
 
     return (
         <div>
-            <form className={classes.root} role="form" onSubmit={handleSubmit}>
-                <label>Create Session: </label>
-                <div className="row">
-                    <div className="form-group col-4">
+            {/*<form className={classes.root} role="form" onSubmit={handleSubmit}>*/}
+            <form onSubmit={handleSubmit}>
+                {/*<label>Create Session: </label>*/}
+                {/*<div className="row">*/}
+                    {/*<div className="form-group col-4">*/}
                         <TextField
-                            label="New Session Name"
+                            // label="New Session Name"
+                            label="Create New Session"
                             variant="outlined"
                             onChange={handleChange}
-                            size="medium"
+                            size="small"
                             InputProps={{
                                 endAdornment: <InputAdornment position="end">
                                     <IconButton type="submit" className={classes.iconButton} aria-label="Create">
@@ -79,8 +81,8 @@ const SessionConnect = ({CreatedBy}) => {
                             }}
 
                         />
-                    </div>
-                </div>
+                    {/*</div>*/}
+                {/*</div>*/}
             </form>
 
             <div>

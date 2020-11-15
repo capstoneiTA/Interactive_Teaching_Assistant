@@ -18,9 +18,6 @@ if(process.env.REACT_APP_DEPLOY === "False"){
     apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
 }
 
-
-
-
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
@@ -166,7 +163,7 @@ const SessionEnrollment = ({userId}) => {
         <div>
             {response.message.map((enrollment, index) =>
                 <>
-                    <div key={index} onClick={(event) => handleClose(event, enrollment)}>{enrollment}</div>
+                    <div key={index} onClick={(event) => handleClose(event, enrollment)} style={enrollmentStyle}>{enrollment}</div>
                     <hr style={{width:'600px'}}/>
                 </>
             )}
@@ -174,5 +171,13 @@ const SessionEnrollment = ({userId}) => {
         </div>
     )
 };
+
+const enrollmentStyle = {
+    cursor: 'pointer',
+    backgroundColor: '#fafafa',
+    width: '600px',
+    margin: 'auto',
+    borderRadius: '25px',
+}
 
 export default SessionEnrollment;

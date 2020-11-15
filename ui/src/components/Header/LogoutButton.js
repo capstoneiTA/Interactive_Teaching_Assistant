@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { AuthContext } from "./Launch/AuthContext";
+import { AuthContext } from "../Launch/AuthContext";
 
 const LogoutButton = (props) => {
     const {setUser, setIsLoggedIn} = useContext(AuthContext);
@@ -23,6 +23,7 @@ const buttonStyle = {
     color: 'white',
     fontSize: '40px',
     marginRight: '10px',
+    cursor: 'pointer',
 }
 
 export default LogoutButton;
