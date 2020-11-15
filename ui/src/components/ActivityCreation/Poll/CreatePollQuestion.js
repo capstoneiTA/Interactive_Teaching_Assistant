@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CreatePollQuestion() {
     const classes = useStyles();
     const [prompt, setPrompt] = useState('');
-    const [options, setOptions] = useState(['','','','']);
+    const [options, setOptions] = useState(['','','']);
     const [pollIndex, setPollIndex] = useState(null);
     const {pollInfo, setPollInfo} = useContext(PollContext);
 

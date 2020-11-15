@@ -13,33 +13,43 @@ module.exports = function(app, db) {
             Poll_Name: poll.pollName
         }).then(function(Poll){
             response.pollCreation = true;
+
             poll.pollQuestions.forEach(function(question) {
-                db.PollQuestion.create({
+                db.Poll_Question.create({
                     Poll_ID: Poll.Poll_ID,
                     Prompt: question.prompt
                 }).then(function(Question) {
+
                     question.options.forEach(function(option, index){
                         db.Poll_Option.create({
                             Poll_Question_ID: Question.Poll_Question_ID,
-                            Option_Text: option.optionText,
+                            Option_Text: option.optionText
                         }).then(function () {
-                            console.log('Options added successfully');
+                            response.optionAdded = true;
+                            // console.log('Options added successfully');
+                            //res.send(response)
                         }).catch(function(error){
-                            console.log('Error adding option' + error.message);
+                            response.optionAdded = false;
+                            console.log('Error adding option' + (index + 1));
+                            //res.send(response)
                         })
                     })
+
                 }).catch(function (error) {
-                    response.questionCreate = false;
-                    res.send(response);
+                    response.questionAdded = false;
+                    console.log('Error in questions addition: ' + error.message);
+                    //res.send(response);
                 });
                 pollAdded++;
                 if(pollAdded === poll.pollQuestions.length){
-                    response.questionCreate = true;
+                    response.questionAdded = true;
                     res.send(response);
                 }
             });
+
         }).catch(function(error){
-            response.pollCreation = error.message;
+            response.pollCreation = false;
+            console.log('Error in poll creation: ' + error.message);
             res.send(response);
         })
     });
