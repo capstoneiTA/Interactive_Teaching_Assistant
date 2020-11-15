@@ -5,6 +5,7 @@ const axios = require('axios');
  * Naming scheme: http://[Container Name]:[Container Port]
  */
 const apiGatewayUrl = `http://api-gateway:8080`;
+const dbUrl = `http://db:5000`;
 
 let testQuiz = {quizName: 'My First Quiz', quizQuestions: [
 
@@ -32,9 +33,9 @@ describe('Quiz Retrieval', function () {
 
     describe('Teacher Retrieves Quizzes', function(){
         it('should successfully retrieve all quizzes for a given users', function () {
+            this.timeout(10000);
             return axios.get(apiGatewayUrl + '/quiz/retrieve', {params: {userId: 1}}).then(function (res) {
-                  console.log(res.data);
-                expect(res.data.quizzes.length > 0).to.equal(true);
+                expect(res.data.anyQuizzes).to.equal(true);
             })
         });
     });
@@ -49,17 +50,37 @@ describe('Quiz Retrieval', function () {
 
 });
 
-//describe('Quiz Start', function () {
-//
-//    describe('Teacher starts a quiz', function(){
-//        it('should receive a response that the quiz listener started or that it is already running', function () {
-//            return axios.get(apiGatewayUrl + '/quiz/start', {params:{sessionName: 'test'}}).then(function (res) {
-//                expect(res.data.quizListenerStarted).to.equal(true);
-//            })
-//        });
-//    });
-//
-//});
+describe('Quiz Start', function () {
+
+   describe('Teacher starts a quiz', function(){
+       it('should receive a response that the quiz listener started or that it is already running', function () {
+           return axios.get(apiGatewayUrl + '/quiz/start', {params:{sessionName: 'test'}}).then(function (res) {
+               expect(res.data.quizListenerStarted).to.equal(true);
+           })
+       });
+   });
+
+});
+
+describe('Save Quiz Response', function () {
+    const sampleResponse = {
+        answers:[
+            {questionId: 73, answerId: 165},
+            {questionId: 74, answerId: 169},
+            {questionId: 75, answerId: 171},
+        ],
+        quizId: 43
+    };
+
+    describe('Quiz session saves the response sent by the student', function(){
+        it('should save the received quiz response to the database', function () {
+            return axios.post(dbUrl + '/quiz/responseStore', {userId: 1, response: sampleResponse, sessionId: 317}).then(function (res) {
+                expect(res.data.responseStored).to.equal(true);
+            })
+        });
+    });
+
+});
 
 
 

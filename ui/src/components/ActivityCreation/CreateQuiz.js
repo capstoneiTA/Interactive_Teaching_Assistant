@@ -3,9 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CreateQuizQuestion from "./CreateQuizQuestion";
 import TextField from "@material-ui/core/TextField";
 import {QuizContext, QuizContextProvider} from "./QuizContext";
-import UserContext from "../Dashboard";
 import axios from 'axios';
-
 const useStyles = makeStyles((theme) => ({
 
 }));

@@ -6,7 +6,7 @@ const axios = require('axios');
  */
 const apiGatewayUrl = `http://api-gateway:8080`;
 
-//describe('Exit Ticket Create', function () {
+// describe('Exit Ticket Create', function () {
 //
 //    describe('will create exit ticket for teacher ', function(){
 //        it("create exit ticket" , function () {
@@ -29,28 +29,27 @@ describe('Exit Ticket Started', function () {
     });
 
 });
-//  describe('Exit Ticket exist', function () {
-//
-//      describe('check if exit/prompt exist ', function(){
-//          it("check if exit/prompt exist" , function () {
-//              return axios.get(apiGatewayUrl + '/ExitTicket/question',{params: { userId : "128"}})
-//               .then(function (res) {
-//                  console.log(res.data);
-//                   expect(res.data.quizzes.length > 0).to.equal(true);
-//              })
-//          });
-//      });
-//    });
 
-    describe('Exit Ticket response', function () {
+describe('Exit Ticket exist', function () {
 
-          describe('response being stored ', function(){
-              it("new answer text" , function () {
-                  return axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId : 1, questionId: 1, answerText: "my response", userId: 1})
-                   .then(function (res) {
-                      console.log(res.data);
-                       expect(res.data.contentExist).to.equal(true);
-                  })
-              });
-          });
+     describe('check if exit/prompt exist ', function(){
+         it("check if exit/prompt exist" , function () {
+             return axios.get(apiGatewayUrl + '/ExitTicket/question',{params: { userId : "128"}})
+              .then(function (res) {
+                  expect(res.data.quizzes.length > 0).to.equal(true);
+             })
+         });
+     });
+   });
+
+describe('Exit Ticket response', function () {
+
+    describe('response being stored ', function(){
+        it("new answer text" , function () {
+            return axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId : 1, questionId: 1, answerText: "my response", userId: 1})
+                .then(function (res) {
+                    expect(res.data.contentExist).to.equal(true);
+                })
         });
+    });
+});
