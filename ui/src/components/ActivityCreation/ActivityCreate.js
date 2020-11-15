@@ -8,6 +8,8 @@ import CreateQuiz from "./Quiz/CreateQuiz";
 import {QuizContextProvider} from "./Quiz/QuizContext";
 import Button from "@material-ui/core/Button";
 import ExitTicketCreation from "./ExitTicket/ExitTicketCreation";
+import {PollContextProvider} from "./Poll/PollContext";
+import CreatePoll from "./Poll/CreatePoll";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +47,7 @@ const ActivityCreate = ({user}) => {
         if(choice === 'Quiz'){
             setMenu(<QuizContextProvider><CreateQuiz user={user}/></QuizContextProvider>)
         }else if(choice === 'Poll'){
-
+            setMenu(<PollContextProvider><CreatePoll user={user}/>></PollContextProvider>)
         }else if(choice === 'Exit Ticket'){
             setMenu(<ExitTicketCreation/>)
         }

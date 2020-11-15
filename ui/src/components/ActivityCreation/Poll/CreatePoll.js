@@ -41,8 +41,8 @@ const CreatePoll=({user})=>{
             }
             newPollInfo.pollQuestions = newPollQuestions;
             setPollInfo(newPollInfo);
-            axios.post(apiGatewayUrl + '/poll/create', {userId: user.User_ID, poll:newPollInfo, pollType: 'Multiple Choice'}).then(function (res) {
-                console.log('Response to Poll Create: ' + res.data.questionsCreate);
+            axios.post(apiGatewayUrl + '/poll/create', {pollName:newPollInfo.pollName, userId: user.User_ID}).then(function (res) {
+                console.log('Response to Poll Create: ' + res.data.pollCreation);
             })
         }
     };
