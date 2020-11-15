@@ -48,15 +48,10 @@ const Chat = ({ user, sessionName, sessionId }) => {
 
   const listen = () => {
     socket.on("chat message from server", function (data) {
-      // console.log('DATA: ', data)
-      // console.log('Incoming message for : ' + sockid +  ' ' + data[0]+ ' ' + data[1]);
-      //Update messages state
       updateMessages(data);
     });
+    // this should probably be removed when db connection is added
     socket.on("initial messages", function (data) {
-      // console.log('DATA: ', data)
-      // console.log('Incoming message for : ' + sockid +  ' ' + data[0]+ ' ' + data[1]);
-      //Update messages state
       updateMessages(data);
     });
   };

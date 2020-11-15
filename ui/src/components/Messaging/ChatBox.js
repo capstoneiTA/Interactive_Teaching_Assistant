@@ -27,7 +27,7 @@ import Divider from "@material-ui/core/Divider";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     padding: 5,
+    paddingBottom: 15,
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
   },
@@ -61,55 +62,62 @@ const onOptionsClick = (e) => {
 
 const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
   const classes = useStyles();
+  const [count, setCount] = useState(0);
+
   return (
     <>
       <div className={classes.root}>
         <List dense={true}>
-          {console.log(user)}
           {messages.map((msg) => {
             if (msg.user.User_ID === user.User_ID) {
               return (
-                <ListItem
-                  key={msg.msg + msg.user.firstName}
-                  style={{
-                    textAlign: "right",
-                    color: "blue",
-                  }}
-                >
-                  <ListItemAvatar>
-                    <Avatar>
-                      <AccountCircle />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={msg.user.firstName + " " + msg.user.lastName}
-                    secondary={msg.msg}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <MoreVertIcon onClick={onOptionsClick} />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
+                <>
+                  <ListItem
+                    key={count}
+                    style={{
+                      textAlign: "right",
+                      color: "blue",
+                    }}
+                  >
+                    <ListItemAvatar>
+                      <Avatar>
+                        <AccountCircle />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={msg.user.firstName + " " + msg.user.lastName}
+                      secondary={msg.msg}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton edge="end" aria-label="delete">
+                        <MoreVertIcon onClick={onOptionsClick} />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider />
+                </>
               );
             } else {
               return (
-                <ListItem key={msg.msg + msg.user.firstName}>
-                  <ListItemAvatar>
-                    <Avatar>
-                      <AccountCircle />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={msg.user.firstName + " " + msg.user.lastName}
-                    secondary={msg.msg}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="delete">
-                      <MoreVertIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
+                <>
+                  <ListItem key={count}>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <AccountCircle />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={msg.user.firstName + " " + msg.user.lastName}
+                      secondary={msg.msg}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton edge="end" aria-label="delete">
+                        <MoreVertIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider />
+                </>
               );
             }
           })}
