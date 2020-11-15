@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -8,6 +8,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import axios from "axios";
 import socketIOClient from "socket.io-client";
+import {ActivityMonitorContext} from "../ActivityMonitor/ActivityMonitorContext";
+import QuizMonitor from "../ActivityMonitor/QuizMonitor";
+import {QuizMonitorContextProvider} from "../ActivityMonitor/QuizMonitorContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,8 +35,10 @@ const useStyles = makeStyles((theme) => ({
 export default function QuizAccordionList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
+    const {monitor, setMonitor} = useContext(ActivityMonitorContext);
     let quizzesInfo = [];
     let apiGatewayUrl = '';
+    let quizAnswers = {};
     let ENDPOINT = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
         apiGatewayUrl = `http://localhost:8080`;
@@ -101,6 +106,9 @@ export default function QuizAccordionList({user, sessionName}) {
         axios.get(apiGatewayUrl + '/quiz/start', {params: {sessionName: sessionName}}).then(function (res) {
             //Send quiz to students
             socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
+            console.log(quizzesInfo[index]);
+            quizAnswers = quizzesInfo[index];
+            setMonitor(<QuizMonitorContextProvider><QuizMonitor quiz={quizzesInfo[index]}/></QuizMonitorContextProvider>)
         })
     };
 

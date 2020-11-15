@@ -8,6 +8,8 @@ import Chat from '../Messaging/Chat'
 import {ChatContextProvider} from "../Messaging/ChatContext";
 
 import StudentActivityContainer from "../ActivityRun/StudentActivityContainer";
+import {ActivityMonitorContextProvider} from "../ActivityMonitor/ActivityMonitorContext";
+import TeacherActivityMonitorContainer from "../ActivityMonitor/TeacherActivityMonitorContainer";
 
 
 class ClassSession extends Component {
@@ -35,7 +37,7 @@ class ClassSession extends Component {
 
                     <ChatContextProvider><Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/></ChatContextProvider>
 
-                    <StudentActivityContainer user={this.user} sessionName={this.sessionName} />
+                    <StudentActivityContainer user={this.user} sessionName={this.sessionName} sessionId={this.sessionId}/>
              
                 </div>
             )
@@ -43,10 +45,12 @@ class ClassSession extends Component {
             return (
                 <div>
                     <h1>Class Session</h1>
-                    <TeacherClassSessionMenu
+                    <ActivityMonitorContextProvider><TeacherClassSessionMenu
                         item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>}
                         item2={<QuizAccordionList sessionName = {this.sessionName} user={this.user} />}
                     />
+                    <TeacherActivityMonitorContainer sessionName = {this.sessionName}/>
+                    </ActivityMonitorContextProvider>
 
                     <ChatContextProvider>
                         <Chat user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>

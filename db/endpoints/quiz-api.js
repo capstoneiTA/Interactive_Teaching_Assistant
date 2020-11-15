@@ -66,6 +66,7 @@ module.exports = function(app, db) {
                 for(let Quiz of Quizzes){
                     let quiz = {};
                     quiz.quizName = Quiz.Quiz_Name;
+                    quiz.quizId = Quiz.Quiz_ID;
                     quiz.quizQuestions = [];
                     let foundQuestions = getQuizQuestions(Quiz, res);
                     foundQuestions.then((Questions)=>{
@@ -73,6 +74,7 @@ module.exports = function(app, db) {
                         for(let Question of Questions){
                             let question_object = {};
                             question_object.prompt = Question.Prompt;
+                            question_object.questionId = Question.Quiz_Question_ID;
                             question_object.options = [];
 
                             let foundQuestionOptions = getQuestionOptions(Question, res);
@@ -81,6 +83,7 @@ module.exports = function(app, db) {
                                     let option_object = {};
                                     option_object.option = Option.Option_Text;
                                     option_object.isCorrect = Option.isCorrect;
+                                    option_object.optionId = Option.MC_Option_ID;
                                     question_object.options.push(option_object);
                                 }
                                 quiz.quizQuestions.push(question_object);
@@ -104,7 +107,29 @@ module.exports = function(app, db) {
         });
     });
 
+    app.post("/quiz/responseStore", function (req, res) {
+        //Get session creation data from post request
+        let userId = req.body.userId;
+        let response = req.body.response;
+        let sessionId = req.body.sessionId;
+        let resp = {};
 
+        for(let answer of response.answers){
+            db.QuizQuestionResponse.create({
+                User_ID: userId,
+                Quiz_Question_ID: answer.questionId,
+                MC_Option_ID: answer.answerId,
+                Session_ID: sessionId
+            }).then(function(){
+                resp.responseStored = true;
+                res.send(resp);
+            }).catch(function(error){
+                res.send(error);
+            })
+        }
+
+
+    });
 
     /********HELPER FUNCTIONS********/
 
