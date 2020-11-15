@@ -91,20 +91,33 @@ class TeacherUnderstandingMeter extends Component {
     render() {
         return (
             <div>
-                <h2>Session: {this.sessionName} </h2>
-                <h2>Session ID: {this.sessionId} </h2>
-                <h2>Student Meters</h2>
+                {/*<h2>Session: {this.sessionName} </h2>*/}
+                {/*<h2>Session ID: {this.sessionId} </h2>*/}
+                {/*<h2>Student Meters</h2>*/}
 
                 {this.state.studentMeters.map((meter) => {
-                    return <div>
-                        <h2>{meter.firstName} {meter.lastName}: </h2>
-                        <ProgressBar min={1} max={5} now={meter.value} label={meter.value}/>
+                    return <div style={studentUMeter}>
+                            <div>{meter.firstName} {meter.lastName}: </div>
+                            <ProgressBar min={1} max={5} now={meter.value} label={meter.value} style={progressBarStyle}/>
                         </div>
                 })}
             </div>
         );
     }
 }
+
+const studentUMeter = {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    margin: '10px',
+}
+
+const progressBarStyle = {
+    width: '300px',
+    height: '20px',
+    marginLeft: '20px',
+}
+
 
 export default TeacherUnderstandingMeter;
 

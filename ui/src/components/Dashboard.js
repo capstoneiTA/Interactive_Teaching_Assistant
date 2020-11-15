@@ -1,5 +1,6 @@
 import React, {Component, useState} from 'react';
 import { Button } from '@material-ui/core';
+import PageHeader from "./Header/PageHeader";
 import SessionConnect from './SessionComps/SessionConnect';
 import SessionJoin from './SessionComps/SessionJoin';
 import UserInfo from './UserInfo';
@@ -22,52 +23,120 @@ class Dashboard extends Component {
         if (this.user.type === 'Teacher') {
             return (
                 <div>
-                    <div style={{padding: "10px"}}>
-                        <h1>Dashboard</h1>
-                        <hr/>
+                    <PageHeader user={this.user} sessionName={null} designation="TEACHER DASHBOARD" history={this.props.history}/>
+                    <div style={pageContainer}>
+                        <div style={teacherSessionsContainer}>
+                            <div style={teacherSessionsHeader}>
+                                Sessions
+                            </div>
+                            <hr style={hrStyle}/>
+                            <div>
+                                <SessionEnrollment userId={this.user.User_ID}/>
+                            </div>
+                            <div style={sessionConnectJoinStyle}>
+                                <SessionConnect CreatedBy={this.user.User_ID}/>
+                                <SessionJoin userId={this.user.User_ID}/>
+                            </div>
+                        </div>
+
+                        <div style={activityCreationContainer}>
+                            <ActivityCreate user={this.user} />
+                        </div>
                     </div>
 
-                    <div style={{padding: "10px"}}>
-                        <UserInfo user={this.user}/>
-                    </div>
 
-                    <div style={{padding: "10px"}}>
-                        <SessionConnect CreatedBy={this.user.User_ID}/>
-                    </div>
-                    <div style={{padding: "10px"}}>
-                        <SessionJoin userId={this.user.User_ID}/>
-                    </div>
-                    <div style={{padding: "10px"}}>
-                        <ActivityCreate user={this.user} />
-                    </div>
-                    <div style={{padding: "10px"}}>
 
-                        <SessionEnrollment userId={this.user.User_ID}/>
-                    </div>
+                    {/*<div style={{padding: "10px"}}>*/}
+                    {/*    <UserInfo user={this.user}/>*/}
+                    {/*</div>*/}
+
                 </div>
             )
         } else {
             return (
                 <div>
-                    <div style={{padding: "10px"}}>
-                        <h1>Dashboard</h1>
-                        <hr/>
-                    </div>
+                    <PageHeader user={this.user} sessionName={null} designation="STUDENT DASHBOARD" history={this.props.history}/>
 
-                    <div style={{padding: "10px"}}>
-                        <UserInfo user={this.user}/>
-                    </div>
+                    {/*<div style={{padding: "10px"}}>*/}
+                    {/*    <UserInfo user={this.user}/>*/}
+                    {/*</div>*/}
 
-                    <div style={{padding: "10px"}}>
-                        <SessionJoin userId={this.user.User_ID}/>
-                    </div>
-                    <div style={{padding: "10px"}}>
-                        <SessionEnrollment userId={this.user.User_ID}/>
+                    <div style={studentSessionsContainer}>
+                        <div style={studentSessionsHeader}>
+                            Sessions
+                        </div>
+                        <hr style={hrStyle}/>
+                        <div>
+                            <SessionEnrollment userId={this.user.User_ID}/>
+                        </div>
+                        <div style={sessionJoinStyle}>
+                            <SessionJoin userId={this.user.User_ID}/>
+                        </div>
                     </div>
                 </div>
             )
         }
     }
+}
+
+const pageContainer = {
+    // backgroundColor: 'gray',
+    display: 'flex',
+    flexDirection: 'row',
+    // justifyContent: 'center',
+
+    padding: '0 400px',
+}
+
+const teacherSessionsContainer = {
+    // backgroundColor: '#eee',
+    width: '800px',
+    margin: 'auto',
+    marginTop: '150px',
+    textAlign: 'center',
+}
+
+const teacherSessionsHeader = {
+    fontSize: '40px',
+    color: '#555',
+}
+
+const activityCreationContainer = {
+    // backgroundColor: '#eee',
+    width: '800px',
+    margin: 'auto',
+    marginTop: '150px',
+    textAlign: 'center',
+
+    paddingTop: '100px',
+}
+
+const sessionConnectJoinStyle = {
+    marginTop: '30px',
+    display: 'flex',
+    justifyContent: 'space-around',
+}
+
+const studentSessionsContainer = {
+    // backgroundColor: '#eee',
+    width: '800px',
+    margin: 'auto',
+    marginTop: '150px',
+    textAlign: 'center',
+}
+
+const studentSessionsHeader = {
+    fontSize: '40px',
+    color: '#555',
+}
+
+const sessionJoinStyle = {
+    marginTop: '30px',
+}
+
+const hrStyle = {
+    marginBottom: '50px',
+    borderTop: '2px solid lightgray',
 }
 
 export default Dashboard;

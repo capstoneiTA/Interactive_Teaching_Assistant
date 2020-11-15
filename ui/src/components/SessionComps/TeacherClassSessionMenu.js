@@ -65,23 +65,23 @@ export default function TeacherClassSessionMenu({item1, item2,item3}) {
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
             >
-                <Tab label="Understanding Meters" {...a11yProps(0)} />
-                <Tab label="Quizzes" {...a11yProps(1)} />
-                <Tab label="Polls" {...a11yProps(2)} />
-                <Tab label="Exit Tickets" {...a11yProps(3)} />
+                {/*<Tab label="Understanding Meters" {...a11yProps(0)} />*/}
+                <Tab label="Quizzes" {...a11yProps(0)} />
+                <Tab label="Polls" {...a11yProps(1)} />
+                <Tab label="Exit Tickets" {...a11yProps(2)} />
             </Tabs>
 
+            {/*<TabPanel value={value} index={0}>*/}
+            {/*    {item1}*/}
+            {/*</TabPanel>*/}
             <TabPanel value={value} index={0}>
                 {item1}
             </TabPanel>
             <TabPanel value={value} index={1}>
-                {item2}
-            </TabPanel>
-            <TabPanel value={value} index={2}>
                 Polls Go Here
             </TabPanel>
-            <TabPanel value={value} index={3}>
-                {item3}
+            <TabPanel value={value} index={2}>
+                {item2}
             </TabPanel>
         </div>
     );
