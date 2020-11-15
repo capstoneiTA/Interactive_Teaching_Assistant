@@ -46,7 +46,6 @@ module.exports = function(app, db) {
                     res.send(response);
                 }
             });
-
         }).catch(function(error){
             response.pollCreation = false;
             console.log('Error in poll creation: ' + error.message);
@@ -115,6 +114,7 @@ module.exports = function(app, db) {
         let response = req.body.response;
         let sessionId = req.body.sessionId;
         let resp = {};
+        let count = 0;
 
         for(let answer of response.answers){
             db.Poll_Response.create({
@@ -124,7 +124,10 @@ module.exports = function(app, db) {
                 Session_ID: sessionId
             }).then(function(){
                 resp.responseStored = true;
-                res.send(resp);
+                count++;
+                if(count === response.answers.length) {
+                    res.send(resp);
+                }
             }).catch(function(error){
                 resp.responseStored = false;
                 resp.error = error.message;
@@ -151,7 +154,7 @@ module.exports = function(app, db) {
                 }
             }else{
                 response.anyPolls = false;
-                res.send(response);
+                //res.send(response);
             }
             return foundPolls;
         }).catch(function(error){
