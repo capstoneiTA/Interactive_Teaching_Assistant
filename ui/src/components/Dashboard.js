@@ -61,16 +61,43 @@ class Dashboard extends Component {
                     {/*    <UserInfo user={this.user}/>*/}
                     {/*</div>*/}
 
-                    <div style={{padding: "10px"}}>
-                        <SessionJoin userId={this.user.User_ID}/>
-                    </div>
-                    <div style={{padding: "10px"}}>
-                        <SessionEnrollment userId={this.user.User_ID}/>
+                    <div style={studentSessionsContainer}>
+                        <div style={studentSessionsHeader}>
+                            Sessions
+                        </div>
+                        <hr style={hrStyle}/>
+                        <div>
+                            <SessionEnrollment userId={this.user.User_ID}/>
+                        </div>
+                        <div style={sessionJoinStyle}>
+                            <SessionJoin userId={this.user.User_ID}/>
+                        </div>
                     </div>
                 </div>
             )
         }
     }
+}
+
+const studentSessionsContainer = {
+    // backgroundColor: '#eee',
+    width: '800px',
+    margin: 'auto',
+    marginTop: '150px',
+    textAlign: 'center',
+}
+
+const studentSessionsHeader = {
+    fontSize: '40px',
+    color: '#555',
+}
+
+const sessionJoinStyle = {
+    marginTop: '30px',
+}
+
+const hrStyle = {
+    marginBottom: '50px',
 }
 
 export default Dashboard;

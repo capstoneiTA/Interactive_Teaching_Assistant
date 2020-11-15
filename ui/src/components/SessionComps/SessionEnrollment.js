@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 //material ui
@@ -37,6 +37,17 @@ const SessionEnrollment = ({userId}) => {
     const anchorRef = React.useRef(null);
     const history = useHistory();
 
+    useEffect(() => {
+        axios.get(apiUrl + '/session/enrollments', { params: { userId: userId } })
+            .then(res=>{
+                console.log(res);
+                console.log(res.data.enrollments);
+                setResponse({message: res.data.enrollments});
+            }).catch(error => {
+            console.log('ERROR in SessionEnrollment: ', error)
+        })
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('body to be sent to session/enrollments:', 'userId ', userId); 
@@ -49,6 +60,8 @@ const SessionEnrollment = ({userId}) => {
             console.log('ERROR in SessionEnrollment: ', error)
         })
     };
+
+
 
     const handleSessionClick = (session) => {
         console.log('selected session ','SessionName:', session);
@@ -108,7 +121,7 @@ const SessionEnrollment = ({userId}) => {
 
         prevOpen.current = open;
     }, [open]);
-
+    /*
     return (
         <div>
             <div className={classes.root}>
@@ -146,6 +159,19 @@ const SessionEnrollment = ({userId}) => {
             </div>
         </div>
 
+    )
+    */
+
+    return (
+        <div>
+            {response.message.map((enrollment, index) =>
+                <>
+                    <div key={index} onClick={(event) => handleClose(event, enrollment)}>{enrollment}</div>
+                    <hr style={{width:'600px'}}/>
+                </>
+            )}
+
+        </div>
     )
 };
 
