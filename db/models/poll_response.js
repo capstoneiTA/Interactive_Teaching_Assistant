@@ -17,6 +17,15 @@ module.exports = (sequelize, DataTypes)=> {
                 key: 'User_ID'
             }
         },
+        Poll_Question_ID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            unique: false,
+            references:{
+                model: 'Poll_Questions',
+                key: 'Poll_Question_ID'
+            }
+        },
         Poll_ID: {
             type: DataTypes.INTEGER,
             allowNull: false,
