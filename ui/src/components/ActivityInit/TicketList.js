@@ -1,17 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ProgressBar from "react-bootstrap/ProgressBar";
-import {generateNewNodeTag} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
 import axios from "axios";
 import socketIOClient from "socket.io-client";
-import {ActivityMonitorContext} from "../ActivityMonitor/ActivityMonitorContext";
-import QuizMonitor from "../ActivityMonitor/QuizMonitor";
-import {QuizMonitorContextProvider} from "../ActivityMonitor/QuizMonitorContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,25 +16,17 @@ const useStyles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
     },
-    correct: {
-        color: 'green',
-    },
-    incorrect: {
-        color: 'red',
-    },
-    startButton: {
+    Button: {
         marginLeft: '20px',
     },
 
 }));
 
-export default function QuizAccordionList({user, sessionName}) {
+export default function TicketList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
-    const {monitor, setMonitor} = useContext(ActivityMonitorContext);
     let quizzesInfo = [];
     let apiGatewayUrl = '';
-    let quizAnswers = {};
     let ENDPOINT = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
         apiGatewayUrl = `http://localhost:8080`;
@@ -51,17 +38,18 @@ export default function QuizAccordionList({user, sessionName}) {
 
     //Socket info
     let socket = socketIOClient(ENDPOINT + sessionName);
-    let sockId = 'empty';
+    let socket_Id = 'empty';
 
     const socketStart=()=>{
         socket.on('connect', () => {
-            sockId = socket.id;
+            socket_Id = socket.id;
+            console.log(socket_Id);
         });
     };
 
     const getQuizzes = ()=>{
         if(user.type === 'Teacher'){
-            axios.get(apiGatewayUrl + '/quiz/retrieve', {params: {userId: user.User_ID}}).then(function (res) {
+            axios.get(apiGatewayUrl + '/ExitTicket/question', {params: {userId: user.User_ID}}).then(function (res) {
                 if(res.data.anyQuizzes){
                     quizzesInfo = res.data.quizzes;
                     generateQuizList(res.data.quizzes);
@@ -80,20 +68,13 @@ export default function QuizAccordionList({user, sessionName}) {
                     id="panel1a-header"
                 >
                     <Typography className={classes.heading}>{quiz.quizName}</Typography>
-                    <button className={classes.startButton} onClick={startQuiz} name={quizIndex}>Start</button>
+                    <button className={classes.Button} onClick={startExit} name={quizIndex}>Start</button>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>
                         {quiz.quizQuestions.map((question)=>{
                             return <div>
                                 <h3>{question.prompt}</h3>
-                                {question.options.map((option)=>{
-                                    if(option.isCorrect){
-                                        return <p className={classes.correct}>{option.option}</p>
-                                    }else{
-                                        return <p className={classes.incorrect}>{option.option}</p>
-                                    }
-                                })}
                             </div>
                         })}
                     </Typography>
@@ -102,21 +83,19 @@ export default function QuizAccordionList({user, sessionName}) {
         });
         setQuizList(newQuizList);
     };
-    let startQuiz = (e)=>{
+    let startExit = (e)=>{
         let index = parseInt(e.target.name);
-        axios.get(apiGatewayUrl + '/quiz/start', {params: {sessionName: sessionName}}).then(function (res) {
+        axios.get(apiGatewayUrl + '/ExitTicket/initiate', {params: {sessionName: sessionName}}).then(function (res) {
             //Send quiz to students
-            socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
+            socket.emit('teacher start exit', socket_Id, quizzesInfo[index]);
             console.log(quizzesInfo[index]);
-            quizAnswers = quizzesInfo[index];
-            setMonitor(<QuizMonitorContextProvider><QuizMonitor quiz={quizzesInfo[index]}/></QuizMonitorContextProvider>)
         })
     };
 
-    useEffect(()=>{
+   useEffect(()=>{
         //Generate quiz components on teacher screen
         getQuizzes();
-        socketStart();
+       socketStart();
     }, []);
 
     return (

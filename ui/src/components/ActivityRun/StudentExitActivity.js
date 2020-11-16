@@ -2,11 +2,10 @@
 import React, {Component, useEffect, useState} from 'react';
 
 import socketIOClient from "socket.io-client";
-import StudentQuiz from "./StudentQuiz";
-import {StudentAnswersContextProvider} from "./StudentAnswersContext";
+import StudentExitTicket from "./StudentExitTicket";
 
-export default function StudentActivityContainer({user, sessionName, sessionId}) {
-    const [activity, setActivity] = useState('no activity started');
+export default function StudentExitActivity({user, sessionName, sessionId}) {
+    const [Status, SetStatus] = useState('no activity started');
 
     let ENDPOINT = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
@@ -16,7 +15,7 @@ export default function StudentActivityContainer({user, sessionName, sessionId})
     }
     //Socket info
     let socket = socketIOClient(ENDPOINT + sessionName);
-    let sockId = 'empty';
+    let socket_Id = 'empty';
 
 
     //Start listening when the component mounts
@@ -27,23 +26,24 @@ export default function StudentActivityContainer({user, sessionName, sessionId})
     const socketStart=()=>{
         socket.on('connect', () => {
             console.log('connected to session socket communication. Ready to accept Quizzes.')
-            sockId = socket.id;
+            socket_Id = socket.id;
             listen();
         });
     };
 
     const listen=()=>{
-       socket.on('quiz for students', (teacherSockId, quiz)=>{
+       socket.on('exit for students', (teacherSockId, quiz)=>{
            console.log(quiz);
-           setActivity(<StudentAnswersContextProvider><StudentQuiz quiz={quiz} socket={socket} user={user} sessionId={sessionId}/></StudentAnswersContextProvider>);
+            SetStatus(<StudentExitTicket quiz={quiz} sessionId= {sessionId} userId= {user.User_ID}/>);
        })
     };
 
     return(
         <div>
-            {activity}
+            {Status}
         </div>
     )
+
 
 
 }

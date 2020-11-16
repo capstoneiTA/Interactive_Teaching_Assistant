@@ -144,4 +144,111 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
     </>
   );
 };
-export default ChatBox;
+// export default ChatBox;
+    // root: {
+    //   width: '100%',
+    //   maxWidth: 360,
+    //   backgroundColor: theme.palette.background.paper,
+    //   position: 'relative',
+    //   overflow: 'auto',
+    //   maxHeight: 300,
+    //   margin: 3,
+    //   border: '2px solid blue',
+    //   borderRadius: 6
+    // },
+    // listSection: {
+    //   backgroundColor: 'inherit',
+    // },
+    // ul: {
+    //   backgroundColor: 'inherit',
+    //   padding: 0,
+    // },
+    // form: {
+    //     margin: 5,
+    //     padding: 5,
+    //     width: '100%', // Fix IE 11 issue.
+    //     marginTop: theme.spacing.unit,
+    //   },
+    // h1: {
+    //     textAlign: 'center'
+    // }
+  }));
+
+// const ChatBox = ({handleSubmit, handleChange, value, messages}) => {
+//     const classes = useStyles();
+//       return (
+//         <>
+//         <div className={classes.root}>
+//             {/*<h1>Chat</h1>*/}
+//             <div style={chatListStyle}>
+//                 <List dense={true} >
+//                     {messages.map((msg) => (
+//                         <ListItem key={msg}>
+//                             <ListItemAvatar>
+//                                 <Avatar>
+//                                     <FolderIcon />
+//                                 </Avatar>
+//                             </ListItemAvatar>
+//                             <ListItemText
+//                                 primary={msg[1]}
+//                                 secondary={msg[0]}
+//                             />
+//                             <ListItemSecondaryAction>
+//                                 <IconButton edge="end" aria-label="delete">
+//                                     <MoreVertIcon />
+//                                 </IconButton>
+//                             </ListItemSecondaryAction>
+//                         </ListItem>
+//                     ))}
+//                 </List>
+//             </div>
+//             <div style={inputDivContainer}>
+//                 <form className={classes.form} onSubmit={e => handleSubmit(e)} style={inputFormContainer} >
+//                     <FormControl margin="normal" style={chatInputStyle}>
+//                         <InputLabel htmlFor="message"></InputLabel>
+//                         <Input id="message" placeholder="Send something nice!" onBlur="Send something nice!" name="message" value={value} onChange={handleChange} autoFocus autoComplete="off" size="normal"/>
+//                     </FormControl>
+//                     <Button
+//                         type="submit"
+//                         // fullWidth
+//                         variant="contained"
+//                         // color="primary"
+//                         onClick={e => handleSubmit(e)}
+//                         style={sendButtonStyle}
+//                     >
+//                         Send Message
+//                     </Button>
+//                 </form>
+//             </div>
+
+//             </div>
+//           </>
+//       )
+// }
+
+const chatListStyle = {
+    // height: '100%',
+    // overflowY: 'auto',
+}
+
+const inputDivContainer = {
+    borderTop: '2px solid lightgray',
+}
+
+const inputFormContainer = {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+}
+
+const chatInputStyle = {
+    width: '79%',
+    margin: '10px',
+}
+
+const sendButtonStyle = {
+    width: '19%',
+    margin: '10px',
+}
+
+export default ChatBox
