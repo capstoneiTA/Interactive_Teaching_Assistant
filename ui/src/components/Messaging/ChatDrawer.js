@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    zIndex: 10,
   },
   drawerPaper: {
     width: drawerWidth,
@@ -111,7 +112,7 @@ export default function ChatDrawer({
         position="absolute"
         onClick={handleDrawerOpen}
         className={clsx(drawerOpen && classes.hide)}
-        style={{ position: "absolute", top: ".5em", right: "1em" }}
+        style={{ position: "absolute", top: "2em", right: "1em" }}
       >
         <MenuIcon />
       </IconButton>
@@ -123,6 +124,7 @@ export default function ChatDrawer({
         classes={{
           paper: classes.drawerPaper,
         }}
+        style={{ zIndex: 10, position: "absolute", top: "2em", right: "1em" }}
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>

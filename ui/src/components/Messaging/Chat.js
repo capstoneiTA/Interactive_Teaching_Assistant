@@ -109,15 +109,12 @@ const Chat = ({ user, sessionName, sessionId }) => {
 
   return (
     <>
-      <ChatDrawer
+      <ChatBox
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         value={value}
         messages={messages}
         user={user}
-        drawerOpen={drawerOpen}
-        setDrawerOpen={setDrawerOpen}
-        updateMessages={updateMessages}
       />
 
       {/* <h1>CHAT</h1>
