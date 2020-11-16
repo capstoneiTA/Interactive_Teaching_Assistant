@@ -14,6 +14,7 @@ const SignIn = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    this.apiGatewayUrl = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
         this.apiGatewayUrl = 'http://localhost:8080';
     }else{
