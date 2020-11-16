@@ -50,10 +50,13 @@ export default function TicketList({user, sessionName}) {
     const getQuizzes = ()=>{
         if(user.type === 'Teacher'){
             axios.get(apiGatewayUrl + '/ExitTicket/question', {params: {userId: user.User_ID}}).then(function (res) {
+                console.log(res.data);
                 if(res.data.anyQuizzes){
                     quizzesInfo = res.data.quizzes;
                     generateQuizList(res.data.quizzes);
                 }
+            }).catch(function(error){
+                console.log(error);
             })
         }
     };

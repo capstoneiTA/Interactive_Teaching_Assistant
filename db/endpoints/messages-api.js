@@ -34,7 +34,6 @@ module.exports = function (app, db) {
       },
     })
       .then(function (Messages) {
-        console.log("MESSAGES", Messages);
         response.messages = Messages;
         res.send(response);
       })
