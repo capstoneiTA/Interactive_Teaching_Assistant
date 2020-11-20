@@ -46,34 +46,34 @@ describe('Poll Creation', function () {
 //
 // });
 
-describe('Poll Start', function () {
-
-    describe('Teacher starts a poll', function(){
-        it('should receive a response that the poll listener started or that it is already running', function () {
-            return axios.get(apiGatewayUrl + '/poll/start', {params:{sessionName: 'test'}}).then(function (res) {
-                expect(res.data.pollListenerStarted).to.equal(true);
-            })
-        });
-    });
-
-});
-
-describe('Save Poll Response', function () {
-    const sampleResponse = {
-        answers:[
-            {pollId: 1, questionId: 1, optionId: 1}
-        ],
-    };
-
-    describe('Poll session saves the response sent by the student', function(){
-        it('should save the received poll response to the database', function () {
-            return axios.post(dbUrl + '/poll/responseStore', {userId: 1, response: sampleResponse, sessionId: 1}).then(function (res) {
-                expect(res.data.responseStored).to.equal(true);
-            })
-        });
-    });
-
-});
+// describe('Poll Start', function () {
+//
+//     describe('Teacher starts a poll', function(){
+//         it('should receive a response that the poll listener started or that it is already running', function () {
+//             return axios.get(apiGatewayUrl + '/poll/start', {params:{sessionName: 'test'}}).then(function (res) {
+//                 expect(res.data.pollListenerStarted).to.equal(true);
+//             })
+//         });
+//     });
+//
+// });
+//
+// describe('Save Poll Response', function () {
+//     const sampleResponse = {
+//         answers:[
+//             {pollId: 1, questionId: 1, optionId: 1}
+//         ],
+//     };
+//
+//     describe('Poll session saves the response sent by the student', function(){
+//         it('should save the received poll response to the database', function () {
+//             return axios.post(dbUrl + '/poll/responseStore', {userId: 1, response: sampleResponse, sessionId: 1}).then(function (res) {
+//                 expect(res.data.responseStored).to.equal(true);
+//             })
+//         });
+//     });
+//
+// });
 
 
 
