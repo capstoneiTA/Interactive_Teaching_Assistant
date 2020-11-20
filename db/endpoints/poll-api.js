@@ -19,19 +19,17 @@ module.exports = function(app, db) {
                     Poll_ID: Poll.Poll_ID,
                     Prompt: question.prompt
                 }).then(function(Question) {
-
                     question.options.forEach(function(option, index){
                         db.Poll_Option.create({
                             Poll_Question_ID: Question.Poll_Question_ID,
                             Option_Text: option.optionText
-                        }).then(function () {
                         }).catch(function(error){
-                            //response.optionAdded = false;
+                            response.optionAdded = false;
+                            response.errorMess = error.message;
                             console.log('Error adding option' + (index + 1));
-                            // res.send(response)
+                            res.send(response)
                         })
                     })
-
                 }).catch(function (error) {
                     response.questionAdded = false;
                     console.log('Error in questions addition: ' + error.message);
