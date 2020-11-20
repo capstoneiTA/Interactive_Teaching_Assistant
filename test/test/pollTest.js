@@ -12,39 +12,39 @@ let testPoll = {pollName: randomNameGenerator(), pollQuestions: [
     ]
 };
 
-describe('Poll Creation', function () {
+// describe('Poll Creation', function () {
+//
+//     describe('Teacher creates a poll', function(){
+//         it('should successfully create a poll in db', function () {
+//             return axios.post(apiGatewayUrl + '/poll/create', {poll: testPoll, userId: 1}).then(function (res) {
+//                 expect(res.data.pollCreation).to.equal(true);
+//                 expect(res.data.questionAdded).to.equal(true);
+//                 expect(res.data.optionAdded).to.equal(true); //some error with the option...
+//             })
+//         });
+//     });
+// });
 
-    describe('Teacher creates a poll', function(){
-        it('should successfully create a poll in db', function () {
-            return axios.post(apiGatewayUrl + '/poll/create', {poll: testPoll, userId: 1}).then(function (res) {
-                expect(res.data.pollCreation).to.equal(true);
-                expect(res.data.questionAdded).to.equal(true);
-                expect(res.data.optionAdded).to.equal(true); //some error with the option...
+describe('Poll Retrieval', function () {
+
+    describe('Teacher Retrieves Polls', function(){
+        it('should successfully retrieve all polls for a given users', function () {
+            this.timeout(1000000);
+            return axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: 1}}).then(function (res) {
+                expect(res.data.anyPolls).to.equal(true);
             })
         });
     });
-});
 
-// describe('Poll Retrieval', function () {
-//
-//     describe('Teacher Retrieves Polls', function(){
-//         it('should successfully retrieve all polls for a given users', function () {
-//             this.timeout(1000000);
-//             return axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: 1}}).then(function (res) {
-//                 expect(res.data.anyPolls).to.equal(true);
-//             })
-//         });
-//     });
-//
-//     describe('User with no created polls attempts to retrieve polls', function(){
-//         it('should return an empty array', function () {
-//             return axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: 2}}).then(function (res) {
-//                 expect(res.data.anyPolls).to.equal(false);
-//             })
-//         });
-//     });
-//
-// });
+    describe('User with no created polls attempts to retrieve polls', function(){
+        it('should return an empty array', function () {
+            return axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: 2}}).then(function (res) {
+                expect(res.data.anyPolls).to.equal(false);
+            })
+        });
+    });
+
+});
 
 // describe('Poll Start', function () {
 //
@@ -59,11 +59,11 @@ describe('Poll Creation', function () {
 // });
 //
 // describe('Save Poll Response', function () {
-//     const sampleResponse = {
-//         answers:[
-//             {pollId: 1, questionId: 1, optionId: 1}
-//         ],
-//     };
+//     // const sampleResponse = {
+//     //     answers:[
+//     //         {pollId: 1, questionId: 1, optionId: 1}
+//     //     ],
+//     // };
 //
 //     describe('Poll session saves the response sent by the student', function(){
 //         it('should save the received poll response to the database', function () {

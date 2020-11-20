@@ -5,15 +5,14 @@ module.exports = function(app, db) {
         let userId = req.body.userId;
         let response = {};
 
-        let pollAdded = 0;
-        let optionCount = 0;
+        // let pollAdded = 0;
+        // let optionCount = 0;
 
         db.Poll.create({
             User_ID: userId,
             Poll_Name: poll.pollName
         }).then(function(Poll){
             response.pollCreation = true;
-
             poll.pollQuestions.forEach(function(question) {
                 db.Poll_Question.create({
                     Poll_ID: Poll.Poll_ID,
@@ -24,32 +23,32 @@ module.exports = function(app, db) {
                             Poll_Question_ID: Question.Poll_Question_ID,
                             Option_Text: option.optionText
                         }).then(function () {
-                            optionCount++;
-                            if (optionCount === question.options.length)  {
-                                response.optionAdded = true;
-                            }
+                            response.optionAdded = true;
+                            // optionCount++;
+                            // if (optionCount === question.options.length)  {
+                            //     response.optionAdded = true;
+                            // }
                         }).catch(function(error){
                             response.optionAdded = false;
                             response.errorMess = error.message;
-                            res.send(response)
+                            // res.send(response)
                         })
                     })
                 }).catch(function (error) {
                     response.questionAdded = false;
-                    console.log('Error in questions addition: ' + error.message);
-                    res.send(response);
+                    response.errorMess = error.message;
+                    // res.send(response);
                 });
-                pollAdded++;
-                if(pollAdded === poll.pollQuestions.length){
+                // pollAdded++;
+                //if(pollAdded === poll.pollQuestions.length){
                     response.questionAdded = true;
-                    res.send(response);
-                }
+                //}
             });
         }).catch(function(error){
             response.pollCreation = false;
-            console.log('Error in poll creation: ' + error.message);
-            res.send(response);
-        })
+            response.errorMess = error.message;
+        });
+        res.send(response);
     });
 
     app.get("/poll/retrieve", function(req, res) {
@@ -93,7 +92,7 @@ module.exports = function(app, db) {
                                     pollsAdded ++;
                                     if(pollsAdded === Polls.length){
                                         response.polls = polls;
-                                        res.send(response);
+                                        //res.send(response);
                                     }
                                 }
                             });
@@ -103,7 +102,7 @@ module.exports = function(app, db) {
             }else{
                 response.anyPolls = false;
             }
-
+            res.send(response);
         });
     });
 
@@ -155,7 +154,7 @@ module.exports = function(app, db) {
                 }
             }else{
                 response.anyPolls = false;
-                //res.send(response);
+                res.send(response);
             }
             return foundPolls;
         }).catch(function(error){
