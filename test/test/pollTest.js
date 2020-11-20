@@ -29,7 +29,7 @@ describe('Poll Creation', function () {
 //
 //     describe('Teacher Retrieves Polls', function(){
 //         it('should successfully retrieve all polls for a given users', function () {
-//             this.timeout(10000);
+//             this.timeout(1000000);
 //             return axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: 1}}).then(function (res) {
 //                 expect(res.data.anyPolls).to.equal(true);
 //             })
@@ -61,15 +61,13 @@ describe('Poll Start', function () {
 describe('Save Poll Response', function () {
     const sampleResponse = {
         answers:[
-            {questionId: 11, answerId: 112},
-            {questionId: 12, answerId: 255},
-            {questionId: 13, answerId: 555},
+            {pollId: 1, questionId: 1, optionId: 1}
         ],
     };
 
     describe('Poll session saves the response sent by the student', function(){
         it('should save the received poll response to the database', function () {
-            return axios.post(dbUrl + '/poll/responseStore', {userId: 1, response: sampleResponse, sessionId: 321}).then(function (res) {
+            return axios.post(dbUrl + '/poll/responseStore', {userId: 1, response: sampleResponse, sessionId: 1}).then(function (res) {
                 expect(res.data.responseStored).to.equal(true);
             })
         });

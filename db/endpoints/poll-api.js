@@ -3,10 +3,10 @@ module.exports = function(app, db) {
     app.post("/poll/create", function(req, res) {
         let poll = req.body.poll;
         let userId = req.body.userId;
-
         let response = {};
 
         let pollAdded = 0;
+        let optionCount = 0;
 
         db.Poll.create({
             User_ID: userId,
@@ -19,14 +19,18 @@ module.exports = function(app, db) {
                     Poll_ID: Poll.Poll_ID,
                     Prompt: question.prompt
                 }).then(function(Question) {
-                    question.options.forEach(function(option, index){
+                    question.options.forEach(function(option){
                         db.Poll_Option.create({
                             Poll_Question_ID: Question.Poll_Question_ID,
                             Option_Text: option.optionText
+                        }).then(function () {
+                            optionCount++;
+                            if (optionCount === question.options.length)  {
+                                response.optionAdded = true;
+                            }
                         }).catch(function(error){
                             response.optionAdded = false;
                             response.errorMess = error.message;
-                            console.log('Error adding option' + (index + 1));
                             res.send(response)
                         })
                     })
@@ -108,6 +112,7 @@ module.exports = function(app, db) {
         let userId = req.body.userId;
         let response = req.body.response;
         let sessionId = req.body.sessionId;
+
         let resp = {};
         let count = 0;
 
@@ -115,12 +120,13 @@ module.exports = function(app, db) {
             db.Poll_Response.create({
                 User_ID: userId,
                 Poll_Question_ID: answer.questionId,
-                Poll_Option_ID: answer.answerId,
+                Poll_ID: answer.pollId,
+                Poll_Option_ID: answer.optionId,
                 Session_ID: sessionId
             }).then(function(){
-                resp.responseStored = true;
                 count++;
                 if(count === response.answers.length) {
+                    resp.responseStored = true;
                     res.send(resp);
                 }
             }).catch(function(error){
