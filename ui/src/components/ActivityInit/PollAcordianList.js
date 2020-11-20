@@ -114,9 +114,9 @@ export default function PollAccordionList({user, sessionName}) {
             console.log(pollsInfo[index]);
             pollAnswers = pollsInfo[index];
             setMonitor(
-                <QuizMonitorContextProvider>
-                    <QuizMonitor poll={pollsInfo[index]}/>
-                </QuizMonitorContextProvider>
+                <PollMonitorContextProvider>
+                    <PollMonitor poll={pollsInfo[index]}/>
+                </PollMonitorContextProvider>
             )
         })
     };
