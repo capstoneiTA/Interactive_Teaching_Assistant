@@ -5,7 +5,7 @@ import socketIOClient from "socket.io-client";
 import {ActivityMonitorContext} from "./ActivityMonitorContext";
 
 export default function TeacherActivityMonitorContainer({sessionName}) {
-    const {monitor, setMonitor, quizSocket, setQuizSocket} = useContext(ActivityMonitorContext);
+    const {monitor, setMonitor, quizSocket, setQuizSocket, pollSocket, setPollSocket} = useContext(ActivityMonitorContext);
 
     let ENDPOINT = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
@@ -22,11 +22,12 @@ export default function TeacherActivityMonitorContainer({sessionName}) {
     useEffect(()=>{
         socketStart();
         setQuizSocket(socket);
+        setPollSocket(socket);
     },[]);
 
     const socketStart=()=>{
         socket.on('connect', () => {
-            console.log('Monitor ready to listen to activities')
+            console.log('Monitor ready to listen to activities');
             sockId = socket.id;
         });
     };

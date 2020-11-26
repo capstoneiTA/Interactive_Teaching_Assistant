@@ -12,18 +12,18 @@ let testPoll = {pollName: randomNameGenerator(), pollQuestions: [
     ]
 };
 
-// describe('Poll Creation', function () {
-//
-//     describe('Teacher creates a poll', function(){
-//         it('should successfully create a poll in db', function () {
-//             return axios.post(apiGatewayUrl + '/poll/create', {poll: testPoll, userId: 1}).then(function (res) {
-//                 expect(res.data.pollCreation).to.equal(true);
-//                 expect(res.data.questionAdded).to.equal(true);
-//                 expect(res.data.optionAdded).to.equal(true); //some error with the option...
-//             })
-//         });
-//     });
-// });
+describe('Poll Creation', function () {
+
+    describe('Teacher creates a poll', function(){
+        it('should successfully create a poll in db', function () {
+            return axios.post(apiGatewayUrl + '/poll/create', {poll: testPoll, userId: 1}).then(function (res) {
+                expect(res.data.pollCreation).to.equal(true);
+                // expect(res.data.questionAdded).to.equal(true);
+                // expect(res.data.optionAdded).to.equal(true); //some error with the option...
+            })
+        });
+    });
+});
 
 describe('Poll Retrieval', function () {
 

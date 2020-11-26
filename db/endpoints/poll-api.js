@@ -5,9 +5,6 @@ module.exports = function(app, db) {
         let userId = req.body.userId;
         let response = {};
 
-        // let pollAdded = 0;
-        // let optionCount = 0;
-
         db.Poll.create({
             User_ID: userId,
             Poll_Name: poll.pollName
@@ -23,32 +20,35 @@ module.exports = function(app, db) {
                             Poll_Question_ID: Question.Poll_Question_ID,
                             Option_Text: option.optionText
                         }).then(function () {
-                            response.optionAdded = true;
+                            //response.optionAdded = true;
                             // optionCount++;
                             // if (optionCount === question.options.length)  {
                             //     response.optionAdded = true;
                             // }
                         }).catch(function(error){
-                            response.optionAdded = false;
+                            //response.optionAdded = false;
                             response.errorMess = error.message;
                             // res.send(response)
                         })
                     })
                 }).catch(function (error) {
-                    response.questionAdded = false;
+                    //response.questionAdded = false;
                     response.errorMess = error.message;
                     // res.send(response);
                 });
                 // pollAdded++;
                 //if(pollAdded === poll.pollQuestions.length){
-                    response.questionAdded = true;
+                //response.questionAdded = true;
                 //}
             });
+            res.send(response);
         }).catch(function(error){
             response.pollCreation = false;
             response.errorMess = error.message;
+            res.send(response);
         });
-        res.send(response);
+
+
     });
 
     app.get("/poll/retrieve", function(req, res) {

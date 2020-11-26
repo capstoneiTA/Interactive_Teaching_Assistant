@@ -40,6 +40,7 @@ const CreatePoll=({user})=>{
             }
             newPollInfo.pollQuestions = newPollQuestions;
             setPollInfo(newPollInfo);
+            console.log('Poll before sending away: ' + newPollInfo.pollName);
             axios.post(apiGatewayUrl + '/poll/create', {poll:newPollInfo, userId: user.User_ID}).then(function (res) {
                 console.log('Response to Poll Create: ' + res.data.pollCreation);
             })

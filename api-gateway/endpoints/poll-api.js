@@ -11,7 +11,7 @@ module.exports = function(app, axios) {
         let userId = req.body.userId;
 
         axios.post(sessionUrl + '/poll/create', {poll: poll, userId: userId}).then(function (response) {
-            res.send(response.data);
+            res.send(response.data.pollCreation);
         }).catch(function (error) {
             res.send(error);
         });
