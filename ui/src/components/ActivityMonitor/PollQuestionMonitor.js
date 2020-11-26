@@ -44,7 +44,6 @@ export default function StudentPollQuestion({question, index}) {
                         <p className={classes.option}>{option.optionText}</p>
                         <ProgressBar variant="success" className={classes.progressBar} min={0} max={100} now={option.value} label={`${option.value}%`} />
                     </div>
-
                 })}
             </Paper>
         </div>

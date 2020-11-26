@@ -103,10 +103,10 @@ export default function PollAccordionList({user, sessionName}) {
                 </AccordionDetails>
             </Accordion>)
         });
-        setPollList(newQuizList);
+        setPollList(newPollList);
     };
 
-    let startQuiz = (e)=>{
+    let startPoll = (e)=>{
         let index = parseInt(e.target.name);
         axios.get(apiGatewayUrl + '/poll/start', {params: {sessionName: sessionName}}).then(function (res) {
             //Send poll to students
