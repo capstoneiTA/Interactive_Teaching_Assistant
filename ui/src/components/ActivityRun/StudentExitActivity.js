@@ -1,5 +1,5 @@
 //General
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import socketIOClient from "socket.io-client";
 import StudentExitTicket from "./StudentExitTicket";

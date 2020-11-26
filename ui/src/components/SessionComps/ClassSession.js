@@ -11,7 +11,9 @@ import { ChatContextProvider } from "../Messaging/ChatContext";
 import axios from "axios";
 import StudentActivityContainer from "../ActivityRun/StudentActivityContainer";
 import { ActivityMonitorContextProvider } from "../ActivityMonitor/ActivityMonitorContext";
+import { ExitTicketMonitorContextProvider } from "../ActivityMonitor/ExitTicketMonitorContext";
 import TeacherActivityMonitorContainer from "../ActivityMonitor/TeacherActivityMonitorContainer";
+import ExitTicketMonitorContainer from "../ActivityMonitor/ExitTicketMonitorContainer";
 import StudentExitActivity from "../ActivityRun/StudentExitActivity";
 import TicketList from "../ActivityInit/TicketList";
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import axios from "axios";
 import socketIOClient from "socket.io-client";
+import {ActivityMonitorContext} from "../ActivityMonitor/ActivityMonitorContext";
+import ExitTicketMonitor from "../ActivityMonitor/ExitTicketMonitor";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TicketList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
+    const {monitor, setMonitor} = useContext(ActivityMonitorContext);
     let quizzesInfo = [];
     let apiGatewayUrl = '';
     let ENDPOINT = '';
@@ -92,6 +95,9 @@ export default function TicketList({user, sessionName}) {
             //Send quiz to students
             socket.emit('teacher start exit', socket_Id, quizzesInfo[index]);
             console.log(quizzesInfo[index]);
+            //add a functions to gather exit ticket answers
+            setMonitor(<ExitTicketMonitor quiz={quizzesInfo[index]} user = {user.firstName}/>)
+
         })
     };
 

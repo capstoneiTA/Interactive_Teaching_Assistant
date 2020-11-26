@@ -1,15 +1,11 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component, useContext, useEffect, useState} from 'react';
 import { Button } from '@material-ui/core';
-import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl,InputLabel, Input,FormHelperText } from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
 import socketIOClient from "socket.io-client";
 import axios from 'axios';
 import StudentExitActivity from "./StudentExitActivity";
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
 let apiGatewayUrl = '';
 
     if(process.env.REACT_APP_DEPLOY === "False"){
@@ -42,26 +38,40 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const StudentExitTicket=({quiz,userId,sessionId})=> {
+const StudentExitTicket=({quiz,userId,sessionId,socket})=> {
       const [answer, setAnswer] = useState('');
       const classes = useStyles();
       const [display, setDisplay] = useState(true);
+
+
+
+
+        useEffect(()=>{
+
+        }, []);
       //handle submit and store students answer
-      const submitAnswer = (e) =>{
-          axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId: sessionId, questionId:quiz.quizQuestions[0].questionId, answerText: answer , userId: userId})
-          .then(function (res) {
-           console.log(res.data);
-            }, (error)=> {
-                console.log(error);
-            });
-            setAnswer('');
-      }
+//      const submitAnswer = (e) =>{
+//          axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId: sessionId, questionId:quiz.quizQuestions[0].questionId, answerText: answer , userId: userId})
+//          .then(function (res) {
+//           console.log(res.data);
+//            }, (error)=> {
+//                console.log(error);
+//            });
+//            setAnswer('');
+//      }
       const AnswerChange = e => {
           setAnswer(e.target.value);
       }
       const handleClose = () =>{
           console.log("Ticket is submitted");
-          setDisplay(false);
+          handleExitSubmission();
+
+      }
+
+      const handleExitSubmission = () =>{
+        socket.emit('student submit exit', sessionId );
+        console.log('Exit Submitted!');
+        setDisplay(false);
       }
 
     return (
@@ -98,7 +108,6 @@ const StudentExitTicket=({quiz,userId,sessionId})=> {
                 color= "primary"
                 size= "small"
                 onClick ={() => {
-                submitAnswer();
                 handleClose();
                 }}
                 >
