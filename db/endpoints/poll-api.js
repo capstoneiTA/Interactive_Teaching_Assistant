@@ -1,9 +1,11 @@
 module.exports = function(app, db) {
 
     app.post("/poll/create", function(req, res) {
-        let poll = req.body.poll;
         let userId = req.body.userId;
+        let poll = req.body.poll;
         let response = {};
+
+        let questionsAdded = 0;
 
         db.Poll.create({
             User_ID: userId,
@@ -15,7 +17,7 @@ module.exports = function(app, db) {
                     Poll_ID: Poll.Poll_ID,
                     Prompt: question.prompt
                 }).then(function(Question) {
-                    question.options.forEach(function(option){
+                    question.options.forEach(function(option, index){
                         db.Poll_Option.create({
                             Poll_Question_ID: Question.Poll_Question_ID,
                             Option_Text: option.optionText
@@ -26,29 +28,24 @@ module.exports = function(app, db) {
                             //     response.optionAdded = true;
                             // }
                         }).catch(function(error){
-                            //response.optionAdded = false;
-                            response.errorMess = error.message;
-                            // res.send(response)
+                            console.log('Error adding option ' + (index + 1));
                         })
                     })
                 }).catch(function (error) {
-                    //response.questionAdded = false;
-                    response.errorMess = error.message;
-                    // res.send(response);
+                    response.questionsAdded = false;
+                    res.send(response);
                 });
-                // pollAdded++;
-                //if(pollAdded === poll.pollQuestions.length){
-                //response.questionAdded = true;
-                //}
+                questionsAdded++;
+                if(questionsAdded === poll.pollQuestions.length){
+                    response.questionsAdded = true;
+                    res.send(response);
+                }
             });
-            res.send(response);
         }).catch(function(error){
             response.pollCreation = false;
             response.errorMess = error.message;
             res.send(response);
         });
-
-
     });
 
     app.get("/poll/retrieve", function(req, res) {
@@ -92,7 +89,7 @@ module.exports = function(app, db) {
                                     pollsAdded ++;
                                     if(pollsAdded === Polls.length){
                                         response.polls = polls;
-                                        //res.send(response);
+                                        res.send(response);
                                     }
                                 }
                             });
@@ -102,7 +99,7 @@ module.exports = function(app, db) {
             }else{
                 response.anyPolls = false;
             }
-            res.send(response);
+
         });
     });
 

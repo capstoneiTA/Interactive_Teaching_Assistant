@@ -1,6 +1,6 @@
 const expect = require('chai').expect;
 const axios = require('axios');
-
+const util = require('util');
 /**
  * Naming scheme: http://[Container Name]:[Container Port]
  */
@@ -17,7 +17,7 @@ describe('Poll Creation', function () {
     describe('Teacher creates a poll', function(){
         it('should successfully create a poll in db', function () {
             return axios.post(apiGatewayUrl + '/poll/create', {poll: testPoll, userId: 1}).then(function (res) {
-                expect(res.data.pollCreation).to.equal(true);
+                expect(res.data.questionsAdded).to.equal(true);
                 // expect(res.data.questionAdded).to.equal(true);
                 // expect(res.data.optionAdded).to.equal(true); //some error with the option...
             })
@@ -31,6 +31,7 @@ describe('Poll Retrieval', function () {
         it('should successfully retrieve all polls for a given users', function () {
             this.timeout(1000000);
             return axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: 1}}).then(function (res) {
+                console.log(util.inspect(res.data, {depth: null}));
                 expect(res.data.anyPolls).to.equal(true);
             })
         });
@@ -46,34 +47,34 @@ describe('Poll Retrieval', function () {
 
 });
 
-// describe('Poll Start', function () {
-//
-//     describe('Teacher starts a poll', function(){
-//         it('should receive a response that the poll listener started or that it is already running', function () {
-//             return axios.get(apiGatewayUrl + '/poll/start', {params:{sessionName: 'test'}}).then(function (res) {
-//                 expect(res.data.pollListenerStarted).to.equal(true);
-//             })
-//         });
-//     });
-//
-// });
-//
-// describe('Save Poll Response', function () {
-//     // const sampleResponse = {
-//     //     answers:[
-//     //         {pollId: 1, questionId: 1, optionId: 1}
-//     //     ],
-//     // };
-//
-//     describe('Poll session saves the response sent by the student', function(){
-//         it('should save the received poll response to the database', function () {
-//             return axios.post(dbUrl + '/poll/responseStore', {userId: 1, response: sampleResponse, sessionId: 1}).then(function (res) {
-//                 expect(res.data.responseStored).to.equal(true);
-//             })
-//         });
-//     });
-//
-// });
+describe('Poll Start', function () {
+
+    describe('Teacher starts a poll', function(){
+        it('should receive a response that the poll listener started or that it is already running', function () {
+            return axios.get(apiGatewayUrl + '/poll/start', {params:{sessionName: 'test'}}).then(function (res) {
+                expect(res.data.pollListenerStarted).to.equal(true);
+            })
+        });
+    });
+
+});
+
+describe('Save Poll Response', function () {
+    const sampleResponse = {
+        answers:[
+            {pollId: 1, questionId: 1, optionId: 1}
+        ],
+    };
+
+    describe('Poll session saves the response sent by the student', function(){
+        it('should save the received poll response to the database', function () {
+            return axios.post(dbUrl + '/poll/responseStore', {userId: 1, response: sampleResponse, sessionId: 1}).then(function (res) {
+                expect(res.data.responseStored).to.equal(true);
+            })
+        });
+    });
+
+});
 
 
 

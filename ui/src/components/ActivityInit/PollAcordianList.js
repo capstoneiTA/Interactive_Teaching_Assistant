@@ -23,11 +23,8 @@ const useStyles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
     },
-    correct: {
+    color: {
         color: 'green',
-    },
-    incorrect: {
-        color: 'red',
     },
     startButton: {
         marginLeft: '20px',
@@ -65,16 +62,23 @@ export default function PollAccordionList({user, sessionName}) {
     const getPolls = ()=>{
         if(user.type === 'Teacher'){
             axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: user.User_ID}}).then(function (res) {
+                console.log('entries :' + res.data.polls.entries());
                 if(res.data.anyPolls){
                     pollsInfo = res.data.polls;
-                    generatePollList(res.data.polls);
+                    console.log('Length of contents of polls sending back: ' + pollsInfo.length);
+                    console.log('Contents of polls sending back: ' + pollsInfo.entries());
+                    generatePollList(pollsInfo);
                 }
+
+            }).catch(function (error) {
+                console.log('No Polls' + error.message);
             })
         }
     };
 
     const generatePollList=(polls)=>{
         let newPollList = [...pollList];
+
         polls.map((poll, pollIndex) => {
             newPollList.push(<Accordion>
                 <AccordionSummary
@@ -91,11 +95,7 @@ export default function PollAccordionList({user, sessionName}) {
                             return <div>
                                 <h3>{question.prompt}</h3>
                                 {question.options.map((option)=>{
-                                    if(option.isCorrect){
-                                        return <p className={classes.correct}>{option.option}</p>
-                                    }else{
-                                        return <p className={classes.incorrect}>{option.option}</p>
-                                    }
+                                    return <p className={classes.color}>{option.option}</p>
                                 })}
                             </div>
                         })}
@@ -103,6 +103,7 @@ export default function PollAccordionList({user, sessionName}) {
                 </AccordionDetails>
             </Accordion>)
         });
+
         setPollList(newPollList);
     };
 
