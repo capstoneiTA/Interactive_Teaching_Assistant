@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import axios from "axios";
+import util from "util";
 
 import socketIOClient from "socket.io-client";
 
@@ -62,16 +63,13 @@ export default function PollAccordionList({user, sessionName}) {
     const getPolls = ()=>{
         if(user.type === 'Teacher'){
             axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: user.User_ID}}).then(function (res) {
-                console.log('entries :' + res.data.polls.entries());
+                console.log(util.inspect(res.data, {depth: null}));
                 if(res.data.anyPolls){
-                    pollsInfo = res.data.polls;
-                    console.log('Length of contents of polls sending back: ' + pollsInfo.length);
-                    console.log('Contents of polls sending back: ' + pollsInfo.entries());
+                    console.log('has poll');
                     generatePollList(pollsInfo);
                 }
-
             }).catch(function (error) {
-                console.log('No Polls' + error.message);
+                console.log('No Polls: ' + error.message);
             })
         }
     };
@@ -89,6 +87,8 @@ export default function PollAccordionList({user, sessionName}) {
                     <Typography className={classes.heading}>{poll.pollName}</Typography>
                     <button className={classes.startButton} onClick={startPoll} name={pollIndex}>Start</button>
                 </AccordionSummary>
+
+
                 <AccordionDetails>
                     <Typography>
                         {poll.pollQuestions.map((question)=>{
@@ -99,8 +99,12 @@ export default function PollAccordionList({user, sessionName}) {
                                 })}
                             </div>
                         })}
+
+                        <p className={classes.color}>{poll.pollName}</p>
+
                     </Typography>
                 </AccordionDetails>
+
             </Accordion>)
         });
 
