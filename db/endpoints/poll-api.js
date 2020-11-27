@@ -48,11 +48,14 @@ module.exports = function(app, db) {
         });
     });
 
+
     app.get("/poll/retrieve", function(req, res) {
         //Get session creation data from post request
         let userId = req.query.userId;
         let response = {};
         let polls = [];
+
+
 
         let foundPolls = getPolls(userId, res, response);
 
@@ -84,11 +87,15 @@ module.exports = function(app, db) {
                                 }
                                 poll.pollQuestions.push(question_object);
                                 questionsAdded ++;
+
                                 if(questionsAdded === Questions.length){
                                     polls.push(poll);
                                     pollsAdded ++;
-                                    if(pollsAdded === Polls.length){
+                                    console.log('pollsAdded', pollsAdded);
+                                    console.log('Q Length', Polls.length);
+                                    if(pollsAdded === Polls.length - 1){
                                         response.polls = polls;
+
                                         res.send(response);
                                     }
                                 }
@@ -98,6 +105,7 @@ module.exports = function(app, db) {
                 }
             }else{
                 response.anyPolls = false;
+                res.send("ERROR");
             }
 
         });

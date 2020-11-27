@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     startButton: {
         marginLeft: '20px',
     },
-
 }));
 
 export default function PollAccordionList({user, sessionName}) {
@@ -58,23 +57,34 @@ export default function PollAccordionList({user, sessionName}) {
         socket.on('connect', () => {
             sockId = socket.id;
         });
+        console.log('Connect socket');
     };
 
-    const getPolls = ()=>{
+    const getPolls =()=>{
+        console.log('getPolls called');
         if(user.type === 'Teacher'){
+            console.log('axios called');
+            console.log('userID: ' + user.User_ID);
+
             axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: user.User_ID}}).then(function (res) {
+                console.log('data receive');
                 console.log(util.inspect(res.data, {depth: null}));
                 if(res.data.anyPolls){
                     console.log('has poll');
+                    pollsInfo = res.data.polls;
                     generatePollList(pollsInfo);
                 }
-            }).catch(function (error) {
-                console.log('No Polls: ' + error.message);
-            })
+                else {
+                    console.log('no poll');
+                }
+            });
+
+            console.log('completed axios called');
         }
     };
 
     const generatePollList=(polls)=>{
+        console.log('generating poll');
         let newPollList = [...pollList];
 
         polls.map((poll, pollIndex) => {
@@ -128,9 +138,11 @@ export default function PollAccordionList({user, sessionName}) {
 
     useEffect(()=>{
         //Generate poll components on teacher screen
+        console.log('useEffect start');
         getPolls();
         socketStart();
     }, []);
+
 
     return (
         <div className={classes.root}>
