@@ -109,9 +109,6 @@ export default function PollAccordionList({user, sessionName}) {
                                 })}
                             </div>
                         })}
-
-                        <p className={classes.color}>{poll.pollName}</p>
-
                     </Typography>
                 </AccordionDetails>
 
