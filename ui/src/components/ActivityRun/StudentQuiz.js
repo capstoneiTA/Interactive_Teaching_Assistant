@@ -8,6 +8,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
+import {StudentActivityContext} from "./StudentActivityContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StudentQuiz({quiz, socket, user, sessionId}) {
     const {answersInfo, setAnswersInfo} = useContext(StudentAnswersContext);
-    const[open, setOpen] = useState(true);
+    const {open, setOpen} = useContext(StudentActivityContext);
     const classes = useStyles();
 
     const initializeAnswers = ()=>{
@@ -73,7 +74,6 @@ export default function StudentQuiz({quiz, socket, user, sessionId}) {
         socket.emit('student submit quiz', answersInfo, user.User_ID, sessionId);
         console.log('Quiz Submitted!');
         setOpen(false);
-
     };
 
     return(

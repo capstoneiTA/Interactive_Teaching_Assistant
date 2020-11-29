@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function QuizMonitor({quiz}) {
     const {answers, setAnswers} = useContext(QuizMonitorContext);
-    const {monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen} = useContext(ActivityMonitorContext);
+    const {monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen, activityRunning, setActivityRunning} = useContext(ActivityMonitorContext);
     const classes = useStyles();
     let studentsFinished = [];
     let answersHelper = {};
@@ -131,6 +131,12 @@ export default function QuizMonitor({quiz}) {
         answersHelper = newAnswers;
     };
 
+    const endQuiz = () => {
+        setActivityRunning(false);
+        setOpen(false);
+        quizSocket.emit('Teacher end quiz from client', answers.quizId);
+    };
+
     useEffect(()=>{
         initMonitorValues();
     }, []);
@@ -152,6 +158,7 @@ export default function QuizMonitor({quiz}) {
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <h2>Quiz Name: {quiz.quizName}</h2>
+                        <button onClick={endQuiz}>End Quiz</button>
                         {answers.quizQuestions.map((question, index)=>{
                             return <div>
                                 <QuizQuestionMonitor question={question} index = {index}/>

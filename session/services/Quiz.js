@@ -21,6 +21,9 @@ class Quiz {
             socket.on('student submit quiz', (answersInfo, userId, sessionId)=>{
                 this.handleStudentSubmitQuiz(answersInfo, userId, sessionId);
             })
+            socket.on('Teacher end quiz from client', (quizId)=>{
+                this.handleTeacherEndQuiz(quizId);
+            })
         });
     }
 
@@ -38,6 +41,10 @@ class Quiz {
         axios.post(dbUrl + '/quiz/responseStore', {userId: studentId, response: answersInfo, sessionId: sessionId}).then(function (res) {
             console.log("Student Response recorded: " + res.data.responseStored);
         })
+    }
+
+    handleTeacherEndQuiz(quizId){
+        this.namespace.emit('teacher end quiz from server', quizId);
     }
 
 

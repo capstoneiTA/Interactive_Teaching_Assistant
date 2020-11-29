@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function QuizAccordionList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
-    const {monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen} = useContext(ActivityMonitorContext);
+    const {monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen, activityRunning, setActivityRunning} = useContext(ActivityMonitorContext);
     let quizzesInfo = [];
     let apiGatewayUrl = '';
     let quizAnswers = {};
@@ -111,10 +111,15 @@ export default function QuizAccordionList({user, sessionName}) {
             console.log(quizzesInfo[index]);
             quizAnswers = quizzesInfo[index];
             setOpen(true);
+            setActivityRunning(true);
             //Clear any past monitor
             setMonitor(null)
             setMonitor(<QuizMonitorContextProvider><QuizMonitor quiz={quizzesInfo[index]}/></QuizMonitorContextProvider>)
         })
+    };
+
+    let resumeQuizMonitor = () => {
+      setOpen(true);
     };
 
     useEffect(()=>{
@@ -125,6 +130,7 @@ export default function QuizAccordionList({user, sessionName}) {
 
     return (
         <div className={classes.root}>
+            <button onClick = {resumeQuizMonitor}>resume Quiz Monitor</button>
             {quizList}
         </div>
     );
