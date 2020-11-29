@@ -29,8 +29,9 @@ const useStyles = makeStyles((theme) => ({
         color: 'red',
     },
     startButton: {
-        marginLeft: '20px',
         display:' inline-block',
+        position: 'absolute',
+        right: '50px',
         borderRadius: '10px',
         boxSizing: 'border-box',
         textDecoration:'none',
