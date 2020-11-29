@@ -91,8 +91,6 @@ module.exports = function(app, db) {
                                 if(questionsAdded === Questions.length){
                                     polls.push(poll);
                                     pollsAdded ++;
-                                    console.log('pollsAdded', pollsAdded);
-                                    console.log('Q Length', Polls.length);
                                     if(pollsAdded === Polls.length - 1){
                                         response.polls = polls;
 

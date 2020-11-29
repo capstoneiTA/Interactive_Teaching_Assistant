@@ -4,12 +4,13 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import SelectActivity from "./SelectActivity";
-import CreateQuiz from "./Quiz/CreateQuiz";
-import {QuizContextProvider} from "./Quiz/QuizContext";
+import {TicketContextProvider} from "./TicketContext";
 import Button from "@material-ui/core/Button";
 import ExitTicketCreation from "./ExitTicket/ExitTicketCreation";
 import {PollContextProvider} from "./Poll/PollContext";
 import CreatePoll from "./Poll/CreatePoll";
+import CreateQuiz from "./Quiz/CreateQuiz";
+import {QuizContextProvider} from "./Quiz/QuizContext";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +50,7 @@ const ActivityCreate = ({user}) => {
         }else if(choice === 'Poll'){
             setMenu(<PollContextProvider><CreatePoll user={user}/>></PollContextProvider>)
         }else if(choice === 'Exit Ticket'){
-            setMenu(<ExitTicketCreation/>)
+            setMenu(<TicketContextProvider> <ExitTicketCreation user= {user}/></TicketContextProvider>)
         }
     };
     const [menu, setMenu] = useState(<SelectActivity activities={['Quiz', 'Poll', 'Exit Ticket']} parentCallback={selectActivityCallback}/>);

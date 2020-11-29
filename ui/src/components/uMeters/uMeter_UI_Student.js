@@ -86,24 +86,24 @@ class StudentUnderstandingMeter extends Component {
     render() {
         return (
             <div style={{ margin: 50 }}>
-                <h2>Session: {this.sessionName} </h2>
-                <h2>Session ID: {this.sessionId} </h2>
-                <p>{this.state.value}</p>
-                <p>{this.user.firstName} {this.user.lastName}</p>
+                {/*<h2>Session: {this.sessionName} </h2>*/}
+                {/*<h2>Session ID: {this.sessionId} </h2>*/}
+                {/*<p>{this.state.value}</p>*/}
+                {/*<p>{this.user.firstName} {this.user.lastName}</p>*/}
                 <Slider
                     min={1}
                     max={5}
                     value={this.state.value}
                     onChange={this.handleChange}
                     railStyle={{
-                        height: 2,
+                        height: 5,
+                        backgroundColor: 'lightgray',
                     }}
                     handleStyle={{
-                        height: 28,
-                        width: 28,
-                        marginLeft: -14,
-                        marginTop: -14,
-                        backgroundColor: "red",
+                        height: 25,
+                        width: 25,
+                        marginTop: -10,
+                        backgroundColor: "#A4C3E3",
                         border: 0
                     }}
                     trackStyle={{

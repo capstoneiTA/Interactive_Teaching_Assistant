@@ -1,14 +1,12 @@
-
 //Import express for db requests
-const express = require('express');
+const express = require("express");
 const app = express();
-const cors = require('cors');
-
+const cors = require("cors");
 
 //Prevent cors issues from inter-container communication
 app.use(cors());
 // Parse URL-encoded bodies (as sent by HTML forms)
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
@@ -48,25 +46,22 @@ db.UnderstandingMeter.belongsTo(db.Session);
 db.Multiple_Choice_Option.belongsTo(db.QuizQuestion);
 db.FillInTheBlankOption.belongsTo(db.QuizQuestion);
 
-
-
 db.User.hasMany(db.Enrollment);
 db.Enrollment.belongsTo(db.User);
 
 db.User.hasMany(db.Session);
 db.Session.belongsTo(db.User);
 
-
 //Sync database tables
-db.sequelize.sync({force:false});
+db.sequelize.sync({ force: false });
 
-app.get('/word', (req,res)=>{
-    res.send('Response from the database!');
+app.get("/word", (req, res) => {
+  res.send("Response from the database!");
 });
 
 //Start listening for connections
-app.listen(port, () =>{
-    console.log(`Listening on port: ${port}`)
+app.listen(port, () => {
+  console.log(`Listening on port: ${port}`);
 });
 
 /**************GET ENDPOINTS**********************/
@@ -74,7 +69,9 @@ app.listen(port, () =>{
 // Requiring our endpoints
 require("./endpoints/session-api.js")(app, db);
 require("./endpoints/uMeter-api.js")(app, db);
-require("./endpoints/authentication-api.js")(app,db);
-require("./endpoints/CreateExitTicket-api.js")(app,db);
-require("./endpoints/quiz-api.js")(app,db);
+require("./endpoints/authentication-api.js")(app, db);
+require("./endpoints/CreateExitTicket-api.js")(app, db);
+require("./endpoints/StudentExitTicket-api.js")(app, db);
+require("./endpoints/quiz-api.js")(app, db);
+require("./endpoints/messages-api.js")(app, db);
 require("./endpoints/poll-api")(app,db);

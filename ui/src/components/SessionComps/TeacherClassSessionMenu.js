@@ -47,8 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-//Main code
-export default function TeacherClassSessionMenu({item1, item2, item3}) {
+export default function TeacherClassSessionMenu({item1, item2,item3}) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -66,12 +65,15 @@ export default function TeacherClassSessionMenu({item1, item2, item3}) {
                 aria-label="Vertical tabs example"
                 className={classes.tabs}
             >
-                <Tab label="Understanding Meters" {...a11yProps(0)} />
-                <Tab label="Quizzes" {...a11yProps(1)} />
+                {/*<Tab label="Understanding Meters" {...a11yProps(0)} />*/}
+                <Tab label="Quizzes" {...a11yProps(0)} />
+                <Tab label="Exit Tickets" {...a11yProps(1)} />
                 <Tab label="Polls" {...a11yProps(2)} />
-                <Tab label="Exit Tickets" {...a11yProps(3)} />
             </Tabs>
 
+            {/*<TabPanel value={value} index={0}>*/}
+            {/*    {item1}*/}
+            {/*</TabPanel>*/}
             <TabPanel value={value} index={0}>
                 {item1}
             </TabPanel>
@@ -80,9 +82,6 @@ export default function TeacherClassSessionMenu({item1, item2, item3}) {
             </TabPanel>
             <TabPanel value={value} index={2}>
                 {item3}
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-                Exit Tickets Go Here
             </TabPanel>
         </div>
     );

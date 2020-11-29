@@ -1,6 +1,7 @@
 /**
  * Class representing an individual poll
  */
+const axios = require('axios');
 class Poll {
 
     /**

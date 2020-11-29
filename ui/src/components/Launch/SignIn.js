@@ -14,7 +14,12 @@ const SignIn = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const apiGatewayUrl = 'http://localhost:8080';
+    let apiGatewayUrl = '';
+    if(process.env.REACT_APP_DEPLOY === "False"){
+        apiGatewayUrl = 'http://localhost:8080';
+    }else{
+        apiGatewayUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+    }
 
     const emailHandler = (e) => {
         setEmail(e.target.value);

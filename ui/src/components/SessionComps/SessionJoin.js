@@ -83,15 +83,16 @@ class SessionJoin extends Component  {
         const {classes} = this.props;
         return (
             <div>
-                <form className={classes.root} role="form" onSubmit={this.handleSubmit}>
-                    <label>Join Session: </label>
-                    <div className="row">
-                        <div className="form-group col-3">
+                {/*<form className={classes.root} role="form" onSubmit={this.handleSubmit}>*/}
+                <form onSubmit={this.handleSubmit}>
+                    {/*<label>Join Session: </label>*/}
+                    {/*<div className="row">*/}
+                        {/*<div className="form-group col-3">*/}
                             <TextField
-                                label="Session Name"
+                                label="Join New Session"
                                 variant="outlined"
                                 onChange={this.handleChange}
-                                size="medium"
+                                size="small"
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">
                                         <IconButton type="submit" className={classes.iconButton} aria-label="Join">
@@ -101,8 +102,8 @@ class SessionJoin extends Component  {
                                 }}
 
                             />
-                        </div>
-                    </div>
+                        {/*</div>*/}
+                    {/*</div>*/}
                 </form>
 
                 <div>

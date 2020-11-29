@@ -35,7 +35,6 @@ module.exports= (sequelize, DataTypes)=> {
                 key: 'FITB_Option_ID'
             }
         },
-
         MC_Option_ID: {
             type: DataTypes.INTEGER,
             allowNull: true,
