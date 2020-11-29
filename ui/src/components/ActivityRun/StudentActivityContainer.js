@@ -1,12 +1,14 @@
 //General
-import React, {Component, useEffect, useState} from 'react';
+import React, {Component, useContext, useEffect, useState} from 'react';
 
 import socketIOClient from "socket.io-client";
 import StudentQuiz from "./StudentQuiz";
 import {StudentAnswersContextProvider} from "./StudentAnswersContext";
+import {StudentActivityContext} from "./StudentActivityContext";
 
 export default function StudentActivityContainer({user, sessionName, sessionId}) {
     const [activity, setActivity] = useState('no activity started');
+    const {open, setOpen} = useContext(StudentActivityContext);
 
     let ENDPOINT = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
@@ -35,6 +37,9 @@ export default function StudentActivityContainer({user, sessionName, sessionId})
     const listen=()=>{
        socket.on('quiz for students', (teacherSockId, quiz)=>{
            console.log(quiz);
+           setOpen(true);
+           //remove any data from any past quizzes run
+           setActivity(null);
            setActivity(<StudentAnswersContextProvider><StudentQuiz quiz={quiz} socket={socket} user={user} sessionId={sessionId}/></StudentAnswersContextProvider>);
        })
     };
