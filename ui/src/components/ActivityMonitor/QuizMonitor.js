@@ -99,11 +99,7 @@ export default function QuizMonitor({quiz}) {
     };
 
     const handleClose = () => {
-        if (window.confirm('Are you sure you want to close the quiz viewer? (you cannot go back!!)')) {
-            setOpen(false);
-        } else {
-            // Do nothing!
-        }
+        setOpen(false);
     };
 
 

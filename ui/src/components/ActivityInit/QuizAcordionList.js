@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     startButton: {
         marginLeft: '20px',
     },
+    hidden: {
+       display: 'none'
+    }
 
 }));
 
@@ -130,7 +133,7 @@ export default function QuizAccordionList({user, sessionName}) {
 
     return (
         <div className={classes.root}>
-            <button onClick = {resumeQuizMonitor}>resume Quiz Monitor</button>
+            <button className={!activityRunning ? classes.hidden : ""} onClick = {resumeQuizMonitor}>Resume Quiz Monitor</button>
             {quizList}
         </div>
     );
