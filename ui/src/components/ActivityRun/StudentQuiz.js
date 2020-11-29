@@ -1,7 +1,6 @@
 //General
 import React, {Component, useContext, useEffect, useState} from 'react';
 import StudentQuizQuestion from "./StudentQuizQuestion";
-import {StudentAnswersContext} from "./StudentAnswersContext";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Backdrop from "@material-ui/core/Backdrop";
@@ -40,9 +39,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function StudentQuiz({quiz, socket, user, sessionId}) {
-    const {answersInfo, setAnswersInfo} = useContext(StudentAnswersContext);
-    const {open, setOpen} = useContext(StudentActivityContext);
+export default function StudentQuiz({quiz, socket, user, sessionId, setAnswers}) {
+    const {open, setOpen, answersInfo, setAnswersInfo} = useContext(StudentActivityContext);
     const classes = useStyles();
 
     const initializeAnswers = ()=>{
@@ -62,18 +60,24 @@ export default function StudentQuiz({quiz, socket, user, sessionId}) {
         initializeAnswers()
     }, []);
 
+    let handleQuizSubmission = () => {
+        setOpen(false);
+        socket.emit('student submit quiz', answersInfo, user.User_ID, sessionId);
+        console.log('Quiz Submitted!');
+    }
+
+    useEffect(()=>{
+        setAnswers(answersInfo);
+    }, [answersInfo]);
+
     const handleClose = () => {
+        //Student chooses to click off of the quiz
         if (window.confirm('Are you sure you want to submit your quiz? (you cannot go back!!)')) {
             handleQuizSubmission();
+            setOpen(false);
         } else {
             // Do nothing!
         }
-    };
-
-    const handleQuizSubmission = () =>{
-        socket.emit('student submit quiz', answersInfo, user.User_ID, sessionId);
-        console.log('Quiz Submitted!');
-        setOpen(false);
     };
 
     return(

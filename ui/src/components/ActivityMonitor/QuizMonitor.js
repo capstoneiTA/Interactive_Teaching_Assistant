@@ -60,7 +60,9 @@ export default function QuizMonitor({quiz}) {
     };
 
     const updateResponses = (answersInfo)=>{
-        console.log(answersInfo);
+        if(answersInfo.answers === undefined){
+            return null;
+        }
         let newAnswers = {...answersHelper};
         for(let answer of answersInfo.answers){
             for(let question of newAnswers.quizQuestions){
@@ -77,7 +79,6 @@ export default function QuizMonitor({quiz}) {
         }
         adjustPercentages(newAnswers);
         setAnswers(newAnswers);
-        console.log(newAnswers);
         answersHelper = newAnswers;
     };
 
