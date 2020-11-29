@@ -6,7 +6,7 @@ const QuizMonitorContextProvider = ({ children }) => {
     const [answers, setAnswers] = useState({quizQuestions: []});
 
     return (
-        <QuizMonitorContext.Provider value={{ answers, setAnswers }}>
+        <QuizMonitorContext.Provider value={{ answers, setAnswers}}>
             {children}
         </QuizMonitorContext.Provider>
     );

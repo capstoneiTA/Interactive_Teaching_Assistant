@@ -40,9 +40,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function QuizMonitor({quiz}) {
-    const[open, setOpen] = useState(true);
     const {answers, setAnswers} = useContext(QuizMonitorContext);
-    const {monitor, setMonitor, quizSocket, setQuizSocket} = useContext(ActivityMonitorContext);
+    const {monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen} = useContext(ActivityMonitorContext);
     const classes = useStyles();
     let studentsFinished = [];
     let answersHelper = {};

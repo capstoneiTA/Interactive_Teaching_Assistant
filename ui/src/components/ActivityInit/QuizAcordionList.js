@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function QuizAccordionList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
-    const {monitor, setMonitor} = useContext(ActivityMonitorContext);
+    const {monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen} = useContext(ActivityMonitorContext);
     let quizzesInfo = [];
     let apiGatewayUrl = '';
     let quizAnswers = {};
@@ -102,6 +102,7 @@ export default function QuizAccordionList({user, sessionName}) {
         });
         setQuizList(newQuizList);
     };
+
     let startQuiz = (e)=>{
         let index = parseInt(e.target.name);
         axios.get(apiGatewayUrl + '/quiz/start', {params: {sessionName: sessionName}}).then(function (res) {
@@ -109,6 +110,9 @@ export default function QuizAccordionList({user, sessionName}) {
             socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
             console.log(quizzesInfo[index]);
             quizAnswers = quizzesInfo[index];
+            setOpen(true);
+            //Clear any past monitor
+            setMonitor(null)
             setMonitor(<QuizMonitorContextProvider><QuizMonitor quiz={quizzesInfo[index]}/></QuizMonitorContextProvider>)
         })
     };
