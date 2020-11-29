@@ -8,10 +8,11 @@ import Chat from "../Messaging/Chat";
 import ChatDrawer from "../Messaging/ChatDrawer";
 import { ChatContextProvider } from "../Messaging/ChatContext";
 
-import axios from "axios";
 import StudentActivityContainer from "../ActivityRun/StudentActivityContainer";
 import { ActivityMonitorContextProvider } from "../ActivityMonitor/ActivityMonitorContext";
 import TeacherActivityMonitorContainer from "../ActivityMonitor/TeacherActivityMonitorContainer";
+
+import PollAccordionList from "../ActivityInit/PollAcordianList";
 import StudentExitActivity from "../ActivityRun/StudentExitActivity";
 import TicketList from "../ActivityInit/TicketList";
 
@@ -158,18 +159,9 @@ class ClassSession extends Component {
                   <ActivityMonitorContextProvider>
                     <TeacherClassSessionMenu
                       // item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>}
-                      item1={
-                        <QuizAccordionList
-                          sessionName={this.sessionName}
-                          user={this.user}
-                        />
-                      }
-                      item2={
-                        <TicketList
-                          sessionName={this.sessionName}
-                          user={this.user}
-                        />
-                      }
+                      item1={<QuizAccordionList sessionName={this.sessionName} user={this.user}/>}
+                      item2={<TicketList sessionName={this.sessionName} user={this.user}/>}
+                      item3={<PollAccordionList sessionName = {this.sessionName} user={this.user} />}
                     />
                     <TeacherActivityMonitorContainer
                       sessionName={this.sessionName}

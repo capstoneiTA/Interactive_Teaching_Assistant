@@ -74,4 +74,4 @@ require("./endpoints/CreateExitTicket-api.js")(app, db);
 require("./endpoints/StudentExitTicket-api.js")(app, db);
 require("./endpoints/quiz-api.js")(app, db);
 require("./endpoints/messages-api.js")(app, db);
-
+require("./endpoints/poll-api")(app,db);

@@ -7,13 +7,14 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import axios from "axios";
+import util from "util";
 
 import socketIOClient from "socket.io-client";
 
 import {ActivityMonitorContext} from "../ActivityMonitor/ActivityMonitorContext";
 
-import QuizMonitor from "../ActivityMonitor/QuizMonitor";
-import {QuizMonitorContextProvider} from "../ActivityMonitor/QuizMonitorContext";
+import PollMonitor from "../ActivityMonitor/PollMonitor";
+import {PollMonitorContextProvider} from "../ActivityMonitor/PollMonitorContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,25 +24,21 @@ const useStyles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
     },
-    correct: {
+    color: {
         color: 'green',
-    },
-    incorrect: {
-        color: 'red',
     },
     startButton: {
         marginLeft: '20px',
     },
-
 }));
 
-export default function QuizAccordionList({user, sessionName}) {
+export default function PollAccordionList({user, sessionName}) {
     const classes = useStyles();
-    const [quizList, setQuizList] = useState([]);
+    const [pollList, setPollList] = useState([]);
     const {monitor, setMonitor} = useContext(ActivityMonitorContext);
-    let quizzesInfo = [];
+    let pollsInfo = [];
     let apiGatewayUrl = '';
-    let quizAnswers = {};
+    let pollAnswers = {};
     let ENDPOINT = '';
 
     if(process.env.REACT_APP_DEPLOY === "False"){
@@ -60,76 +57,93 @@ export default function QuizAccordionList({user, sessionName}) {
         socket.on('connect', () => {
             sockId = socket.id;
         });
+        console.log('Connect socket');
     };
 
-    const getQuizzes = ()=>{
+    const getPolls =()=>{
+        console.log('getPolls called');
         if(user.type === 'Teacher'){
-            axios.get(apiGatewayUrl + '/quiz/retrieve', {params: {userId: user.User_ID}}).then(function (res) {
-                if(res.data.anyQuizzes){
-                    quizzesInfo = res.data.quizzes;
-                    generateQuizList(res.data.quizzes);
+            console.log('axios called');
+            console.log('userID: ' + user.User_ID);
+
+            axios.get(apiGatewayUrl + '/poll/retrieve', {params: {userId: user.User_ID}}).then(function (res) {
+                console.log('data receive');
+                console.log(util.inspect(res.data, {depth: null}));
+                if(res.data.anyPolls){
+                    console.log('has poll');
+                    pollsInfo = res.data.polls;
+                    generatePollList(pollsInfo);
                 }
-            })
+                else {
+                    console.log('no poll');
+                }
+            });
+
+            console.log('completed axios called');
         }
     };
 
-    const generateQuizList=(quizzes)=>{
-        let newQuizList = [...quizList];
-        quizzes.map((quiz, quizIndex) => {
-            newQuizList.push(<Accordion>
+    const generatePollList=(polls)=>{
+        console.log('generating poll');
+        let newPollList = [...pollList];
+
+        polls.map((poll, pollIndex) => {
+            newPollList.push(<Accordion>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
                     id="panel1a-header">
 
-                    <Typography className={classes.heading}>{quiz.quizName}</Typography>
-                    <button className={classes.startButton} onClick={startQuiz} name={quizIndex}>Start</button>
+                    <Typography className={classes.heading}>{poll.pollName}</Typography>
+                    <button className={classes.startButton} onClick={startPoll} name={pollIndex}>Start</button>
                 </AccordionSummary>
+
+
                 <AccordionDetails>
                     <Typography>
-                        {quiz.quizQuestions.map((question)=>{
+                        {poll.pollQuestions.map((question)=>{
                             return <div>
                                 <h3>{question.prompt}</h3>
                                 {question.options.map((option)=>{
-                                    if(option.isCorrect){
-                                        return <p className={classes.correct}>{option.option}</p>
-                                    }else{
-                                        return <p className={classes.incorrect}>{option.option}</p>
-                                    }
+                                    return <p className={classes.color}>{option.option}</p>
                                 })}
                             </div>
                         })}
                     </Typography>
                 </AccordionDetails>
+
             </Accordion>)
         });
-        setQuizList(newQuizList);
+
+        setPollList(newPollList);
     };
 
-    let startQuiz = (e)=>{
+    let startPoll = (e)=>{
         let index = parseInt(e.target.name);
-        axios.get(apiGatewayUrl + '/quiz/start', {params: {sessionName: sessionName}}).then(function (res) {
-            //Send quiz to students
-            socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
-            console.log(quizzesInfo[index]);
-            quizAnswers = quizzesInfo[index];
+        axios.get(apiGatewayUrl + '/poll/start', {params: {sessionName: sessionName}}).then(function (res) {
+            //Send poll to students
+            socket.emit('teacher start poll', sockId, pollsInfo[index]);
+            console.log(pollsInfo[index]);
+            pollAnswers = pollsInfo[index];
             setMonitor(
-                <QuizMonitorContextProvider>
-                    <QuizMonitor quiz={quizzesInfo[index]}/>
-                </QuizMonitorContextProvider>
+                <PollMonitorContextProvider>
+                    <PollMonitor poll={pollsInfo[index]}/>
+                </PollMonitorContextProvider>
             )
         })
     };
 
     useEffect(()=>{
-        //Generate quiz components on teacher screen
-        getQuizzes();
+        //Generate poll components on teacher screen
+        console.log('useEffect start');
+        getPolls();
         socketStart();
     }, []);
 
+
     return (
         <div className={classes.root}>
-            {quizList}
+            {pollList}
         </div>
     );
 }

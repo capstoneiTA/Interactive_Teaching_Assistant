@@ -123,13 +123,14 @@ module.exports = function(app, db) {
                 Session_ID: sessionId
             }).then(function(){
                 resp.responseStored = true;
-                count++;
+                count ++;
                 if(count === response.answers.length){
                     res.send(resp);
                 }
             }).catch(function(error){
                 res.send(error);
             })
+
         }
 
 
