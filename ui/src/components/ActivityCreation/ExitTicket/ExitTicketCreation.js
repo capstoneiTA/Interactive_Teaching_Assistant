@@ -3,11 +3,10 @@
     import { Icon } from '@material-ui/core';
     import { Grid, TextField } from '@material-ui/core';
     import { makeStyles } from '@material-ui/core/styles';
-    import UserContext from "../Dashboard";
     import { FormControl,InputLabel, Input,FormHelperText } from '@material-ui/core';
     import SaveIcon from '@material-ui/icons/Save';
     import axios from "axios";
-    import {TicketContext, TicketContextProvider} from "./TicketContext";
+    import {TicketContext} from "../TicketContext";
 
     let apiGatewayUrl = '';
     if(process.env.REACT_APP_DEPLOY === "False"){

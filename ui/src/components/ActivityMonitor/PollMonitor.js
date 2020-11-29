@@ -4,11 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
-import StudentQuizQuestion from "../ActivityRun/StudentQuizQuestion";
-import QuizQuestionMonitor from "./QuizQuestionMonitor";
-import {QuizMonitorContext} from "./QuizMonitorContext";
+import StudentPollQuestion from "../ActivityRun/StudentPollQuestion";
+import PollQuestionMonitor from "./PollQuestionMonitor";
+import {PollMonitorContext} from "./PollMonitorContext";
 import {ActivityMonitorContext} from "./ActivityMonitorContext";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,9 +39,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function QuizMonitor({quiz}) {
-    const {answers, setAnswers} = useContext(QuizMonitorContext);
-    const {monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen, activityRunning, setActivityRunning} = useContext(ActivityMonitorContext);
+export default function PollMonitor({poll}) {
+    const[open, setOpen] = useState(true);
+    const {answers, setAnswers} = useContext(PollMonitorContext);
+    const {monitor, setMonitor, pollSocket, setPollSocket} = useContext(ActivityMonitorContext);
     const classes = useStyles();
     let studentsFinished = [];
     let answersHelper = {};
@@ -52,7 +52,7 @@ export default function QuizMonitor({quiz}) {
     }, []);
 
     const listen=()=>{
-        quizSocket.on('quiz submission from student', (answersInfo, studentId, sessionId)=>{
+        pollSocket.on('poll submission from student', (answersInfo, studentId, sessionId)=>{
             if(!studentsFinished.includes(studentId)){
                 updateResponses(answersInfo);
                 studentsFinished.push(studentId);
@@ -61,12 +61,10 @@ export default function QuizMonitor({quiz}) {
     };
 
     const updateResponses = (answersInfo)=>{
-        if(answersInfo.answers === undefined){
-            return null;
-        }
+        console.log(answersInfo);
         let newAnswers = {...answersHelper};
         for(let answer of answersInfo.answers){
-            for(let question of newAnswers.quizQuestions){
+            for(let question of newAnswers.pollQuestions){
                 if(question.questionId === answer.questionId){
                     for(let option of question.options){
                         if(option.optionId === answer.answerId){
@@ -80,11 +78,12 @@ export default function QuizMonitor({quiz}) {
         }
         adjustPercentages(newAnswers);
         setAnswers(newAnswers);
+        console.log(newAnswers);
         answersHelper = newAnswers;
     };
 
     const adjustPercentages = (newAnswers) =>{
-        for(let question of newAnswers.quizQuestions){
+        for(let question of newAnswers.pollQuestions){
             let answerSum = 0;
             //Find the sum of
             for(let option of question.options){
@@ -100,16 +99,20 @@ export default function QuizMonitor({quiz}) {
     };
 
     const handleClose = () => {
-        setOpen(false);
+        if (window.confirm('Are you sure you want to close the poll viewer? (you cannot go back!!)')) {
+            setOpen(false);
+        } else {
+            // Do nothing!
+        }
     };
 
 
     const initMonitorValues=()=>{
         let newAnswers = {};
-        newAnswers.quizId = quiz.quizId;
-        newAnswers.quizQuestions = [];
+        newAnswers.pollId = poll.pollId;
+        newAnswers.pollQuestions = [];
 
-        for(let question of quiz.quizQuestions){
+        for(let question of poll.pollQuestions){
             let questionObject = {};
             questionObject.questionId = question.questionId;
             questionObject.prompt = question.prompt;
@@ -118,21 +121,14 @@ export default function QuizMonitor({quiz}) {
                 let optionObject = {};
                 optionObject.optionId = option.optionId;
                 optionObject.optionText = option.option;
-                optionObject.isCorrect = option.isCorrect;
                 optionObject.timesChosen = 0;
                 optionObject.value = 0;
                 questionObject.options.push(optionObject);
             }
-            newAnswers.quizQuestions.push(questionObject);
+            newAnswers.pollQuestions.push(questionObject);
         }
         setAnswers(newAnswers);
         answersHelper = newAnswers;
-    };
-
-    const endQuiz = () => {
-        setActivityRunning(false);
-        setOpen(false);
-        quizSocket.emit('Teacher end quiz from client', answers.quizId);
     };
 
     useEffect(()=>{
@@ -157,11 +153,10 @@ export default function QuizMonitor({quiz}) {
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <h2>Quiz Name: {quiz.quizName}</h2>
-                        <Button onClick={endQuiz}>End Quiz</Button>
-                        {answers.quizQuestions.map((question, index)=>{
+                        <h2>Poll Name: {poll.pollName}</h2>
+                        {answers.pollQuestions.map((question, index)=>{
                             return <div>
-                                <QuizQuestionMonitor question={question} index = {index}/>
+                                <PollQuestionMonitor question={question} index = {index}/>
                             </div>
                         })}
                     </div>

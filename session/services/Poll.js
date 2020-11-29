@@ -1,17 +1,46 @@
 /**
  * Class representing an individual poll
  */
+const axios = require('axios');
 class Poll {
 
     /**
-     *
-     * @param  {MultipleChoiceQuestion} question a multiple choice question object to ask for the poll
-     * @param {int} pollId poll id from database
+     * Represents a poll which can hold multiple choice, fill in the blank, and open ended questions
+     * @constructor
      */
-    constructor(question, pollId) {
-        this.question = question;
-        this.pollId = pollId;
-        this.responses = [];
+    constructor(sessionName, io) {
+        this.sessionName = sessionName;
+        this.io = io;
+        this.namespace = io.of('/' + sessionName);
+        this.listen();
+    }
+
+    //Create a listener here and a function to handle connections from students then send to teacher
+    listen(){
+        this.namespace.on('connection', (socket)=>{
+            socket.on('teacher start poll', (teacherSocketId, poll) => {
+                this.handleStartPoll(teacherSocketId, poll);
+            });
+            socket.on('student submit poll', (answersInfo, userId, sessionId)=>{
+                this.handleStudentSubmitPoll(answersInfo, userId, sessionId);
+            })
+        });
+    }
+
+    handleStartPoll(teacherSocketId, poll){
+        this.namespace.emit('poll for students', teacherSocketId, poll);
+    }
+
+    handleStudentSubmitPoll(answersInfo, studentId, sessionId) {
+        const dbUrl = `http://db:5000`;
+        //Send the student submission to the teacher
+        this.namespace.emit('poll submission from student', answersInfo, studentId, sessionId);
+
+        //Save student submission to the database
+        console.log("Saving student response from studentId: " + studentId)
+        axios.post(dbUrl + '/poll/responseStore', {userId: studentId, response: answersInfo, sessionId: sessionId}).then(function (res) {
+            console.log("Student Response recorded: " + res.data.responseStored);
+        })
     }
 
     /**
@@ -58,3 +87,5 @@ class Poll {
     }
 
 }
+
+module.exports = Poll;

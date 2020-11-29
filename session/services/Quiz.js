@@ -37,7 +37,7 @@ class Quiz {
         this.namespace.emit('quiz submission from student', answersInfo, studentId, sessionId);
 
         //Save student submission to the database
-        console.log("Saving student response from studentId: " + studentId)
+        console.log("Saving student response from studentId: " + studentId);
         axios.post(dbUrl + '/quiz/responseStore', {userId: studentId, response: answersInfo, sessionId: sessionId}).then(function (res) {
             console.log("Student Response recorded: " + res.data.responseStored);
         })

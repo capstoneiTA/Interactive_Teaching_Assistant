@@ -5,11 +5,13 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ProgressBar from "react-bootstrap/ProgressBar";
-import {generateNewNodeTag} from "react-native-web/dist/vendor/react-native/Animated/NativeAnimatedHelper";
+
 import axios from "axios";
+
 import socketIOClient from "socket.io-client";
+
 import {ActivityMonitorContext} from "../ActivityMonitor/ActivityMonitorContext";
+
 import QuizMonitor from "../ActivityMonitor/QuizMonitor";
 import {QuizMonitorContextProvider} from "../ActivityMonitor/QuizMonitorContext";
 import Button from "@material-ui/core/Button";
@@ -58,6 +60,7 @@ export default function QuizAccordionList({user, sessionName}) {
     let apiGatewayUrl = '';
     let quizAnswers = {};
     let ENDPOINT = '';
+
     if(process.env.REACT_APP_DEPLOY === "False"){
         apiGatewayUrl = `http://localhost:8080`;
         ENDPOINT = "http://localhost:7000/";
@@ -94,8 +97,8 @@ export default function QuizAccordionList({user, sessionName}) {
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1a-content"
-                    id="panel1a-header"
-                >
+                    id="panel1a-header">
+
                     <Typography className={classes.heading}>{quiz.quizName}</Typography>
                     <button className={classes.startButton} onClick={startQuiz} name={quizIndex}>Start</button>
                 </AccordionSummary>

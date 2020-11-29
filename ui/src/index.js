@@ -7,6 +7,7 @@ import LaunchScreen from "./components/Launch/LaunchScreen";
 import Dashboard from "./components/Dashboard";
 import ClassSession from "./components/SessionComps/ClassSession";
 
+
 ReactDOM.render(
   <React.StrictMode>
       <AuthContextProvider>

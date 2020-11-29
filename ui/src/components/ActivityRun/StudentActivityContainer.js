@@ -4,6 +4,7 @@ import React, {Component, useContext, useEffect, useState} from 'react';
 import socketIOClient from "socket.io-client";
 import StudentQuiz from "./StudentQuiz";
 import {StudentActivityContext} from "./StudentActivityContext";
+import StudentPoll from "./StudentPoll";
 
 export default function StudentActivityContainer({user, sessionName, sessionId}) {
     const [activity, setActivity] = useState('no activity started');
@@ -29,7 +30,7 @@ export default function StudentActivityContainer({user, sessionName, sessionId})
 
     const socketStart=()=>{
         socket.on('connect', () => {
-            console.log('connected to session socket communication. Ready to accept Quizzes.')
+            console.log('connected to session socket communication. Ready to accept Activities.')
             sockId = socket.id;
             listen();
         });
@@ -62,6 +63,11 @@ export default function StudentActivityContainer({user, sessionName, sessionId})
                 alert("Teacher has ended the quiz");
             }
         });
+        
+        socket.on('poll for students', (teacherSockId, poll)=>{
+            console.log(poll);
+            setActivity(<StudentAnswersContextProvider><StudentPoll poll={poll} socket={socket} user={user} sessionId={sessionId}/></StudentAnswersContextProvider>);
+        })
     };
 
     return(

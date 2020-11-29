@@ -7,9 +7,10 @@ const ActivityMonitorContextProvider = ({ children }) => {
     const [quizSocket, setQuizSocket] = useState('');
     const[open, setOpen] = useState(true);
     const [activityRunning, setActivityRunning] = useState(false);
+    const [pollSocket, setPollSocket] = useState('');
 
     return (
-        <ActivityMonitorContext.Provider value={{ monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen, activityRunning, setActivityRunning}}>
+        <ActivityMonitorContext.Provider value={{ monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen, activityRunning, setActivityRunning, pollSocket, setPollSocket}}>
             {children}
         </ActivityMonitorContext.Provider>
     );
