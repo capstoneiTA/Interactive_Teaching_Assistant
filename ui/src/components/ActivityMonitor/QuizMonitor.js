@@ -8,6 +8,7 @@ import StudentQuizQuestion from "../ActivityRun/StudentQuizQuestion";
 import QuizQuestionMonitor from "./QuizQuestionMonitor";
 import {QuizMonitorContext} from "./QuizMonitorContext";
 import {ActivityMonitorContext} from "./ActivityMonitorContext";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,9 +41,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function QuizMonitor({quiz}) {
-    const[open, setOpen] = useState(true);
     const {answers, setAnswers} = useContext(QuizMonitorContext);
-    const {monitor, setMonitor, quizSocket, setQuizSocket} = useContext(ActivityMonitorContext);
+    const {monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen, activityRunning, setActivityRunning} = useContext(ActivityMonitorContext);
     const classes = useStyles();
     let studentsFinished = [];
     let answersHelper = {};
@@ -61,7 +61,9 @@ export default function QuizMonitor({quiz}) {
     };
 
     const updateResponses = (answersInfo)=>{
-        console.log(answersInfo);
+        if(answersInfo.answers === undefined){
+            return null;
+        }
         let newAnswers = {...answersHelper};
         for(let answer of answersInfo.answers){
             for(let question of newAnswers.quizQuestions){
@@ -78,7 +80,6 @@ export default function QuizMonitor({quiz}) {
         }
         adjustPercentages(newAnswers);
         setAnswers(newAnswers);
-        console.log(newAnswers);
         answersHelper = newAnswers;
     };
 
@@ -99,11 +100,7 @@ export default function QuizMonitor({quiz}) {
     };
 
     const handleClose = () => {
-        if (window.confirm('Are you sure you want to close the quiz viewer? (you cannot go back!!)')) {
-            setOpen(false);
-        } else {
-            // Do nothing!
-        }
+        setOpen(false);
     };
 
 
@@ -132,6 +129,12 @@ export default function QuizMonitor({quiz}) {
         answersHelper = newAnswers;
     };
 
+    const endQuiz = () => {
+        setActivityRunning(false);
+        setOpen(false);
+        quizSocket.emit('Teacher end quiz from client', answers.quizId);
+    };
+
     useEffect(()=>{
         initMonitorValues();
     }, []);
@@ -155,6 +158,7 @@ export default function QuizMonitor({quiz}) {
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <h2>Quiz Name: {quiz.quizName}</h2>
+                        <Button onClick={endQuiz}>End Quiz</Button>
                         {answers.quizQuestions.map((question, index)=>{
                             return <div>
                                 <QuizQuestionMonitor question={question} index = {index}/>

@@ -7,7 +7,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import {StudentAnswersContext} from "./StudentAnswersContext";
+import {StudentActivityContext} from "./StudentActivityContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,14 +31,14 @@ const useStyles = makeStyles((theme) => ({
 export default function StudentQuizQuestion({question, index}) {
     const classes = useStyles();
     const [value, setValue] = React.useState('');
-    const {answersInfo, setAnswersInfo} = useContext(StudentAnswersContext);
+    const {answersInfo, setAnswersInfo} = useContext(StudentActivityContext);
 
     const handleRadioChange = (event) => {
         setValue(event.target.value);
         let newAnswersInfo = {...answersInfo};
         for(let answer of newAnswersInfo.answers){
             if(answer.questionId === question.questionId){
-                answer.answerId = parseInt(event.target.value)
+                answer.answerId = parseInt(event.target.value);
                 break;
             }
         }

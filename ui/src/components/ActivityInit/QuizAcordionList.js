@@ -14,6 +14,7 @@ import {ActivityMonitorContext} from "../ActivityMonitor/ActivityMonitorContext"
 
 import QuizMonitor from "../ActivityMonitor/QuizMonitor";
 import {QuizMonitorContextProvider} from "../ActivityMonitor/QuizMonitorContext";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,15 +31,31 @@ const useStyles = makeStyles((theme) => ({
         color: 'red',
     },
     startButton: {
-        marginLeft: '20px',
+        display:' inline-block',
+        position: 'absolute',
+        right: '50px',
+        borderRadius: '10px',
+        boxSizing: 'border-box',
+        textDecoration:'none',
+        fontWeight: '300',
+        color: '#000000',
+        backgroundColor:'#dfe5e8',
+        '&:hover': {
+            backgroundColor: '#eaeaea',
+            cursor: 'pointer',
+        },
+        textAlign:'center',
     },
+    hidden: {
+       display: 'none'
+    }
 
 }));
 
 export default function QuizAccordionList({user, sessionName}) {
     const classes = useStyles();
     const [quizList, setQuizList] = useState([]);
-    const {monitor, setMonitor} = useContext(ActivityMonitorContext);
+    const {monitor, setMonitor, quizSocket, setQuizSocket, open, setOpen, activityRunning, setActivityRunning} = useContext(ActivityMonitorContext);
     let quizzesInfo = [];
     let apiGatewayUrl = '';
     let quizAnswers = {};
@@ -113,12 +130,16 @@ export default function QuizAccordionList({user, sessionName}) {
             socket.emit('teacher start quiz', sockId, quizzesInfo[index]);
             console.log(quizzesInfo[index]);
             quizAnswers = quizzesInfo[index];
-            setMonitor(
-                <QuizMonitorContextProvider>
-                    <QuizMonitor quiz={quizzesInfo[index]}/>
-                </QuizMonitorContextProvider>
-            )
+            setOpen(true);
+            setActivityRunning(true);
+            //Clear any past monitor
+            setMonitor(null)
+            setMonitor(<QuizMonitorContextProvider><QuizMonitor quiz={quizzesInfo[index]}/></QuizMonitorContextProvider>)
         })
+    };
+
+    let resumeQuizMonitor = () => {
+      setOpen(true);
     };
 
     useEffect(()=>{
@@ -129,6 +150,7 @@ export default function QuizAccordionList({user, sessionName}) {
 
     return (
         <div className={classes.root}>
+            <Button className={!activityRunning ? classes.hidden : ""} onClick = {resumeQuizMonitor}>Resume Quiz Monitor</Button>
             {quizList}
         </div>
     );
