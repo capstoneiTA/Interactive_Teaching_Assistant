@@ -8,6 +8,7 @@ import StudentQuizQuestion from "../ActivityRun/StudentQuizQuestion";
 import QuizQuestionMonitor from "./QuizQuestionMonitor";
 import {QuizMonitorContext} from "./QuizMonitorContext";
 import {ActivityMonitorContext} from "./ActivityMonitorContext";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -155,7 +156,7 @@ export default function QuizMonitor({quiz}) {
                 <Fade in={open}>
                     <div className={classes.paper}>
                         <h2>Quiz Name: {quiz.quizName}</h2>
-                        <button onClick={endQuiz}>End Quiz</button>
+                        <Button onClick={endQuiz}>End Quiz</Button>
                         {answers.quizQuestions.map((question, index)=>{
                             return <div>
                                 <QuizQuestionMonitor question={question} index = {index}/>

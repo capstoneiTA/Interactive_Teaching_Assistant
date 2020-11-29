@@ -12,6 +12,7 @@ import socketIOClient from "socket.io-client";
 import {ActivityMonitorContext} from "../ActivityMonitor/ActivityMonitorContext";
 import QuizMonitor from "../ActivityMonitor/QuizMonitor";
 import {QuizMonitorContextProvider} from "../ActivityMonitor/QuizMonitorContext";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +30,18 @@ const useStyles = makeStyles((theme) => ({
     },
     startButton: {
         marginLeft: '20px',
+        display:' inline-block',
+        borderRadius: '10px',
+        boxSizing: 'border-box',
+        textDecoration:'none',
+        fontWeight: '300',
+        color: '#000000',
+        backgroundColor:'#dfe5e8',
+        '&:hover': {
+            backgroundColor: '#eaeaea',
+            cursor: 'pointer',
+        },
+        textAlign:'center',
     },
     hidden: {
        display: 'none'
@@ -133,7 +146,7 @@ export default function QuizAccordionList({user, sessionName}) {
 
     return (
         <div className={classes.root}>
-            <button className={!activityRunning ? classes.hidden : ""} onClick = {resumeQuizMonitor}>Resume Quiz Monitor</button>
+            <Button className={!activityRunning ? classes.hidden : ""} onClick = {resumeQuizMonitor}>Resume Quiz Monitor</Button>
             {quizList}
         </div>
     );
