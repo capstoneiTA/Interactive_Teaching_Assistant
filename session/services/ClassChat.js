@@ -1,3 +1,13 @@
+const axios = require("axios");
+apiUrl = `http://localhost:8080`;
+let ENDPOINT = "";
+// if (process.env.REACT_APP_DEPLOY === "False") {
+//   apiUrl = `http://localhost:8080`;
+//   ENDPOINT = `http://localhost:7000/`;
+// } else {
+//   apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
+//   ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
+// }
 class ClassChat {
   // this acts as server
 
@@ -7,6 +17,7 @@ class ClassChat {
    *
    */
   constructor(sessionName, io) {
+    // this.sessionId = sessionId;
     this.messages = [];
     this.io = io;
     this.sessionName = sessionName;
@@ -22,6 +33,7 @@ class ClassChat {
           Message_Content: message.Message_Content,
           user: message.user,
           replyTo: message.replyTo,
+          createdAt: message.createdAt,
         };
         console.log("DATA", data);
         this.messages.push(data);
@@ -29,6 +41,10 @@ class ClassChat {
       });
     });
   }
+
+  // getMessages() {
+  //   return this.messages;
+  // }
 
   update(userId, newMessage) {
     console.log("update");

@@ -57,6 +57,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
+  const formatDate = (date) => {
+    return (
+      (date.getUTCMonth() + 1).toString() +
+      "/" +
+      date.getUTCDate() +
+      "/" +
+      date.getUTCFullYear().toString() +
+      " " +
+      date.getUTCHours() +
+      ":" +
+      ("0" + date.getMinutes()).substr(-2)
+      //  +
+      // ":" +
+      // date.getUTCSeconds()
+    );
+  };
   const classes = useStyles();
   return (
     <>
@@ -94,7 +110,9 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                         <Grid item xs={12}>
                           <ListItemText
                             align="right"
-                            secondary={msg.createdAt}
+                            secondary={
+                              formatDate(new Date(msg.createdAt)) + " UTC"
+                            }
                           ></ListItemText>
                         </Grid>
                       </Grid>
@@ -117,7 +135,8 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                     >
                       <ListItemIcon>
                         <Avatar>
-                          <AccountCircle />
+                          {msg.user.firstName.charAt(0) +
+                            msg.user.lastName.charAt(0)}
                         </Avatar>
                       </ListItemIcon>
 
@@ -134,7 +153,9 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                         <Grid item xs={12}>
                           <ListItemText
                             align="left"
-                            secondary={msg.createdAt}
+                            secondary={
+                              formatDate(new Date(msg.createdAt)) + " UTC"
+                            }
                           ></ListItemText>
                         </Grid>
                       </Grid>

@@ -25,9 +25,13 @@ const Chat = ({ user, sessionName, sessionId }) => {
 
   useEffect(() => {
     axios
-      .post(apiUrl + "/chat/join", { sessionName: sessionName })
+      .post(apiUrl + "/chat/join", {
+        sessionName: sessionName,
+        sessionId: sessionId,
+      })
       .then(function (res) {
         if (res.data.chat_created === true) {
+          console.log("RES FROM CLASSCHAT", res.data);
           socket.on("connect", function () {
             sockid = socket.id;
           });
@@ -45,9 +49,7 @@ const Chat = ({ user, sessionName, sessionId }) => {
       })
       .then(function (res) {
         console.log("GETRES", res);
-        let newMessages = [...messages];
-        res.data.map((msg) => newMessages.push(msg));
-        setMessages(newMessages);
+        setMessages(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -61,6 +63,7 @@ const Chat = ({ user, sessionName, sessionId }) => {
 
   const listen = () => {
     socket.on("chat message from server", function (data) {
+      console.log("message from server", data);
       updateMessages(data);
     });
   };
@@ -71,6 +74,20 @@ const Chat = ({ user, sessionName, sessionId }) => {
     newMessages.push(data);
     setMessages(newMessages);
   };
+
+  // const gatherAllMessages = (data) => {
+  //   let newMessages = []
+  //   for (let message of messages){
+  //     if (message.createdAt === data[0].createdAt){
+  //       for (msg of data) {
+  //         newMessages.push(msg)
+  //       }
+  //       return newMessages
+  //     } else {
+  //       newMessages.push(message)
+  //     }
+  //   }
+  // }
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -107,6 +124,7 @@ const Chat = ({ user, sessionName, sessionId }) => {
         lastName: user.lastName,
       },
       replyTo: null,
+      createdAt: new Date(),
     });
     setValue("");
 
