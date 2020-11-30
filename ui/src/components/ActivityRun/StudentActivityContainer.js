@@ -66,7 +66,7 @@ export default function StudentActivityContainer({user, sessionName, sessionId})
         
         socket.on('poll for students', (teacherSockId, poll)=>{
             console.log(poll);
-            setActivity(<StudentAnswersContextProvider><StudentPoll poll={poll} socket={socket} user={user} sessionId={sessionId}/></StudentAnswersContextProvider>);
+            setActivity(<StudentPoll poll={poll} socket={socket} user={user} sessionId={sessionId}/>);
         })
     };
 

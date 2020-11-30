@@ -1,13 +1,13 @@
 //General
 import React, {Component, useContext, useEffect, useState} from 'react';
 import StudentPollQuestion from "./StudentPollQuestion";
-import {StudentAnswersContext} from "./StudentAnswersContext";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
+import {StudentActivityContext} from "./StudentActivityContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function StudentPoll({poll, socket, user, sessionId}) {
-    const {answersInfo, setAnswersInfo} = useContext(StudentAnswersContext);
+    const {answersInfo, setAnswersInfo} = useContext(StudentActivityContext);
     const[open, setOpen] = useState(true);
     const classes = useStyles();
 
