@@ -17,8 +17,13 @@ class ClassChat {
   listen() {
     this.namespace.on("connection", (socket) => {
       socket.on("chat message from client", (message) => {
-        let data = { msg: message.msg, userId: message.userId };
-        // console.log(data);
+        let data = {
+          Session_ID: message.Session_ID,
+          Message_Content: message.Message_Content,
+          user: message.user,
+          replyTo: message.replyTo,
+        };
+        console.log("DATA", data);
         this.messages.push(data);
         this.namespace.emit("chat message from server", this.messages);
       });

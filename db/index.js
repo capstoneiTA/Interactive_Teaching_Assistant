@@ -17,8 +17,12 @@ const port = 5000;
 const db = require("./models");
 
 //Set Relationships
-db.User.hasMany(db.Message); //Set one to many relationship
-db.Message.belongsTo(db.User);
+db.User.hasMany(db.Message, {
+  foreignKey: "User_ID",
+}); //Set one to many relationship
+db.Message.belongsTo(db.User, {
+  foreignKey: "User_ID",
+});
 
 db.Session.hasMany(db.Message); //Set one to many relationship
 db.Message.belongsTo(db.Session);
@@ -74,4 +78,4 @@ require("./endpoints/CreateExitTicket-api.js")(app, db);
 require("./endpoints/StudentExitTicket-api.js")(app, db);
 require("./endpoints/quiz-api.js")(app, db);
 require("./endpoints/messages-api.js")(app, db);
-require("./endpoints/poll-api")(app,db);
+require("./endpoints/poll-api")(app, db);
