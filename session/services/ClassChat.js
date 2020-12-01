@@ -34,10 +34,14 @@ class ClassChat {
           user: message.user,
           replyTo: message.replyTo,
           createdAt: message.createdAt,
+          Message_ID: message.Message_ID,
         };
-        console.log("DATA", data);
         this.messages.push(data);
         this.namespace.emit("chat message from server", this.messages);
+      });
+      socket.on("user init", (sockid) => {
+        console.log("MESSAGE on user connect", sockid);
+        socket.emit("starter messages", this.messages);
       });
     });
   }

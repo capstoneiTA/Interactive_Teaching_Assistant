@@ -59,20 +59,20 @@ const useStyles = makeStyles((theme) => ({
 const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
   const formatDate = (date) => {
     return (
-      (date.getUTCMonth() + 1).toString() +
-      "/" +
-      date.getUTCDate() +
-      "/" +
-      date.getUTCFullYear().toString() +
-      " " +
-      date.getUTCHours() +
-      ":" +
-      ("0" + date.getMinutes()).substr(-2)
+      // (date.getUTCMonth() + 1).toString() +
+      // "/" +
+      // date.getUTCDate() +
+      // "/" +
+      // date.getUTCFullYear().toString() +
+      // " " +
+      date.getUTCHours() + ":" + ("0" + date.getMinutes()).substr(-2)
       //  +
       // ":" +
       // date.getUTCSeconds()
     );
   };
+
+  const reply = () => {};
   const classes = useStyles();
   return (
     <>
@@ -86,7 +86,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                   <>
                     <ListItem
                       align="right"
-                      key={user}
+                      key={msg.Message_ID}
                       style={{
                         background: "#1982FC",
                         borderRadius: "10px",
@@ -96,7 +96,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                         // minWidth: "40%",
                       }}
                     >
-                      <IconButton>
+                      <IconButton onClick={() => console.log("click")}>
                         <MoreVertIcon />
                       </IconButton>
                       <Grid container>
@@ -124,7 +124,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                 return (
                   <>
                     <ListItem
-                      key={user}
+                      key={msg.Message_ID}
                       style={{
                         background: "#d3d3d3",
                         borderRadius: "10px",
@@ -159,7 +159,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                           ></ListItemText>
                         </Grid>
                       </Grid>
-                      <IconButton>
+                      <IconButton onClick={() => console.log("click")}>
                         <MoreVertIcon />
                       </IconButton>
                     </ListItem>

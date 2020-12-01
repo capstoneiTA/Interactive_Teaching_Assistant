@@ -32,26 +32,27 @@ const Chat = ({ user, sessionName, sessionId }) => {
       .then(function (res) {
         if (res.data.chat_created === true) {
           console.log("RES FROM CLASSCHAT", res.data);
-          socket.on("connect", function () {
-            sockid = socket.id;
-          });
+          socket.on("connect", connectUser);
+          sockid = socket.id;
+          // console.log("socketid", socket);
           listen();
         } else {
           console.log("chat listener creation error");
         }
       })
       .catch((err) => console.log(err));
-    axios
-      .get(apiUrl + "/messages/get", {
-        params: {
-          sessionId: sessionId,
-        },
-      })
-      .then(function (res) {
-        console.log("GETRES", res);
-        setMessages(res.data);
-      })
-      .catch((err) => console.log(err));
+    // socket.emit("user init", { hello: user.User_ID });
+    // axios
+    //   .get(apiUrl + "/messages/get", {
+    //     params: {
+    //       sessionId: sessionId,
+    //     },
+    //   })
+    //   .then(function (res) {
+    //     console.log("GETRES", res);
+    //     setMessages(res.data);
+    //   })
+    //   .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -66,7 +67,20 @@ const Chat = ({ user, sessionName, sessionId }) => {
       console.log("message from server", data);
       updateMessages(data);
     });
+    socket.on("starter messages", function (data) {
+      setMessages(data);
+      // updateMessages(data);
+      // updateMessages(data);
+    });
   };
+
+  function connectUser() {
+    // Called whenever a user signs in
+    var userId = user.User_ID; // Retrieve userId
+    console.log("USER ID FROM CONNECT", userId);
+    if (!userId) return;
+    socket.emit("user init", userId);
+  }
 
   let updateMessages = (data) => {
     console.log("The first definition");
@@ -74,20 +88,6 @@ const Chat = ({ user, sessionName, sessionId }) => {
     newMessages.push(data);
     setMessages(newMessages);
   };
-
-  // const gatherAllMessages = (data) => {
-  //   let newMessages = []
-  //   for (let message of messages){
-  //     if (message.createdAt === data[0].createdAt){
-  //       for (msg of data) {
-  //         newMessages.push(msg)
-  //       }
-  //       return newMessages
-  //     } else {
-  //       newMessages.push(message)
-  //     }
-  //   }
-  // }
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -109,24 +109,22 @@ const Chat = ({ user, sessionName, sessionId }) => {
         replyTo: null,
       })
       .then(function (res) {
+        console.log("resDATA", res.data);
         if (res.data.messageCreation === true) {
-          console.log("MESSAGE CREATED SUCCESS");
+          console.log("MESSAGE CREATED SUCCESS", res.data);
+          socket.emit("chat message from client", {
+            Session_ID: res.data.Session_ID,
+            Message_Content: res.data.Message_Content,
+            user: res.data.user,
+            replyTo: res.data.replyTo,
+            createdAt: res.data.createdAt,
+            Message_ID: res.data.Message_ID,
+          });
+          setValue("");
         } else {
           console.log("FAILED");
         }
       });
-    socket.emit("chat message from client", {
-      Session_ID: sessionId,
-      Message_Content: value,
-      user: {
-        id: user.User_ID,
-        firstName: user.firstName,
-        lastName: user.lastName,
-      },
-      replyTo: null,
-      createdAt: new Date(),
-    });
-    setValue("");
 
     //Clear text box here
   };

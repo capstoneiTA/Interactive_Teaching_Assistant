@@ -16,12 +16,15 @@ module.exports = function (app, db) {
       Message_Content: Message_Content,
       ReplyTo: replyTo,
     })
-      .then(() => {
+      .then((result) => {
+        console.log("DBRES", result);
         response.messageCreation = true;
-        response.Message_Content = Message_Content;
+        response.Message_Content = result.dataValues.Message_Content;
         response.Session_ID = Session_ID;
         response.user = user;
         response.replyTo = replyTo;
+        response.createdAt = result.dataValues.createdAt;
+        response.Message_ID = result.dataValues.Message_ID;
 
         console.log("messageResponse", response);
         res.send(response);
