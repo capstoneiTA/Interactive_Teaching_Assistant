@@ -1,13 +1,3 @@
-const axios = require("axios");
-apiUrl = `http://localhost:8080`;
-let ENDPOINT = "";
-// if (process.env.REACT_APP_DEPLOY === "False") {
-//   apiUrl = `http://localhost:8080`;
-//   ENDPOINT = `http://localhost:7000/`;
-// } else {
-//   apiUrl = `${process.env.REACT_APP_EC2HOST}:8080`;
-//   ENDPOINT = `${process.env.REACT_APP_EC2HOST}:7000/`;
-// }
 class ClassChat {
   // this acts as server
 
@@ -39,8 +29,24 @@ class ClassChat {
         this.messages.push(data);
         this.namespace.emit("chat message from server", this.messages);
       });
+      socket.on("reply message from client", (message) => {
+        let data = {
+          Session_ID: message.Session_ID,
+          Message_Content: message.Message_Content,
+          user: message.user,
+          replyTo: message.replyTo,
+          createdAt: message.createdAt,
+          Message_ID: message.Message_ID,
+        };
+        const index = this.messages.findIndex(
+          (msg) => msg.Message_ID === message.replyTo
+        );
+        this.messages.splice(index + 1, 0, data);
+        // this.messages.push(data);
+        this.namespace.emit("reply message from server", this.messages);
+      });
       socket.on("user init", (sockid) => {
-        console.log("MESSAGE on user connect", sockid);
+        // console.log("MESSAGE on user connect", sockid);
         socket.emit("starter messages", this.messages);
       });
     });

@@ -5,9 +5,7 @@ module.exports = function (app, db) {
     let Message_Content = req.body.Message_Content;
     let user = req.body.user;
     let replyTo = req.body.replyTo;
-    console.log("req.body in db", req.body);
-    console.log();
-    console.log();
+    // console.log("req.body in db", req.body);
     let response = {};
 
     db.Message.create({
@@ -17,7 +15,7 @@ module.exports = function (app, db) {
       ReplyTo: replyTo,
     })
       .then((result) => {
-        console.log("DBRES", result);
+        // console.log("DBRES", result);
         response.messageCreation = true;
         response.Message_Content = result.dataValues.Message_Content;
         response.Session_ID = Session_ID;
@@ -26,7 +24,7 @@ module.exports = function (app, db) {
         response.createdAt = result.dataValues.createdAt;
         response.Message_ID = result.dataValues.Message_ID;
 
-        console.log("messageResponse", response);
+        // console.log("messageResponse", response);
         res.send(response);
       })
       .catch(function (error) {

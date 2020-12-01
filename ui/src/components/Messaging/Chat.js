@@ -20,6 +20,7 @@ const Chat = ({ user, sessionName, sessionId }) => {
   const [value, setValue] = useState("");
   const { messages, setMessages } = useContext(ChatContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [myMessages, setMyMessages] = useState([]);
   let socket = socketIOClient(ENDPOINT + sessionName);
   let sockid = "";
 
@@ -31,7 +32,7 @@ const Chat = ({ user, sessionName, sessionId }) => {
       })
       .then(function (res) {
         if (res.data.chat_created === true) {
-          console.log("RES FROM CLASSCHAT", res.data);
+          // console.log("RES FROM CLASSCHAT", res.data);
           socket.on("connect", connectUser);
           sockid = socket.id;
           // console.log("socketid", socket);
@@ -57,8 +58,9 @@ const Chat = ({ user, sessionName, sessionId }) => {
 
   useEffect(() => {
     updateMessages = (data) => {
-      console.log("data in useeffect2", data);
+      // console.log("data in useeffect2", data);
       setMessages(data);
+      getMyMessages(data);
     };
   }, [messages]);
 
@@ -67,8 +69,13 @@ const Chat = ({ user, sessionName, sessionId }) => {
       console.log("message from server", data);
       updateMessages(data);
     });
+    socket.on("reply message from server", function (data) {
+      console.log("reply message from server", data);
+      updateMessages(data);
+    });
     socket.on("starter messages", function (data) {
       setMessages(data);
+      getMyMessages(data);
       // updateMessages(data);
       // updateMessages(data);
     });
@@ -87,6 +94,18 @@ const Chat = ({ user, sessionName, sessionId }) => {
     let newMessages = [...messages];
     newMessages.push(data);
     setMessages(newMessages);
+  };
+
+  const getMyMessages = (msges) => {
+    const newMyMessages = [];
+    for (let msg of msges) {
+      // console.log("msguserid", msg.user.id, "myUSERID", user.User_ID);
+      if (msg.user.id === user.User_ID) {
+        newMyMessages.push(msg.Message_ID);
+      }
+    }
+    // console.log(newMyMessages);
+    setMyMessages(newMyMessages);
   };
 
   const handleChange = (e) => {
@@ -125,8 +144,36 @@ const Chat = ({ user, sessionName, sessionId }) => {
           console.log("FAILED");
         }
       });
-
-    //Clear text box here
+  };
+  const handleReply = (Message_ID) => {
+    axios
+      .post(apiUrl + "/messages/create", {
+        Session_ID: sessionId,
+        Message_Content: value,
+        user: {
+          id: user.User_ID,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+        replyTo: Message_ID,
+      })
+      .then(function (res) {
+        console.log("resDATA", res.data);
+        if (res.data.messageCreation === true) {
+          console.log("MESSAGE CREATED SUCCESS", res.data);
+          socket.emit("reply message from client", {
+            Session_ID: res.data.Session_ID,
+            Message_Content: res.data.Message_Content,
+            user: res.data.user,
+            replyTo: res.data.replyTo,
+            createdAt: res.data.createdAt,
+            Message_ID: res.data.Message_ID,
+          });
+          setValue("");
+        } else {
+          console.log("FAILED");
+        }
+      });
   };
 
   return (
@@ -137,6 +184,8 @@ const Chat = ({ user, sessionName, sessionId }) => {
         value={value}
         messages={messages}
         user={user}
+        handleReply={handleReply}
+        myMessages={myMessages}
       />
     </>
   );

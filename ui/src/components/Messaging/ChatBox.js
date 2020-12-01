@@ -54,9 +54,64 @@ const useStyles = makeStyles((theme) => ({
   h1: {
     textAlign: "center",
   },
+  messageRight: {
+    background: "#1982FC",
+    borderRadius: "10px",
+    margin: "10px",
+    maxWidth: "60%",
+    float: "right",
+    // minWidth: "40%",
+  },
+  messageLeft: {
+    background: "#d3d3d3",
+    borderRadius: "10px",
+    maxWidth: "60%",
+    minWidth: "40%",
+    margin: "10px",
+  },
+  replyRightMe: {
+    background: "#1982FC",
+    borderRadius: "10px",
+    margin: "5px",
+    maxWidth: "50%",
+    float: "right",
+    // minWidth: "40%",
+  },
+  replyRightThem: {
+    background: "#d3d3d3",
+    borderRadius: "10px",
+    margin: "5px",
+    maxWidth: "50%",
+    float: "right",
+    // minWidth: "40%",
+  },
+  replyLeftMe: {
+    background: "#1982FC",
+    borderRadius: "10px",
+    maxWidth: "50%",
+    minWidth: "40%",
+    margin: "5px",
+    float: "left",
+  },
+  replyLeftThem: {
+    background: "#d3d3d3",
+    borderRadius: "10px",
+    maxWidth: "50%",
+    minWidth: "40%",
+    margin: "5px",
+    float: "left",
+  },
 }));
 
-const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
+const ChatBox = ({
+  handleSubmit,
+  handleChange,
+  value,
+  messages,
+  user,
+  handleReply,
+  myMessages,
+}) => {
   const formatDate = (date) => {
     return (
       // (date.getUTCMonth() + 1).toString() +
@@ -71,9 +126,41 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
       // date.getUTCSeconds()
     );
   };
-
-  const reply = () => {};
   const classes = useStyles();
+  const replyStyleHandler = (isMe, replyTo) => {
+    if (replyTo !== null) {
+      // true === right, false === left
+      // console.log(myMessages);
+      // console.log(replyTo);
+      const right = myMessages.some((msgid) => msgid === replyTo);
+      if (isMe) {
+        if (right) {
+          return classes.replyRightMe;
+        } else {
+          return classes.replyLeftMe;
+        }
+      } else {
+        if (right) {
+          return classes.replyRightThem;
+        } else {
+          return classes.replyLeftThem;
+        }
+      }
+    } else {
+      if (isMe) {
+        return classes.messageRight;
+      } else {
+        return classes.messageLeft;
+      }
+    }
+  };
+
+  const renderReplyButton = (replyto, msgid) =>
+    replyto === null ? (
+      <IconButton onClick={() => handleReply(msgid)}>
+        <MoreVertIcon />
+      </IconButton>
+    ) : null;
   return (
     <>
       <div className={classes.root}>
@@ -85,20 +172,11 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                 return (
                   <>
                     <ListItem
+                      className={replyStyleHandler(true, msg.replyTo)}
                       align="right"
                       key={msg.Message_ID}
-                      style={{
-                        background: "#1982FC",
-                        borderRadius: "10px",
-                        margin: "10px",
-                        maxWidth: "60%",
-                        float: "right",
-                        // minWidth: "40%",
-                      }}
                     >
-                      <IconButton onClick={() => console.log("click")}>
-                        <MoreVertIcon />
-                      </IconButton>
+                      {renderReplyButton(msg.replyTo, msg.Message_ID)}
                       <Grid container>
                         <Grid item xs={12}>
                           <ListItemText
@@ -125,13 +203,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                   <>
                     <ListItem
                       key={msg.Message_ID}
-                      style={{
-                        background: "#d3d3d3",
-                        borderRadius: "10px",
-                        maxWidth: "60%",
-                        minWidth: "40%",
-                        margin: "10px",
-                      }}
+                      className={replyStyleHandler(false, msg.replyTo)}
                     >
                       <ListItemIcon>
                         <Avatar>
@@ -159,9 +231,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
                           ></ListItemText>
                         </Grid>
                       </Grid>
-                      <IconButton onClick={() => console.log("click")}>
-                        <MoreVertIcon />
-                      </IconButton>
+                      {renderReplyButton(msg.replyTo, msg.Message_ID)}
                     </ListItem>
                   </>
                 );
