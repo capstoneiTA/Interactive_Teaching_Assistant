@@ -12,6 +12,7 @@ module.exports = function (app, axios, io) {
     // console.log('chat created post')
     // Get session creation data from post request
     let sessionName = req.body.sessionName;
+
     let response = {};
     if (!chatList.includes(sessionName)) {
       const classChat = new ClassChat(sessionName, io);

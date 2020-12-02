@@ -54,184 +54,190 @@ const useStyles = makeStyles((theme) => ({
   h1: {
     textAlign: "center",
   },
+  messageRight: {
+    background: "#1982FC",
+    borderRadius: "10px",
+    margin: "10px",
+    maxWidth: "60%",
+    float: "right",
+    // minWidth: "40%",
+  },
+  messageLeft: {
+    background: "#d3d3d3",
+    borderRadius: "10px",
+    maxWidth: "60%",
+    minWidth: "40%",
+    margin: "10px",
+  },
+  replyRightMe: {
+    background: "#1982FC",
+    borderRadius: "10px",
+    margin: "5px",
+    maxWidth: "50%",
+    float: "right",
+    // minWidth: "40%",
+  },
+  replyRightThem: {
+    background: "#d3d3d3",
+    borderRadius: "10px",
+    margin: "5px",
+    maxWidth: "50%",
+    float: "right",
+    // minWidth: "40%",
+  },
+  replyLeftMe: {
+    background: "#1982FC",
+    borderRadius: "10px",
+    maxWidth: "50%",
+    minWidth: "40%",
+    margin: "5px",
+    float: "left",
+  },
+  replyLeftThem: {
+    background: "#d3d3d3",
+    borderRadius: "10px",
+    maxWidth: "50%",
+    minWidth: "40%",
+    margin: "5px",
+    float: "left",
+  },
 }));
 
-// const onOptionsClick = (e) => {
-//   console.log(e.target);
-// };
-
-// const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
-//   const classes = useStyles();
-//   const [count, setCount] = useState(0);
-
-//   return (
-//     <>
-//       <div className={classes.root}>
-//         <List dense={true}>
-//           {messages.map((msg) => {
-//             if (msg.userId === user.User_ID) {
-//               return (
-//                 <>
-//                   <ListItem
-//                     key={count}
-//                     style={{
-//                       textAlign: "right",
-//                       color: "blue",
-//                     }}
-//                   >
-//                     <ListItemAvatar>
-//                       <Avatar>
-//                         <AccountCircle />
-//                       </Avatar>
-//                     </ListItemAvatar>
-//                     <ListItemText primary={msg.userId} secondary={msg.msg} />
-//                     <ListItemSecondaryAction>
-//                       <IconButton edge="end" aria-label="delete">
-//                         <MoreVertIcon onClick={onOptionsClick} />
-//                       </IconButton>
-//                     </ListItemSecondaryAction>
-//                   </ListItem>
-//                   <Divider />
-//                 </>
-//               );
-//             } else {
-//               return (
-//                 <>
-//                   <ListItem key={count}>
-//                     <ListItemAvatar>
-//                       <Avatar>
-//                         <AccountCircle />
-//                       </Avatar>
-//                     </ListItemAvatar>
-//                     <ListItemText primary={msg.userId} secondary={msg.msg} />
-//                     <ListItemSecondaryAction>
-//                       <IconButton edge="end" aria-label="delete">
-//                         <MoreVertIcon />
-//                       </IconButton>
-//                     </ListItemSecondaryAction>
-//                   </ListItem>
-//                   <Divider />
-//                 </>
-//               );
-//             }
-//           })}
-//         </List>
-//         <Divider />
-//         <form className={classes.form} onSubmit={(e) => handleSubmit(e)}>
-//           <FormControl margin="normal" fullWidth>
-//             <InputLabel htmlFor="message"></InputLabel>
-//             <Input
-//               id="message"
-//               placeholder="Send something nice!"
-//               name="message"
-//               value={value}
-//               onChange={handleChange}
-//               autoFocus
-//               autoComplete="off"
-//             />
-//           </FormControl>
-//           <Button
-//             type="submit"
-//             fullWidth
-//             variant="contained"
-//             color="primary"
-//             onClick={(e) => handleSubmit(e)}
-//           >
-//             Send Message
-//           </Button>
-//         </form>
-//       </div>
-//     </>
-//   );
-// };
-// export default ChatBox;
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     width: "100%",
-//     maxWidth: 360,
-//     backgroundColor: theme.palette.background.paper,
-//     position: "relative",
-//     overflow: "auto",
-//     maxHeight: 300,
-//     margin: 3,
-//     border: "2px solid blue",
-//     borderRadius: 6,
-//   },
-//   listSection: {
-//     backgroundColor: "inherit",
-//   },
-//   ul: {
-//     backgroundColor: "inherit",
-//     padding: 0,
-//   },
-//   form: {
-//     margin: 5,
-//     padding: 5,
-//     width: "100%", // Fix IE 11 issue.
-//     marginTop: theme.spacing.unit,
-//   },
-//   h1: {
-//     textAlign: "center",
-//   },
-// }));
-
-const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
+const ChatBox = ({
+  handleSubmit,
+  handleChange,
+  value,
+  messages,
+  user,
+  handleReply,
+  myMessages,
+}) => {
+  const formatDate = (date) => {
+    return (
+      // (date.getUTCMonth() + 1).toString() +
+      // "/" +
+      // date.getUTCDate() +
+      // "/" +
+      // date.getUTCFullYear().toString() +
+      // " " +
+      date.getUTCHours() + ":" + ("0" + date.getMinutes()).substr(-2)
+      //  +
+      // ":" +
+      // date.getUTCSeconds()
+    );
+  };
   const classes = useStyles();
+  const replyStyleHandler = (isMe, replyTo) => {
+    if (replyTo !== null) {
+      // true === right, false === left
+      // console.log(myMessages);
+      // console.log(replyTo);
+      const right = myMessages.some((msgid) => msgid === replyTo);
+      if (isMe) {
+        if (right) {
+          return classes.replyRightMe;
+        } else {
+          return classes.replyLeftMe;
+        }
+      } else {
+        if (right) {
+          return classes.replyRightThem;
+        } else {
+          return classes.replyLeftThem;
+        }
+      }
+    } else {
+      if (isMe) {
+        return classes.messageRight;
+      } else {
+        return classes.messageLeft;
+      }
+    }
+  };
+
+  const renderReplyButton = (replyto, msgid) =>
+    replyto === null ? (
+      <IconButton onClick={() => handleReply(msgid)}>
+        <MoreVertIcon />
+      </IconButton>
+    ) : null;
   return (
     <>
       <div className={classes.root}>
         {/*<h1>Chat</h1>*/}
-        <div style={chatListStyle}>
-          <List dense={true}>
+        <div style={{ overflowY: "scroll" }}>
+          <List dense={true} style={{ overflow: "scroll" }}>
             {messages.map((msg) => {
-              if (msg.userId === user.User_ID) {
+              if (msg.user.id === user.User_ID) {
                 return (
                   <>
                     <ListItem
-                      key={user}
-                      style={{
-                        textAlign: "right",
-                        color: "blue",
-                      }}
+                      className={replyStyleHandler(true, msg.replyTo)}
+                      align="right"
+                      key={msg.Message_ID}
                     >
-                      <ListItemAvatar>
-                        <Avatar>
-                          <AccountCircle />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={msg.userId} secondary={msg.msg} />
-                      <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete">
-                          <MoreVertIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
+                      {renderReplyButton(msg.replyTo, msg.Message_ID)}
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <ListItemText
+                            align="right"
+                            primary={msg.Message_Content}
+                            // secondary={msg.user.firstName}
+                          ></ListItemText>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <ListItemText
+                            align="right"
+                            secondary={
+                              formatDate(new Date(msg.createdAt)) + " UTC"
+                            }
+                          ></ListItemText>
+                        </Grid>
+                      </Grid>
                     </ListItem>
-                    <Divider />
+                    {/* <Divider /> */}
                   </>
                 );
               } else {
                 return (
                   <>
-                    <ListItem key={user}>
-                      <ListItemAvatar>
+                    <ListItem
+                      key={msg.Message_ID}
+                      className={replyStyleHandler(false, msg.replyTo)}
+                    >
+                      <ListItemIcon>
                         <Avatar>
-                          <AccountCircle />
+                          {msg.user.firstName.charAt(0) +
+                            msg.user.lastName.charAt(0)}
                         </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText primary={msg.userId} secondary={msg.msg} />
-                      <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete">
-                          <MoreVertIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
+                      </ListItemIcon>
+
+                      <Grid container>
+                        <Grid item xs={12}>
+                          <ListItemText
+                            align="left"
+                            primary={msg.Message_Content}
+                            secondary={
+                              msg.user.firstName + " " + msg.user.lastName
+                            }
+                          ></ListItemText>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <ListItemText
+                            align="left"
+                            secondary={
+                              formatDate(new Date(msg.createdAt)) + " UTC"
+                            }
+                          ></ListItemText>
+                        </Grid>
+                      </Grid>
+                      {renderReplyButton(msg.replyTo, msg.Message_ID)}
                     </ListItem>
-                    <Divider />
                   </>
                 );
               }
             })}
           </List>
-          <Divider />
         </div>
         <div style={inputDivContainer}>
           <form
@@ -271,6 +277,7 @@ const ChatBox = ({ handleSubmit, handleChange, value, messages, user }) => {
 };
 
 const chatListStyle = {
+  overflow: "scroll",
   // height: '100%',
   // overflowY: 'auto',
 };

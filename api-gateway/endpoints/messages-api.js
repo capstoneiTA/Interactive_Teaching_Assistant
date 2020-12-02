@@ -10,15 +10,17 @@ module.exports = function (app, axios, io) {
   app.post("/messages/create", function (req, res) {
     // console.log('chat created post')
     // Get session creation data from post request
-    let sessionId = req.body.sessionId;
-    let messageContents = req.body.messageContents;
-    let userId = req.body.userId;
+    let Session_ID = req.body.Session_ID;
+    let Message_Content = req.body.Message_Content;
+    let user = req.body.user;
+    let replyTo = req.body.replyTo;
+
     axios
       .post(sessionUrl + "/messages/create", {
-        sessionId: sessionId,
-        messageContents: messageContents,
-        userId: userId,
-        replyTo: null,
+        Session_ID: Session_ID,
+        Message_Content: Message_Content,
+        user: user,
+        replyTo: replyTo,
       })
       .then(function (response) {
         res.send(response.data);
