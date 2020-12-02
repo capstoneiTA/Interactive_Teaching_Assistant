@@ -15,6 +15,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FolderIcon from "@material-ui/icons/Folder";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ReplyIcon from "@material-ui/icons/Reply";
 
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -72,7 +73,9 @@ const useStyles = makeStyles((theme) => ({
   replyRightMe: {
     background: "#1982FC",
     borderRadius: "10px",
-    margin: "5px",
+    margin: "10px",
+    marginTop: "5px",
+    // marginRight: "5px",
     maxWidth: "50%",
     float: "right",
     // minWidth: "40%",
@@ -80,7 +83,9 @@ const useStyles = makeStyles((theme) => ({
   replyRightThem: {
     background: "#d3d3d3",
     borderRadius: "10px",
-    margin: "5px",
+    margin: "10px",
+    marginTop: "5px",
+    // marginRight: "5px",
     maxWidth: "50%",
     float: "right",
     // minWidth: "40%",
@@ -90,7 +95,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
     maxWidth: "50%",
     minWidth: "40%",
-    margin: "5px",
+    margin: "10px",
+    marginTop: "5px",
+    // marginLeft: "5px",
     float: "left",
   },
   replyLeftThem: {
@@ -98,8 +105,20 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
     maxWidth: "50%",
     minWidth: "40%",
-    margin: "5px",
+    margin: "10px",
+    marginTop: "5px",
+    // marginLeft: "5px",
     float: "left",
+  },
+  replyIconLeft: {
+    transform: "scaleX(-1)",
+    transform: "scaleY(-1)",
+    // color: "red",
+  },
+  replyIconRight: {
+    // transform: "scaleX(-1)",
+    transform: "scale(-1,-1)",
+    // color: "black",
   },
 }));
 
@@ -111,6 +130,10 @@ const ChatBox = ({
   user,
   handleReply,
   myMessages,
+  isOriginal,
+  setIsOriginal,
+  replyToMessage_ID,
+  setReplyToMessage_ID,
 }) => {
   const formatDate = (date) => {
     return (
@@ -155,12 +178,34 @@ const ChatBox = ({
     }
   };
 
-  const renderReplyButton = (replyto, msgid) =>
+  const handleMessageTypeChange = (msgid) => {
+    if (isOriginal === true) {
+      setIsOriginal(!isOriginal);
+    }
+    setReplyToMessage_ID(msgid);
+
+    console.log("handleMessageMSGID", msgid);
+  };
+
+  const renderReplyButton = (replyto, msgid, isMe) =>
     replyto === null ? (
-      <IconButton onClick={() => handleReply(msgid)}>
-        <MoreVertIcon />
+      <IconButton onClick={() => handleMessageTypeChange(msgid)}>
+        <ReplyIcon
+          className={
+            isMe === true ? classes.replyIconRight : classes.replyIconLeft
+          }
+        />
       </IconButton>
     ) : null;
+
+  const handleReplyOrSubmit = (e) => {
+    if (isOriginal === true) {
+      handleSubmit(e);
+    } else {
+      handleReply(e, replyToMessage_ID);
+    }
+  };
+
   return (
     <>
       <div className={classes.root}>
@@ -176,7 +221,7 @@ const ChatBox = ({
                       align="right"
                       key={msg.Message_ID}
                     >
-                      {renderReplyButton(msg.replyTo, msg.Message_ID)}
+                      {renderReplyButton(msg.replyTo, msg.Message_ID, true)}
                       <Grid container>
                         <Grid item xs={12}>
                           <ListItemText
@@ -195,7 +240,6 @@ const ChatBox = ({
                         </Grid>
                       </Grid>
                     </ListItem>
-                    {/* <Divider /> */}
                   </>
                 );
               } else {
@@ -217,21 +261,24 @@ const ChatBox = ({
                           <ListItemText
                             align="left"
                             primary={msg.Message_Content}
-                            secondary={
-                              msg.user.firstName + " " + msg.user.lastName
-                            }
+                            // secondary={
+                            //   msg.user.firstName + " " + msg.user.lastName
+                            // }
                           ></ListItemText>
                         </Grid>
                         <Grid item xs={12}>
                           <ListItemText
                             align="left"
                             secondary={
-                              formatDate(new Date(msg.createdAt)) + " UTC"
+                              `- ${msg.user.firstName}` +
+                              ` ${msg.user.lastName}, ` +
+                              formatDate(new Date(msg.createdAt)) +
+                              " UTC"
                             }
                           ></ListItemText>
                         </Grid>
                       </Grid>
-                      {renderReplyButton(msg.replyTo, msg.Message_ID)}
+                      {renderReplyButton(msg.replyTo, msg.Message_ID, false)}
                     </ListItem>
                   </>
                 );
@@ -242,14 +289,18 @@ const ChatBox = ({
         <div style={inputDivContainer}>
           <form
             className={classes.form}
-            onSubmit={(e) => handleSubmit(e)}
+            onSubmit={(e) => handleReplyOrSubmit(e)}
             style={inputFormContainer}
           >
             <FormControl margin="normal" style={chatInputStyle}>
               <InputLabel htmlFor="message"></InputLabel>
               <Input
                 id="message"
-                placeholder="Send something nice!"
+                placeholder={
+                  isOriginal === true
+                    ? "Send something nice"
+                    : "Reply with something nice"
+                }
                 onBlur="Send something nice!"
                 name="message"
                 value={value}
@@ -264,10 +315,10 @@ const ChatBox = ({
               // fullWidth
               variant="contained"
               // color="primary"
-              onClick={(e) => handleSubmit(e)}
+              onClick={(e) => handleReplyOrSubmit(e)}
               style={sendButtonStyle}
             >
-              Send Message
+              {isOriginal === true ? "Send Message" : "Send Reply"}
             </Button>
           </form>
         </div>
