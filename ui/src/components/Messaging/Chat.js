@@ -21,6 +21,8 @@ const Chat = ({ user, sessionName, sessionId }) => {
   const { messages, setMessages } = useContext(ChatContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [myMessages, setMyMessages] = useState([]);
+  const [isOriginal, setIsOriginal] = useState(true);
+  const [replyToMessage_ID, setReplyToMessage_ID] = useState(null);
   let socket = socketIOClient(ENDPOINT + sessionName);
   let sockid = "";
 
@@ -140,12 +142,15 @@ const Chat = ({ user, sessionName, sessionId }) => {
             Message_ID: res.data.Message_ID,
           });
           setValue("");
+          setIsOriginal(true);
+          setReplyToMessage_ID(null);
         } else {
           console.log("FAILED");
         }
       });
   };
-  const handleReply = (Message_ID) => {
+  const handleReply = (e, Message_ID) => {
+    e.preventDefault();
     axios
       .post(apiUrl + "/messages/create", {
         Session_ID: sessionId,
@@ -170,6 +175,8 @@ const Chat = ({ user, sessionName, sessionId }) => {
             Message_ID: res.data.Message_ID,
           });
           setValue("");
+          setIsOriginal(true);
+          setReplyToMessage_ID(null);
         } else {
           console.log("FAILED");
         }
@@ -186,6 +193,10 @@ const Chat = ({ user, sessionName, sessionId }) => {
         user={user}
         handleReply={handleReply}
         myMessages={myMessages}
+        isOriginal={isOriginal}
+        setIsOriginal={setIsOriginal}
+        replyToMessage_ID={replyToMessage_ID}
+        setReplyToMessage_ID={setReplyToMessage_ID}
       />
     </>
   );
