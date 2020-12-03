@@ -80,16 +80,11 @@ class Dashboard extends Component {
 }
 
 const pageContainer = {
-    // backgroundColor: 'gray',
     display: 'flex',
-    flexDirection: 'row',
-    // justifyContent: 'center',
-
-    padding: '0 400px',
+    flexDirection: 'column',
 }
 
 const teacherSessionsContainer = {
-    // backgroundColor: '#eee',
     width: '800px',
     margin: 'auto',
     marginTop: '150px',
