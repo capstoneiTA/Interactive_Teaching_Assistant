@@ -55,8 +55,6 @@ module.exports = function(app, db) {
         let response = {};
         let polls = [];
 
-
-
         let foundPolls = getPolls(userId, res, response);
 
         foundPolls.then((Polls)=>{
@@ -103,9 +101,8 @@ module.exports = function(app, db) {
                 }
             }else{
                 response.anyPolls = false;
-                res.send("ERROR");
+                //res.send("ERROR");
             }
-
         });
     });
 
