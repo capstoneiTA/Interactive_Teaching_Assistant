@@ -3,11 +3,10 @@ import React, { createContext, useState } from "react";
 const ExitTicketMonitorContext= createContext('');
 
 const ExitTicketMonitorContextProvider = ({ children }) => {
-    const [ExitMonitor, setExitMonitor] = useState('');
-    const [ExitSocket, setExitSocket] = useState('');
+    const [answers, setAnswers] = useState({quizQuestions: [0]});
 
     return (
-        <ExitTicketMonitorContext.Provider value={{ ExitMonitor, setExitMonitor,ExitSocket, setExitSocket }}>
+        <ExitTicketMonitorContext.Provider value={{ answers, setAnswers }}>
             {children}
         </ExitTicketMonitorContext.Provider>
     );

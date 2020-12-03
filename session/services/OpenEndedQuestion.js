@@ -24,8 +24,10 @@ class OpenEndedQuestion{
                 this.handleStartQuiz(teacherSocketId, quiz);
             });
 
-            socket.on('student submit exit', (sessionId) =>{
-               this.handleSubmitExit(sessionId);
+            socket.on('student submit exit', (sessionId, userId, answersInfo) =>{
+              console.log("Student" + userId);
+              console.log("Student responded " + answersInfo);
+               this.handleSubmitExit(sessionId,userId,answersInfo);
 
             })
         });
@@ -35,21 +37,13 @@ class OpenEndedQuestion{
         this.namespace.emit('exit for students', teacherSocketId, quiz);
     }
 
-    handleSubmitExit(sessionId){
+    handleSubmitExit(sessionId,studentId,answersInfo){
         const dbUrl = 'http://db:5000';
        //Send the student submission to the teacher
-       this.namespace.emit('exit ticket submission from student', sessionId);
+       this.namespace.emit('exit ticket submission from student', sessionId, studentId, answersInfo);
 
-       //Save student submission to the database
-       console.log("Saving student response from studentId: " + studentId)
-//       axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId: sessionId, questionId:quiz.quizQuestions[0].questionId, answerText: answer , userId: userId})
-//       .then(function (res) {
-//          console.log(res.data);
-//       }, (error)=> {
-//            console.log(error);
-//           });
+       console.log("Saving student response to be  " + answersInfo)
     }
-
      /**
       * Get the prompt string.
       * @return {string} The question/statement that will be responsible to connect with DB.

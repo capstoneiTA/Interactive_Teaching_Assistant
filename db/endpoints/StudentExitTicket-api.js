@@ -115,8 +115,6 @@ module.exports = function(app, db) {
                response.error= error.message;
                res.send(response);
            });
-
-
     });
 };
 

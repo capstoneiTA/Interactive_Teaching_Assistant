@@ -1,6 +1,3 @@
-//monitor the exit ticket
-//handle student submission
-//1. create a table ui that will be the interface for teachers
 
 import React, {Component, useContext, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
 import {ExitTicketMonitorContext} from "./ExitTicketMonitorContext";
+import {ExitStudentAnswersContext} from "../ActivityRun/ExitStudentAnswersContext";
+
 import {ActivityMonitorContext} from "./ActivityMonitorContext";
 import StudentExitTicket from "../ActivityRun/StudentExitTicket";
 
@@ -21,6 +20,19 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  root: {
+          marginLeft: '20px',
+          display: 'inline',
+    },
+  modal: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+   },
+    h1: {
+          textAlign: 'center',
+          marginBottom: '40px'
+   }
 });
 
 function createData(name, response) {
@@ -28,80 +40,91 @@ function createData(name, response) {
 }
 
 const rows = [
-  createData('Student_1', 'Yes'),
-  createData('Student_2', 'Need help'),
-  createData('Student_3', 'I am confused about topic 2'),
+  createData('student_1', 'answer'),
+  createData('student_2', 'answer'),
 ];
 
-export default function ExitTicketMonitor({quiz}) {
+export default function ExitTicketMonitor({quiz,user}) {
   const classes = useStyles();
 
-    const {monitor, setMonitor, quizSocket, setQuizSocket} = useContext(ActivityMonitorContext);
-      const [display, setDisplay] = useState(true);
+  const {monitor, setMonitor, exitSocket, setExitSocket} = useContext(ActivityMonitorContext);
+  const [display, setDisplay] = useState(true);
+  let studentsFinished = [];
+  let studentAnswers = [];
+  const {answers, setAnswers} = useContext(ExitTicketMonitorContext);
+  let answersHelper = {};
+
 
   useEffect(()=>{
           listen();
       }, []);
 
   const listen=()=>{
-      quizSocket.on('exit ticket submission from student', (sessionId,userId)=>{
+      exitSocket.on('exit ticket submission from student', (sessionId, studentId, answersInfo)=>{
+                updateResponses(answersInfo);
+                studentsFinished.push(studentId);
       })
  };
+  const updateResponses = (answersInfo) =>{
+
+         console.log(answersInfo);
+         let newAnswers = {...answersHelper};
+         newAnswers = answersInfo;
+         //console.log(newAnswers);
+         setAnswers(newAnswers);
+         answersHelper = newAnswers;
+        // console.log(answersHelper);
+         studentAnswers.push(answersHelper);
+
+     };
   const close = () => {
         setDisplay(false);
 
   };
-
-//student name and response
-
   return (
-
         <div>
-           <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                className={classes.modal}
-                open={display}
-                onClose={close}
-                closeAfterTransition
-            >
-         <Fade in= {display}>
-
-          <TableContainer component={Paper}>
-          <h1>
-             {quiz.quizName}
-          </h1>
-          {quiz.quizQuestions.map((question)=>{
-            return <div>
-                <h2> {question.prompt} </h2>
-             </div>
-          })}
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell> Student Name </TableCell>
-                <TableCell align="right">Response</TableCell>
-
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
-                  <TableCell align="right">{row.carbs}</TableCell>
-                  <TableCell align="right">{row.protein}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            className={classes.modal}
+            open={display}
+            onClose={close}
+            closeAfterTransition
+        >
+        <Fade in={display}>
+        <TableContainer component={Paper}>
+         <h1 className = {classes.h1}>
+              {quiz.quizName}
+         </h1>
+              {quiz.quizQuestions.map((question)=>{
+                   return <div>
+                         <h2 className = {classes.h1}>
+                          {question.prompt}
+                         </h2>
+                </div>
+                })}
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Student</TableCell>
+                    <TableCell align="right">Response</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row) => (
+                    <TableRow key={row.name}>
+                      <TableCell component="th" scope="row">
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="right">{row.response}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+               </Table>
+            </TableContainer>
         </Fade>
-        </Modal>
+       </Modal>
     </div>
 
-  );
+  )
 }

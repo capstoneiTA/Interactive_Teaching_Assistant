@@ -3,7 +3,9 @@ import React, {Component, useEffect, useState} from 'react';
 
 import socketIOClient from "socket.io-client";
 import StudentQuiz from "./StudentQuiz";
+import StudentExitTicket from "./StudentExitTicket";
 import {StudentAnswersContextProvider} from "./StudentAnswersContext";
+import {ExitStudentAnswersContextProvider} from "./ExitStudentAnswersContext";
 
 export default function StudentActivityContainer({user, sessionName, sessionId}) {
     const [activity, setActivity] = useState('no activity started');
@@ -37,7 +39,14 @@ export default function StudentActivityContainer({user, sessionName, sessionId})
            console.log(quiz);
            setActivity(<StudentAnswersContextProvider><StudentQuiz quiz={quiz} socket={socket} user={user} sessionId={sessionId}/></StudentAnswersContextProvider>);
        })
+
+       socket.on('exit for students', (teacherSockId, quiz)=>{
+       console.log(quiz);
+       setActivity(<ExitStudentAnswersContextProvider><StudentExitTicket quiz={quiz} socket= {socket} sessionId= {sessionId} userId= {user.User_ID}/></ExitStudentAnswersContextProvider>);
+       })
     };
+
+
 
     return(
         <div>

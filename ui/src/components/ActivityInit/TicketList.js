@@ -9,6 +9,8 @@ import axios from "axios";
 import socketIOClient from "socket.io-client";
 import {ActivityMonitorContext} from "../ActivityMonitor/ActivityMonitorContext";
 import ExitTicketMonitor from "../ActivityMonitor/ExitTicketMonitor";
+import {ExitTicketMonitorContextProvider} from "../ActivityMonitor/ExitTicketMonitorContext";
+import {ExitStudentAnswersContext} from "../ActivityRun/ExitStudentAnswersContext";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +31,7 @@ export default function TicketList({user, sessionName}) {
     const [quizList, setQuizList] = useState([]);
     const {monitor, setMonitor} = useContext(ActivityMonitorContext);
     let quizzesInfo = [];
+    let quizAnswers = {};
     let apiGatewayUrl = '';
     let ENDPOINT = '';
     if(process.env.REACT_APP_DEPLOY === "False"){
@@ -96,7 +99,8 @@ export default function TicketList({user, sessionName}) {
             socket.emit('teacher start exit', socket_Id, quizzesInfo[index]);
             console.log(quizzesInfo[index]);
             //add a functions to gather exit ticket answers
-            setMonitor(<ExitTicketMonitor quiz={quizzesInfo[index]} user = {user.firstName}/>)
+            quizAnswers = quizzesInfo[index];
+            setMonitor(<ExitTicketMonitorContextProvider><ExitTicketMonitor quiz={quizzesInfo[index]} /></ExitTicketMonitorContextProvider>)
 
         })
     };
@@ -104,7 +108,7 @@ export default function TicketList({user, sessionName}) {
    useEffect(()=>{
         //Generate quiz components on teacher screen
         getQuizzes();
-       socketStart();
+        socketStart();
     }, []);
 
     return (
