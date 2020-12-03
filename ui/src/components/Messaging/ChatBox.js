@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
     float: "left",
   },
   replyIconLeft: {
-    transform: "scaleX(-1)",
+    // transform: "scaleX(-1)",
     transform: "scaleY(-1)",
     // color: "red",
   },
@@ -208,9 +208,10 @@ const ChatBox = ({
 
   return (
     <>
-      <div className={classes.root}>
+      <div className={classes.root} style={chatContainer}>
         {/*<h1>Chat</h1>*/}
-        <div style={{ overflowY: "scroll" }}>
+        {/*<div style={{ overflowY: "scroll" }}>*/}
+        <div style={chatListStyle}>
           <List dense={true} style={{ overflow: "scroll" }}>
             {messages.map((msg) => {
               if (msg.user.id === user.User_ID) {
@@ -228,7 +229,7 @@ const ChatBox = ({
                             align="right"
                             primary={msg.Message_Content}
                             // secondary={msg.user.firstName}
-                          ></ListItemText>
+                          />
                         </Grid>
                         <Grid item xs={12}>
                           <ListItemText
@@ -236,7 +237,7 @@ const ChatBox = ({
                             secondary={
                               formatDate(new Date(msg.createdAt)) + " UTC"
                             }
-                          ></ListItemText>
+                          />
                         </Grid>
                       </Grid>
                     </ListItem>
@@ -264,7 +265,9 @@ const ChatBox = ({
                             // secondary={
                             //   msg.user.firstName + " " + msg.user.lastName
                             // }
-                          ></ListItemText>
+                          >
+
+                          </ListItemText>
                         </Grid>
                         <Grid item xs={12}>
                           <ListItemText
@@ -275,7 +278,9 @@ const ChatBox = ({
                               formatDate(new Date(msg.createdAt)) +
                               " UTC"
                             }
-                          ></ListItemText>
+                          >
+
+                          </ListItemText>
                         </Grid>
                       </Grid>
                       {renderReplyButton(msg.replyTo, msg.Message_ID, false)}
@@ -327,11 +332,17 @@ const ChatBox = ({
   );
 };
 
+const chatContainer = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "flex-end",
+}
+
 const chatListStyle = {
   overflow: "scroll",
-  // height: '100%',
-  // overflowY: 'auto',
+  height: '90%',
 };
+
 
 const inputDivContainer = {
   borderTop: "2px solid lightgray",
