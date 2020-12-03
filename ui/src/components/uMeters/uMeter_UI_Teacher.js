@@ -104,7 +104,7 @@ class TeacherUnderstandingMeter extends Component {
 
     render() {
         return (
-            <div>
+            <div style={uMeterContainer}>
                 {/*<h2>Session: {this.sessionName} </h2>*/}
                 {/*<h2>Session ID: {this.sessionId} </h2>*/}
                 {/*<h2>Student Meters</h2>*/}
@@ -124,14 +124,22 @@ class TeacherUnderstandingMeter extends Component {
     }
 }
 
+const uMeterContainer = {
+    width: '100%',
+    // backgroundColor: 'red',
+}
+
 const studentUMeter = {
+
+
     display: 'flex',
     justifyContent: 'flex-end',
     margin: '10px',
 }
 
 const progressBarStyle = {
-    width: '300px',
+    width: '50%',
+    maxWidth: '300px',
     height: '20px',
     marginLeft: '20px',
 }

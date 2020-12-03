@@ -147,7 +147,7 @@ export default ClassSession;
 const leftTeacherContainer = {};
 
 const teacherUMeterContainer = {
-  // backgroundColor: '#eee',
+  // backgroundColor: 'blue',
   width: "90%",
   maxWidth: "800px",
 
@@ -157,7 +157,7 @@ const teacherUMeterContainer = {
 };
 const teacherUMeters = {
   // backgroundColor: '#eee',
-  width: "max-content",
+  width: "60%",
   margin: "auto",
   height: "300px",
   overflowY: "auto",
