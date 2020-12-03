@@ -25,19 +25,20 @@ describe("message Create", function () {
     it("message should be created", function () {
       return axios
         .post(apiGatewayUrl + "/messages/create", {
-          userId: 1,
-          sessionId: 2,
+          Session_ID: 2,
+          Message_Content: "helloWorld",
+          user: {
+            id: 1,
+            firstName: "test",
+            lastName: "test",
+          },
           replyTo: null,
-          messageContents: "helloWorld",
         })
         .then(function (res) {
           console.log(res);
           // console.log(res.data)
           expect(res.data.messageCreation).to.equal(true);
-          expect(res.data.messageContents).to.equal("helloWorld");
-          // expect(res.data.name).to.equal('Helloworld');
-          // expect(res.data.message).to.equal('Helloworld');
-          // expect(res.data.message).to.equal('Helloworld');
+          expect(res.data.Message_Content).to.equal("helloWorld");
         });
     });
   });
@@ -56,9 +57,9 @@ describe("message GET", function () {
         .then(function (res) {
           console.log(res);
           // console.log(res.data)
-          expect(res.data.messages[0].Message_Content).to.equal("helloWorld");
-          expect(res.data.messages[0].User_ID).to.equal(1);
-          expect(res.data.messages[0].Session_ID).to.equal(2);
+          expect(res.data[0].Message_Content).to.equal("helloWorld");
+          expect(res.data[0].user.id).to.equal(1);
+          expect(res.data[0].Session_ID).to.equal(2);
         });
     });
   });
