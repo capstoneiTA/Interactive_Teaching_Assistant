@@ -1,5 +1,5 @@
 
-import React, {Component, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,10 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
 import {ExitTicketMonitorContext} from "./ExitTicketMonitorContext";
-import {ExitStudentAnswersContext} from "../ActivityRun/ExitStudentAnswersContext";
-
 import {ActivityMonitorContext} from "./ActivityMonitorContext";
-import StudentExitTicket from "../ActivityRun/StudentExitTicket";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -66,23 +63,14 @@ export default function ExitTicketMonitor({quiz,user,firstname}) {
 
   const listen=()=>{
       exitSocket.on('exit ticket submission from student', (sessionId, firstname, answersInfo)=>{
-
-                studentsFinished.push(firstname);
                 rows.push(createData(firstname,answersInfo));
                 updateResponses(answersInfo);
       })
  };
   const updateResponses = (answersInfo) =>{
-
-         console.log(answersInfo);
-         let newAnswers = {...answersHelper};
+         let newAnswers = {};
          newAnswers = answersInfo;
-         //console.log(newAnswers);
          setAnswers(newAnswers);
-         answersHelper = newAnswers;
-        // console.log(answersHelper);
-         studentAnswers.push(answersHelper);
-
      };
   const close = () => {
         setDisplay(false);
@@ -108,8 +96,8 @@ export default function ExitTicketMonitor({quiz,user,firstname}) {
                          <h2 className = {classes.h1}>
                           {question.prompt}
                          </h2>
-                </div>
-                })}
+                          </div>
+              })}
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                   <TableRow>

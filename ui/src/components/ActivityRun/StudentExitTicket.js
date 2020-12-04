@@ -1,7 +1,6 @@
-import React, {Component, useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import socketIOClient from "socket.io-client";
 import axios from 'axios';
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
@@ -46,7 +45,7 @@ export default function StudentExitTicket({quiz,socket,sessionId,userId, firstNa
 
 
     //  handle submit and store students answer
-      const submitAnswer = (e) =>{
+    const submitAnswer = (e) =>{
           axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId: sessionId, questionId:quiz.quizQuestions[0].questionId, answerText: answer , userId: userId})
           .then(function (res) {
            console.log(res.data);
