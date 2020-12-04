@@ -67,8 +67,8 @@ export default function TeacherClassSessionMenu({item1, item2,item3}) {
             >
                 {/*<Tab label="Understanding Meters" {...a11yProps(0)} />*/}
                 <Tab label="Quizzes" {...a11yProps(0)} />
-                <Tab label="Polls" {...a11yProps(1)} />
-                <Tab label="Exit Tickets" {...a11yProps(2)} />
+                <Tab label="Exit Tickets" {...a11yProps(1)} />
+                <Tab label="Polls" {...a11yProps(2)} />
             </Tabs>
 
             {/*<TabPanel value={value} index={0}>*/}
@@ -78,10 +78,10 @@ export default function TeacherClassSessionMenu({item1, item2,item3}) {
                 {item1}
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Polls Go Here
+                {item2}
             </TabPanel>
             <TabPanel value={value} index={2}>
-                {item2}
+                {item3}
             </TabPanel>
         </div>
     );

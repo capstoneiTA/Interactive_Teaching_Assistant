@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function StudentQuizQuestion({question, index}) {
+export default function StudentPollQuestion({question, index}) {
     const classes = useStyles();
     const [value, setValue] = React.useState('');
     const {answersInfo, setAnswersInfo} = useContext(StudentActivityContext);
@@ -38,7 +38,7 @@ export default function StudentQuizQuestion({question, index}) {
         let newAnswersInfo = {...answersInfo};
         for(let answer of newAnswersInfo.answers){
             if(answer.questionId === question.questionId){
-                answer.answerId = parseInt(event.target.value);
+                answer.answerId = parseInt(event.target.value)
                 break;
             }
         }
@@ -51,7 +51,7 @@ export default function StudentQuizQuestion({question, index}) {
                 <form>
                     <FormControl component="fieldset" className={classes.formControl}>
                         <FormLabel component="legend">{index+1}: {question.prompt}</FormLabel>
-                        <RadioGroup aria-label="quiz" name={"question "+(index+1)} value={value} onChange={handleRadioChange}>
+                        <RadioGroup aria-label="poll" name={"question "+(index+1)} value={value} onChange={handleRadioChange}>
                             {question.options.map((option, index)=>{
                                 return <FormControlLabel value={option.optionId.toString()} control={<Radio />} label={option.option}/>
                             })}

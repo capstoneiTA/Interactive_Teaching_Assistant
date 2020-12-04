@@ -22,6 +22,7 @@ class TeacherUnderstandingMeter extends Component {
             teachers: [],
             students: [],
             studentMeters: [],
+            classAverage: 5,
         };
         //basic info
         this.user = this.props.user;
@@ -63,6 +64,7 @@ class TeacherUnderstandingMeter extends Component {
 
         this.socket.on('update understanding meter', (userId, value)=>{
             this.updateStudentComponentsFromChange(userId, value);
+
         });
     };
 
@@ -75,6 +77,7 @@ class TeacherUnderstandingMeter extends Component {
                 studentMeter.value = value;
                 studentMeters[i] = studentMeter;
                 this.setState({studentMeters:studentMeters});
+                this.setClassAverage();
                 console.log(this.state.studentMeters[i].userId +' update to ' +this.state.studentMeters[i].value);
             }
         }
@@ -86,14 +89,29 @@ class TeacherUnderstandingMeter extends Component {
             newStudentMeters.push({userId: student.userId, value: 5, firstName: student.firstName, lastName: student.lastName});
         }
         this.setState( {studentMeters:newStudentMeters}) ;
+
     };
+
+    setClassAverage = () => {
+        let sum = 0;
+        let numMeters = 0;
+        for (let meter of this.state.studentMeters) {
+            sum += meter.value;
+            numMeters += 1;
+        }
+        this.setState( {classAverage:(sum/numMeters).toFixed(2)});
+    }
 
     render() {
         return (
-            <div>
+            <div style={uMeterContainer}>
                 {/*<h2>Session: {this.sessionName} </h2>*/}
                 {/*<h2>Session ID: {this.sessionId} </h2>*/}
                 {/*<h2>Student Meters</h2>*/}
+                <div style={studentUMeter}>
+                    <div>Class Average: </div>
+                    <ProgressBar min={1} max={5} now={this.state.classAverage} label={this.state.classAverage} style={progressBarStyle}/>
+                </div>
 
                 {this.state.studentMeters.map((meter) => {
                     return <div style={studentUMeter}>
@@ -106,14 +124,22 @@ class TeacherUnderstandingMeter extends Component {
     }
 }
 
+const uMeterContainer = {
+    width: '100%',
+    // backgroundColor: 'red',
+}
+
 const studentUMeter = {
+
+
     display: 'flex',
     justifyContent: 'flex-end',
     margin: '10px',
 }
 
 const progressBarStyle = {
-    width: '300px',
+    width: '50%',
+    maxWidth: '300px',
     height: '20px',
     marginLeft: '20px',
 }

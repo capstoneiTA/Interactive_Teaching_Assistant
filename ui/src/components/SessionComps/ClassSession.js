@@ -5,15 +5,16 @@ import TeacherClassSessionMenu from "./TeacherClassSessionMenu";
 import QuizAccordionList from "../ActivityInit/QuizAcordionList";
 
 import Chat from "../Messaging/Chat";
-import ChatDrawer from "../Messaging/ChatDrawer";
 import { ChatContextProvider } from "../Messaging/ChatContext";
 
-import axios from "axios";
 import StudentActivityContainer from "../ActivityRun/StudentActivityContainer";
 import { ActivityMonitorContextProvider } from "../ActivityMonitor/ActivityMonitorContext";
 import TeacherActivityMonitorContainer from "../ActivityMonitor/TeacherActivityMonitorContainer";
+
+import PollAccordionList from "../ActivityInit/PollAcordianList";
 import TicketList from "../ActivityInit/TicketList";
 import PageHeader from "../Header/PageHeader";
+import {StudentActivityContextProvider} from "../ActivityRun/StudentActivityContext";
 
 class ClassSession extends Component {
   constructor(props) {
@@ -31,53 +32,6 @@ class ClassSession extends Component {
     }
   }
 
-  //   render() {
-  //     if (this.user.type === "Student") {
-  //       return (
-  //         <div>
-  //           <h1>Class Session</h1>
-  //           <StudentUnderstandingMeter
-  //             value={5}
-  //             user={this.user}
-  //             sessionName={this.sessionName}
-  //             sessionId={this.sessionId}
-  //           />
-
-  //           <ChatContextProvider>
-  //             <Chat
-  //               user={this.user}
-  //               sessionName={this.sessionName}
-  //               sessionId={this.sessionId}
-  //             />
-  //           </ChatContextProvider>
-
-  // <<<<<<< messaging-ui-db
-  //           <StudentActivityContainer
-  //             user={this.user}
-  //             sessionName={this.sessionName}
-  //           />
-  //         </div>
-  //       );
-  //     } else {
-  //       return (
-  //         <div>
-  //           <h1>Class Session</h1>
-  //           <TeacherClassSessionMenu
-  //             item1={
-  //               <TeacherUnderstandingMeter
-  //                 user={this.user}
-  //                 sessionName={this.sessionName}
-  //                 sessionId={this.sessionId}
-  //               />
-  //             }
-  //             item2={
-  //               <QuizAccordionList
-  //                 sessionName={this.sessionName}
-  //                 user={this.user}
-  //               />
-  //             }
-  //           />
-  // =======
   render() {
     if (this.user.type === "Student") {
       return (
@@ -103,11 +57,13 @@ class ClassSession extends Component {
               </div>
             </div>
             <div style={activityContainer}>
-              <StudentActivityContainer
-                user={this.user}
-                sessionName={this.sessionName}
-                sessionId={this.sessionId}
-              />
+              <StudentActivityContextProvider>
+                <StudentActivityContainer
+                    user={this.user}
+                    sessionName={this.sessionName}
+                    sessionId={this.sessionId}
+                />
+              </StudentActivityContextProvider>
             </div>
           </div>
 
@@ -150,19 +106,9 @@ class ClassSession extends Component {
                 <div style={teacherActivities}>
                   <ActivityMonitorContextProvider>
                     <TeacherClassSessionMenu
-                      // item1={<TeacherUnderstandingMeter user={this.user} sessionName = {this.sessionName} sessionId = {this.sessionId}/>}
-                      item1={
-                        <QuizAccordionList
-                          sessionName={this.sessionName}
-                          user={this.user}
-                        />
-                      }
-                      item2={
-                        <TicketList
-                          sessionName={this.sessionName}
-                          user={this.user}
-                        />
-                      }
+                      item1={<QuizAccordionList sessionName={this.sessionName} user={this.user}/>}
+                      item2={<TicketList sessionName={this.sessionName} user={this.user}/>}
+                      item3={<PollAccordionList sessionName = {this.sessionName} user={this.user} />}
                     />
                     <TeacherActivityMonitorContainer
                       sessionName={this.sessionName}
@@ -188,25 +134,12 @@ class ClassSession extends Component {
   }
 }
 export default ClassSession;
-// >>>>>>> feature
 
-//           <ChatContextProvider>
-//             <Chat
-//               user={this.user}
-//               sessionName={this.sessionName}
-//               sessionId={this.sessionId}
-//             />
-//           </ChatContextProvider>
-//         </div>
-//       );
-//     }
-//   }
-// }
 
 const leftTeacherContainer = {};
 
 const teacherUMeterContainer = {
-  // backgroundColor: '#eee',
+  // backgroundColor: 'blue',
   width: "90%",
   maxWidth: "800px",
 
@@ -216,7 +149,7 @@ const teacherUMeterContainer = {
 };
 const teacherUMeters = {
   // backgroundColor: '#eee',
-  width: "max-content",
+  width: "60%",
   margin: "auto",
   height: "300px",
   overflowY: "auto",

@@ -31,4 +31,5 @@ require("./endpoints/uMeter-api.js")(app, axios, io);
 require("./endpoints/chat-api.js")(app, axios, io);
 require("./endpoints/messages-api.js")(app, axios, io);
 require("./endpoints/quiz-api.js")(app, axios, io);
+require("./endpoints/poll-api")(app, axios, io);
 require("./endpoints/exitTicket-api.js")(app, axios, io);

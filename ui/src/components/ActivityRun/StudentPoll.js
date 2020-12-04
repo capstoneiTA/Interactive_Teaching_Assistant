@@ -1,6 +1,6 @@
 //General
 import React, {Component, useContext, useEffect, useState} from 'react';
-import StudentQuizQuestion from "./StudentQuizQuestion";
+import StudentPollQuestion from "./StudentPollQuestion";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Backdrop from "@material-ui/core/Backdrop";
@@ -39,15 +39,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function StudentQuiz({quiz, socket, user, sessionId, setAnswers}) {
-    const {open, setOpen, answersInfo, setAnswersInfo} = useContext(StudentActivityContext);
+export default function StudentPoll({poll, socket, user, sessionId}) {
+    const {answersInfo, setAnswersInfo} = useContext(StudentActivityContext);
+    const[open, setOpen] = useState(true);
     const classes = useStyles();
 
     const initializeAnswers = ()=>{
         let chosenAnswers = {};
-        chosenAnswers.quizId = quiz.quizId;
+        chosenAnswers.pollId = poll.pollId;
         chosenAnswers.answers = [];
-        for(let question of quiz.quizQuestions){
+        for(let question of poll.pollQuestions){
             let answerObject = {};
             answerObject.questionId = question.questionId;
             answerObject.answerId = -1;
@@ -60,24 +61,19 @@ export default function StudentQuiz({quiz, socket, user, sessionId, setAnswers})
         initializeAnswers()
     }, []);
 
-    let handleQuizSubmission = () => {
-        setOpen(false);
-        socket.emit('student submit quiz', answersInfo, user.User_ID, sessionId);
-        console.log('Quiz Submitted!');
-    }
-
-    useEffect(()=>{
-        setAnswers(answersInfo);
-    }, [answersInfo]);
-
     const handleClose = () => {
-        //Student chooses to click off of the quiz
-        if (window.confirm('Are you sure you want to submit your quiz? (you cannot go back!!)')) {
-            handleQuizSubmission();
-            setOpen(false);
+        if (window.confirm('Are you sure you want to submit your poll? (you cannot go back!!)')) {
+            handlePollSubmission();
         } else {
             // Do nothing!
         }
+    };
+
+    const handlePollSubmission = () =>{
+        socket.emit('student submit poll', answersInfo, user.User_ID, sessionId);
+        console.log('Poll Submitted!');
+        setOpen(false);
+
     };
 
     return(
@@ -96,14 +92,14 @@ export default function StudentQuiz({quiz, socket, user, sessionId, setAnswers})
             >
                 <Fade in={open}>
                     <div className={classes.paper}>
-                        <h2>Quiz Name: {quiz.quizName}</h2>
-                        {quiz.quizQuestions.map((question, index)=>{
+                        <h2>Poll Name: {poll.pollName}</h2>
+                        {poll.pollQuestions.map((question, index)=>{
                             return <div>
-                                <StudentQuizQuestion question={question} index = {index}/>
+                                <StudentPollQuestion question={question} index = {index}/>
                             </div>
                         })}
-                        <Button variant="contained" color="primary" className={classes.button} onClick={handleQuizSubmission}>
-                            Submit Quiz
+                        <Button variant="contained" color="primary" className={classes.button} onClick={handlePollSubmission}>
+                            Submit Poll
                         </Button>
                     </div>
                 </Fade>
