@@ -42,7 +42,7 @@ export default function StudentActivityContainer({user, sessionName, sessionId})
 
        socket.on('exit for students', (teacherSockId, quiz)=>{
        console.log(quiz);
-       setActivity(<ExitStudentAnswersContextProvider><StudentExitTicket quiz={quiz} socket= {socket} sessionId= {sessionId} userId= {user.User_ID}/></ExitStudentAnswersContextProvider>);
+       setActivity(<ExitStudentAnswersContextProvider><StudentExitTicket quiz={quiz} socket= {socket} sessionId= {sessionId} userId= {user.User_ID} firstName= {user.firstName}/></ExitStudentAnswersContextProvider>);
        })
     };
 

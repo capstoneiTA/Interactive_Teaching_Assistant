@@ -39,12 +39,9 @@ function createData(name, response) {
   return { name, response };
 }
 
-const rows = [
-  createData('student_1', 'answer'),
-  createData('student_2', 'answer'),
-];
+const rows = [];
 
-export default function ExitTicketMonitor({quiz,user}) {
+export default function ExitTicketMonitor({quiz,user,firstname}) {
   const classes = useStyles();
 
   const {monitor, setMonitor, exitSocket, setExitSocket} = useContext(ActivityMonitorContext);
@@ -60,10 +57,10 @@ export default function ExitTicketMonitor({quiz,user}) {
       }, []);
 
   const listen=()=>{
-      exitSocket.on('exit ticket submission from student', (sessionId, studentId, answersInfo)=>{
+      exitSocket.on('exit ticket submission from student', (sessionId, firstname, answersInfo)=>{
 
-                studentsFinished.push(studentId);
-                rows.push(createData(studentId,answersInfo));
+                studentsFinished.push(firstname);
+                rows.push(createData(firstname,answersInfo));
                 updateResponses(answersInfo);
       })
  };

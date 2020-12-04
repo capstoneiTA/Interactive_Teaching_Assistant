@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function StudentExitTicket({quiz,socket,sessionId,userId}){
+export default function StudentExitTicket({quiz,socket,sessionId,userId, firstName}){
       const [answer, setAnswer] = useState('');
       const {answersInfo, setAnswersInfo} = useContext(ExitStudentAnswersContext);
       const classes = useStyles();
@@ -67,7 +67,7 @@ export default function StudentExitTicket({quiz,socket,sessionId,userId}){
       }
 
       const handleExitSubmission = () =>{
-        socket.emit('student submit exit', sessionId, userId, answersInfo);
+        socket.emit('student submit exit', sessionId, firstName, answersInfo);
         console.log('Exit Submitted!');
         setDisplay(false);
       }
