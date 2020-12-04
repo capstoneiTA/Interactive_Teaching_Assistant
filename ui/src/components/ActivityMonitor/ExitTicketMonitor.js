@@ -35,96 +35,92 @@ const useStyles = makeStyles({
    }
 });
 
-function createData(name, response) {
-  return { name, response };
-}
-
-const rows = [
-  createData('student_1', 'answer'),
-  createData('student_2', 'answer'),
-];
-
-export default function ExitTicketMonitor({quiz,user}) {
+export default function ExitTicketMonitor({quiz}) {
   const classes = useStyles();
-
   const {monitor, setMonitor, exitSocket, setExitSocket} = useContext(ActivityMonitorContext);
   const [display, setDisplay] = useState(true);
-  let studentsFinished = [];
-  let studentAnswers = [];
   const {answers, setAnswers} = useContext(ExitTicketMonitorContext);
-  let answersHelper = {};
+  let studentSubmissions = {studentId: null, studentResponse: null};
+
+  let submissions = [];
 
 
+  //let submissions = [];
   useEffect(()=>{
           listen();
-      }, []);
+  }, []);
 
   const listen=()=>{
       exitSocket.on('exit ticket submission from student', (sessionId, studentId, answersInfo)=>{
-                updateResponses(answersInfo);
-                studentsFinished.push(studentId);
+                // updateResponses(answersInfo);
+          // studentAnswers.push(answersInfo);
+          // studentsFinished.push(studentId);
+          studentSubmissions.studentId = studentId;
+          studentSubmissions.studentResponse = answersInfo;
+          updateSubmission(studentSubmissions);
       })
- };
-  const updateResponses = (answersInfo) =>{
+  };
 
-         console.log(answersInfo);
-         let newAnswers = {...answersHelper};
-         newAnswers = answersInfo;
-         //console.log(newAnswers);
-         setAnswers(newAnswers);
-         answersHelper = newAnswers;
-        // console.log(answersHelper);
-         studentAnswers.push(answersHelper);
+  const updateSubmission = (studentSubmission) => {
+      submissions.push(studentSubmission);
+      setAnswers(studentSubmission.studentResponse);
 
-     };
-  const close = () => {
-        setDisplay(false);
+      submissions.map((entries) => {
+          console.log("ID: " + entries.studentId + " Response: " + entries.studentResponse);
+      });
 
   };
+
+  const close = () => {
+        setDisplay(false);
+  };
+
+
   return (
         <div>
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={display}
-            onClose={close}
-            closeAfterTransition
-        >
-        <Fade in={display}>
-        <TableContainer component={Paper}>
-         <h1 className = {classes.h1}>
-              {quiz.quizName}
-         </h1>
-              {quiz.quizQuestions.map((question)=>{
-                   return <div>
-                         <h2 className = {classes.h1}>
-                          {question.prompt}
-                         </h2>
-                </div>
-                })}
-              <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Student</TableCell>
-                    <TableCell align="right">Response</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map((row) => (
-                    <TableRow key={row.name}>
-                      <TableCell component="th" scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.response}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-               </Table>
-            </TableContainer>
-        </Fade>
-       </Modal>
-    </div>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={display}
+                onClose={close}
+                closeAfterTransition>
+                <Fade in={display}>
+                    <TableContainer component={Paper}>
+                        <h1 className = {classes.h1}> {quiz.quizName} </h1>
 
+                        {quiz.quizQuestions.map((question)=>{
+                            return <div>
+                                 <h2 className = {classes.h1}>
+                                     {question.prompt}
+                                 </h2>
+                            </div>})
+                        }
+
+                        <Table className={classes.table} aria-label="simple table">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Student</TableCell>
+                                <TableCell align="right">Response</TableCell>
+                              </TableRow>
+                            </TableHead>
+
+                            <TableBody>
+                                {submissions.map((Entries) => (
+                                <TableRow key={Entries.studentId}>
+                                  <TableCell component="th" scope="row">
+                                    {Entries.studentId}
+                                  </TableCell>
+                                  <TableCell align="right">{Entries.studentResponse}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+
+                       </Table>
+
+                    </TableContainer>
+                </Fade>
+            </Modal>
+        </div>
   )
 }

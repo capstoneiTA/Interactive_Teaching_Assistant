@@ -100,8 +100,11 @@ export default function TicketList({user, sessionName}) {
             console.log(quizzesInfo[index]);
             //add a functions to gather exit ticket answers
             quizAnswers = quizzesInfo[index];
-            setMonitor(<ExitTicketMonitorContextProvider><ExitTicketMonitor quiz={quizzesInfo[index]} /></ExitTicketMonitorContextProvider>)
-
+            setMonitor(
+                <ExitTicketMonitorContextProvider>
+                    <ExitTicketMonitor quiz={quizzesInfo[index]} />
+                </ExitTicketMonitorContextProvider>
+            )
         })
     };
 

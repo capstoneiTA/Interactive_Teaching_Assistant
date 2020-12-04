@@ -54,23 +54,23 @@ export default function StudentExitTicket({quiz,socket,sessionId,userId}){
                 console.log(error);
             });
             setAnswer('');
-      }
+      };
 
       const AnswerChange = e => {
           setAnswersInfo(e.target.value);
-      }
+      };
       const handleClose = () =>{
           console.log("Ticket is submitted");
           console.log("student responded" + answer);
           handleExitSubmission();
 
-      }
+      };
 
       const handleExitSubmission = () =>{
         socket.emit('student submit exit', sessionId, userId, answersInfo);
         console.log('Exit Submitted!');
         setDisplay(false);
-      }
+      };
 
     return (
       <div className={classes.root}>
@@ -80,42 +80,36 @@ export default function StudentExitTicket({quiz,socket,sessionId,userId}){
             className={classes.modal}
             open={display}
             onClose={handleClose}
-            closeAfterTransition
-        >
-         <Fade in= {display}>
-          <div className= {classes.paper}>
-            <h1 className= {classes.h1}>
-                  {quiz.quizName}
-            </h1>
-            {quiz.quizQuestions.map((question)=>{
-        return <div>
-                <h2> {question.prompt} </h2>
-         </div>
-          })}
-         <textarea className= {classes.root}
-                id= "answer"
-                name= "answer"
-                placeholder= "Enter response"
-                value= {answersInfo}
-                onChange = {AnswerChange}
-                rows= "4"
-                cols= "50"
-         />
-              <Button className= {classes.root}
-                variant= "contained"
-                color= "primary"
-                size= "small"
-                onClick ={() => {
-                handleClose();
-                submitAnswer();
-                }}
-                >
-                  Submit
-                </Button>
-               </div>
-              </Fade>
-           </Modal>
-         </div>
-);
+            closeAfterTransition>
+             <Fade in= {display}>
+                <div className= {classes.paper}>
 
+                    <h1 className= {classes.h1}>{quiz.quizName}</h1>
+
+
+                    {quiz.quizQuestions.map((question)=>{
+                        return <div> <h2> {question.prompt} </h2> </div>
+                    })}
+
+                    <textarea className= {classes.root}
+                        id= "answer"
+                        name= "answer"
+                        placeholder= "Enter response"
+                        value= {answersInfo}
+                        onChange = {AnswerChange}
+                        rows= "4"
+                        cols= "50"/>
+
+                      <Button className= {classes.root}
+                        variant= "contained"
+                        color= "primary"
+                        size= "small"
+                        onClick ={() => { handleClose(); submitAnswer();}}>
+                          Submit
+                      </Button>
+                </div>
+            </Fade>
+         </Modal>
+      </div>
+    );
 }
