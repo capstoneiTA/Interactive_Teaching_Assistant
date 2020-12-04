@@ -61,8 +61,10 @@ export default function ExitTicketMonitor({quiz,user}) {
 
   const listen=()=>{
       exitSocket.on('exit ticket submission from student', (sessionId, studentId, answersInfo)=>{
-                updateResponses(answersInfo);
+
                 studentsFinished.push(studentId);
+                rows.push(createData(studentId,answersInfo));
+                updateResponses(answersInfo);
       })
  };
   const updateResponses = (answersInfo) =>{
