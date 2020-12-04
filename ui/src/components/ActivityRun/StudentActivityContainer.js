@@ -3,6 +3,8 @@ import React, {Component, useContext, useEffect, useState} from 'react';
 
 import socketIOClient from "socket.io-client";
 import StudentQuiz from "./StudentQuiz";
+import {ExitStudentAnswersContextProvider} from "./ExitStudentAnswersContext";
+import StudentExitTicket from "./StudentExitTicket";
 import {StudentActivityContext} from "./StudentActivityContext";
 import StudentPoll from "./StudentPoll";
 
@@ -67,8 +69,15 @@ export default function StudentActivityContainer({user, sessionName, sessionId})
         socket.on('poll for students', (teacherSockId, poll)=>{
             console.log(poll);
             setActivity(<StudentPoll poll={poll} socket={socket} user={user} sessionId={sessionId}/>);
-        })
+        });
+
+        socket.on('exit for students', (teacherSockId, quiz)=>{
+            console.log(quiz);
+            setActivity(<ExitStudentAnswersContextProvider><StudentExitTicket quiz={quiz} socket= {socket} sessionId= {sessionId} userId= {user.User_ID} firstName= {user.firstName}/></ExitStudentAnswersContextProvider>);
+        });
     };
+
+
 
     return(
         <div>

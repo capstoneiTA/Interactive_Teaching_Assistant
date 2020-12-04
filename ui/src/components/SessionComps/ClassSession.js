@@ -5,7 +5,6 @@ import TeacherClassSessionMenu from "./TeacherClassSessionMenu";
 import QuizAccordionList from "../ActivityInit/QuizAcordionList";
 
 import Chat from "../Messaging/Chat";
-import ChatDrawer from "../Messaging/ChatDrawer";
 import { ChatContextProvider } from "../Messaging/ChatContext";
 
 import StudentActivityContainer from "../ActivityRun/StudentActivityContainer";
@@ -13,9 +12,7 @@ import { ActivityMonitorContextProvider } from "../ActivityMonitor/ActivityMonit
 import TeacherActivityMonitorContainer from "../ActivityMonitor/TeacherActivityMonitorContainer";
 
 import PollAccordionList from "../ActivityInit/PollAcordianList";
-import StudentExitActivity from "../ActivityRun/StudentExitActivity";
 import TicketList from "../ActivityInit/TicketList";
-
 import PageHeader from "../Header/PageHeader";
 import {StudentActivityContextProvider} from "../ActivityRun/StudentActivityContext";
 
@@ -60,11 +57,6 @@ class ClassSession extends Component {
               </div>
             </div>
             <div style={activityContainer}>
-              <StudentExitActivity
-                user={this.user}
-                sessionName={this.sessionName}
-                sessionId={this.sessionId}
-              />
               <StudentActivityContextProvider>
                 <StudentActivityContainer
                     user={this.user}
