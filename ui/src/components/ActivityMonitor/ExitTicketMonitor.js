@@ -16,7 +16,7 @@ import {ExitStudentAnswersContext} from "../ActivityRun/ExitStudentAnswersContex
 import {ActivityMonitorContext} from "./ActivityMonitorContext";
 import StudentExitTicket from "../ActivityRun/StudentExitTicket";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
@@ -32,8 +32,16 @@ const useStyles = makeStyles({
     h1: {
           textAlign: 'center',
           marginBottom: '40px'
-   }
-});
+   },
+     paper: {
+           backgroundColor: theme.palette.background.paper,
+           border: '2px solid #000',
+           boxShadow: theme.shadows[5],
+           padding: theme.spacing(2, 4, 3),
+           maxHeight: '600px',
+           overflowY: 'scroll',
+           }
+}));
 
 function createData(name, response) {
   return { name, response };
@@ -81,7 +89,7 @@ export default function ExitTicketMonitor({quiz,user,firstname}) {
 
   };
   return (
-        <div>
+        <div className={classes.root}>
         <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
@@ -91,7 +99,7 @@ export default function ExitTicketMonitor({quiz,user,firstname}) {
             closeAfterTransition
         >
         <Fade in={display}>
-        <TableContainer component={Paper}>
+        <TableContainer className = {classes.paper} component={Paper}>
          <h1 className = {classes.h1}>
               {quiz.quizName}
          </h1>
