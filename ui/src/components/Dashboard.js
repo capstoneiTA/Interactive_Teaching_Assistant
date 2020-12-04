@@ -26,6 +26,11 @@ class Dashboard extends Component {
                     <PageHeader user={this.user} sessionName={null} designation="TEACHER DASHBOARD" history={this.props.history}/>
                     <div style={pageContainer}>
                         <div style={teacherSessionsContainer}>
+
+                            <div style={activityCreationContainer}>
+                                <ActivityCreate user={this.user} />
+                            </div>
+
                             <div style={teacherSessionsHeader}>
                                 Sessions
                             </div>
@@ -39,9 +44,7 @@ class Dashboard extends Component {
                             </div>
                         </div>
 
-                        <div style={activityCreationContainer}>
-                            <ActivityCreate user={this.user} />
-                        </div>
+
                     </div>
 
 
@@ -99,11 +102,11 @@ const teacherSessionsHeader = {
 const activityCreationContainer = {
     // backgroundColor: '#eee',
     width: '800px',
-    margin: 'auto',
-    marginTop: '150px',
-    textAlign: 'center',
+    margin: '50px auto',
+    marginTop: '-50px',
+    textAlign: 'left',
 
-    paddingTop: '100px',
+    // paddingTop: '0px',
 }
 
 const sessionConnectJoinStyle = {
