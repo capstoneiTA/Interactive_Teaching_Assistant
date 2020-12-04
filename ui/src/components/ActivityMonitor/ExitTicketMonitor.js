@@ -40,15 +40,13 @@ export default function ExitTicketMonitor({quiz}) {
   const {monitor, setMonitor, exitSocket, setExitSocket} = useContext(ActivityMonitorContext);
   const [display, setDisplay] = useState(true);
   const {answers, setAnswers} = useContext(ExitTicketMonitorContext);
+  const {submissions, setSubmissions} = useState();
+
   let studentSubmissions = {studentId: null, studentResponse: null};
 
-  let submissions = [];
-
-
-  //let submissions = [];
-  useEffect(()=>{
-          listen();
-  }, []);
+    useEffect(()=>{
+        listen().then( () => setSubmissions(submissions));
+    }, []);
 
   const listen=()=>{
       exitSocket.on('exit ticket submission from student', (sessionId, studentId, answersInfo)=>{
@@ -57,19 +55,28 @@ export default function ExitTicketMonitor({quiz}) {
           // studentsFinished.push(studentId);
           studentSubmissions.studentId = studentId;
           studentSubmissions.studentResponse = answersInfo;
-          updateSubmission(studentSubmissions);
+          submissions.push(studentSubmissions);
       })
-  };
-
-  const updateSubmission = (studentSubmission) => {
-      submissions.push(studentSubmission);
-      setAnswers(studentSubmission.studentResponse);
-
-      submissions.map((entries) => {
-          console.log("ID: " + entries.studentId + " Response: " + entries.studentResponse);
-      });
 
   };
+
+  let itemToRender;
+
+    if (submissions.size() > 0) {
+        itemToRender = submissions.map(Entries => {
+            return <div> <h2 className = {classes.h1}> {Entries.studentId} {Entries.studentResponse} </h2> </div>;
+        });
+    }
+
+  // const updateSubmission = (studentSubmission) => {
+  //     submissions.push(studentSubmission);
+  //     setAnswers(studentSubmission.studentResponse);
+  //
+  //     submissions.map((entries) => {
+  //         console.log("ID: " + entries.studentId + " Response: " + entries.studentResponse);
+  //     });
+  //
+  // };
 
   const close = () => {
         setDisplay(false);
@@ -86,39 +93,51 @@ export default function ExitTicketMonitor({quiz}) {
                 onClose={close}
                 closeAfterTransition>
                 <Fade in={display}>
-                    <TableContainer component={Paper}>
-                        <h1 className = {classes.h1}> {quiz.quizName} </h1>
+                    {/*<TableContainer component={Paper}>*/}
+                    {/*    <h1 className = {classes.h1}> {quiz.quizName} </h1>*/}
 
-                        {quiz.quizQuestions.map((question)=>{
-                            return <div>
-                                 <h2 className = {classes.h1}>
-                                     {question.prompt}
-                                 </h2>
-                            </div>})
-                        }
+                    {/*    {quiz.quizQuestions.map((question)=>{*/}
+                    {/*        return <div>*/}
+                    {/*             <h2 className = {classes.h1}>*/}
+                    {/*                 {question.prompt}*/}
+                    {/*             </h2>*/}
+                    {/*        </div>})*/}
+                    {/*    }*/}
 
-                        <Table className={classes.table} aria-label="simple table">
-                            <TableHead>
-                              <TableRow>
-                                <TableCell>Student</TableCell>
-                                <TableCell align="right">Response</TableCell>
-                              </TableRow>
-                            </TableHead>
+                    {/*    <Table className={classes.table} aria-label="simple table">*/}
+                    {/*        <TableHead>*/}
+                    {/*          <TableRow>*/}
+                    {/*            <TableCell>Student</TableCell>*/}
+                    {/*            <TableCell align="right">Response</TableCell>*/}
+                    {/*          </TableRow>*/}
+                    {/*        </TableHead>*/}
+                    {/*        */}
+                    {/*        */}
+                    {/*        <TableBody>*/}
+                    {/*            {submissions.map((Entries) => (*/}
+                    {/*            <TableRow key={Entries.studentId}>*/}
+                    {/*              <TableCell component="th" scope="row">*/}
+                    {/*                {Entries.studentId}*/}
+                    {/*              </TableCell>*/}
+                    {/*              <TableCell align="right">{Entries.studentResponse}</TableCell>*/}
+                    {/*            </TableRow>*/}
+                    {/*          ))}*/}
+                    {/*        </TableBody>*/}
 
-                            <TableBody>
-                                {submissions.map((Entries) => (
-                                <TableRow key={Entries.studentId}>
-                                  <TableCell component="th" scope="row">
-                                    {Entries.studentId}
-                                  </TableCell>
-                                  <TableCell align="right">{Entries.studentResponse}</TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
+                    {/*   </Table>*/}
 
-                       </Table>
+                    {/*</TableContainer>*/}
 
-                    </TableContainer>
+                    <h1 className = {classes.h1}> {quiz.quizName} </h1>
+
+                    {quiz.quizQuestions.map((question)=>{
+                        return <div>
+                            <h2 className = {classes.h1}>
+                                {question.prompt}
+                            </h2>
+                        </div>})
+                    }
+                    {itemToRender}
                 </Fade>
             </Modal>
         </div>
