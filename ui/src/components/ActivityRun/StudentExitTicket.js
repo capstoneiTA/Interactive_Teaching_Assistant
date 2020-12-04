@@ -1,15 +1,10 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { Button } from '@material-ui/core';
-import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControl,InputLabel, Input,FormHelperText } from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
-import socketIOClient from "socket.io-client";
 import axios from 'axios';
-import StudentExitActivity from "./StudentExitActivity";
 import Fade from "@material-ui/core/Fade";
 import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
+import {ExitStudentAnswersContext} from "./ExitStudentAnswersContext";
 let apiGatewayUrl = '';
 
     if(process.env.REACT_APP_DEPLOY === "False"){
@@ -42,12 +37,15 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const StudentExitTicket=({quiz,userId,sessionId})=> {
+export default function StudentExitTicket({quiz,socket,sessionId,userId, firstName}){
       const [answer, setAnswer] = useState('');
+      const {answersInfo, setAnswersInfo} = useContext(ExitStudentAnswersContext);
       const classes = useStyles();
       const [display, setDisplay] = useState(true);
-      //handle submit and store students answer
-      const submitAnswer = (e) =>{
+
+
+    //  handle submit and store students answer
+    const submitAnswer = (e) =>{
           axios.post(apiGatewayUrl + '/ExitTicket/response', { sessionId: sessionId, questionId:quiz.quizQuestions[0].questionId, answerText: answer , userId: userId})
           .then(function (res) {
            console.log(res.data);
@@ -56,16 +54,25 @@ const StudentExitTicket=({quiz,userId,sessionId})=> {
             });
             setAnswer('');
       }
+
       const AnswerChange = e => {
-          setAnswer(e.target.value);
+          setAnswersInfo(e.target.value);
       }
       const handleClose = () =>{
           console.log("Ticket is submitted");
-          setDisplay(false);
+          console.log("student responded" + answer);
+          handleExitSubmission();
+
+      }
+
+      const handleExitSubmission = () =>{
+        socket.emit('student submit exit', sessionId, firstName, answersInfo);
+        console.log('Exit Submitted!');
+        setDisplay(false);
       }
 
     return (
-         <div className={classes.root}>
+      <div className={classes.root}>
          <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
@@ -88,7 +95,7 @@ const StudentExitTicket=({quiz,userId,sessionId})=> {
                 id= "answer"
                 name= "answer"
                 placeholder= "Enter response"
-                value= {answer}
+                value= {answersInfo}
                 onChange = {AnswerChange}
                 rows= "4"
                 cols= "50"
@@ -98,8 +105,8 @@ const StudentExitTicket=({quiz,userId,sessionId})=> {
                 color= "primary"
                 size= "small"
                 onClick ={() => {
-                submitAnswer();
                 handleClose();
+                submitAnswer();
                 }}
                 >
                   Submit
@@ -111,4 +118,3 @@ const StudentExitTicket=({quiz,userId,sessionId})=> {
 );
 
 }
-export default StudentExitTicket;

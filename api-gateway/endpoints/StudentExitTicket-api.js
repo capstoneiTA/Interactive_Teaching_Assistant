@@ -19,7 +19,6 @@ app.get("/ExitTicket/question", function(req,res){
     );
 
 
-
 app.post("/ExitTicket/response", function(req,res){
 
         let sessionId = req.body.sessionId;
