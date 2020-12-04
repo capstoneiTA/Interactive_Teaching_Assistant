@@ -306,7 +306,7 @@ const ChatBox = ({
                     ? "Send something nice"
                     : "Reply with something nice"
                 }
-                onBlur="Send something nice!"
+                // onBlur="Send something nice!"
                 name="message"
                 value={value}
                 onChange={handleChange}
