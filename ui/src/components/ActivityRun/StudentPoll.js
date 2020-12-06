@@ -73,7 +73,6 @@ export default function StudentPoll({poll, socket, user, sessionId}) {
         socket.emit('student submit poll', answersInfo, user.User_ID, sessionId);
         console.log('Poll Submitted!');
         setOpen(false);
-
     };
 
     return(
