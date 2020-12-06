@@ -8,6 +8,7 @@ import SessionEnrollment from './SessionComps/SessionEnrollment';
 import exitTicket from './ActivityCreation/ExitTicket/ExitTicketCreation';
 import ActivityCreate from "./ActivityCreation/ActivityCreate";
 import axios from "axios";
+import {Helmet} from 'react-helmet'
 
 class Dashboard extends Component {
     constructor(props) {
@@ -23,6 +24,13 @@ class Dashboard extends Component {
         if (this.user.type === 'Teacher') {
             return (
                 <div>
+                    <div>
+                        <Helmet>
+                            <meta charset="utf-8" />
+                            <title>iTA - Dashboard</title>
+                            <meta name="Dashboard" content="This is the dashboard" />
+                        </Helmet>
+                    </div>
                     <PageHeader user={this.user} sessionName={null} designation="TEACHER DASHBOARD" history={this.props.history}/>
                     <div style={pageContainer}>
                         <div style={teacherSessionsContainer}>
@@ -58,6 +66,13 @@ class Dashboard extends Component {
         } else {
             return (
                 <div>
+                    <div>
+                        <Helmet>
+                            <meta charset="utf-8" />
+                            <title>iTA - Dashboard</title>
+                            <meta name="Dashboard" content="This is the dashboard" />
+                        </Helmet>
+                    </div>
                     <PageHeader user={this.user} sessionName={null} designation="STUDENT DASHBOARD" history={this.props.history}/>
 
                     {/*<div style={{padding: "10px"}}>*/}

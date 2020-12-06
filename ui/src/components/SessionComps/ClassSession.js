@@ -16,6 +16,8 @@ import TicketList from "../ActivityInit/TicketList";
 import PageHeader from "../Header/PageHeader";
 import {StudentActivityContextProvider} from "../ActivityRun/StudentActivityContext";
 
+import {Helmet} from 'react-helmet'
+
 class ClassSession extends Component {
   constructor(props) {
     super(props);
@@ -36,6 +38,13 @@ class ClassSession extends Component {
     if (this.user.type === "Student") {
       return (
         <div>
+          <div>
+            <Helmet>
+              <meta charset="utf-8" />
+              <title>iTA - {this.sessionName}</title>
+              <meta name="Session" content="This is a session" />
+            </Helmet>
+          </div>
           <PageHeader
             user={this.user}
             sessionName={this.sessionName}
@@ -81,6 +90,13 @@ class ClassSession extends Component {
     } else {
       return (
         <div>
+          <div>
+            <Helmet>
+              <meta charset="utf-8" />
+              <title>iTA - {this.sessionName}</title>
+              <meta name="Session" content="This is a session" />
+            </Helmet>
+          </div>
           <PageHeader
             user={this.user}
             sessionName={this.sessionName}
