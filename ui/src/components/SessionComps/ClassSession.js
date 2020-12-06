@@ -41,7 +41,7 @@ class ClassSession extends Component {
           <div>
             <Helmet>
               <meta charset="utf-8" />
-              <title>iTA - {this.sessionName}</title>
+              <title>iTA - Session - {this.sessionName}</title>
               <meta name="Session" content="This is a session" />
             </Helmet>
           </div>
@@ -93,7 +93,7 @@ class ClassSession extends Component {
           <div>
             <Helmet>
               <meta charset="utf-8" />
-              <title>iTA - {this.sessionName}</title>
+              <title>iTA - Session - {this.sessionName}</title>
               <meta name="Session" content="This is a session" />
             </Helmet>
           </div>
