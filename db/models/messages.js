@@ -9,29 +9,29 @@ module.exports = (sequelize, DataTypes)=> {
             unique: true
         },
         User_ID: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
             references: {
-                model: 'User',
+                model: 'Users',
                 key: 'User_ID'
             }
         },
         Session_ID: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.INTEGER,
             allowNull: false,
             unique: false,
             references: {
-                model: 'Session',
+                model: 'Sessions',
                 key: 'Session_ID'
             }
         },
         Reply_To: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.INTEGER,
+            allowNull: true,
             unique: false,
             references: {
-                model: 'Message',
+                model: 'Messages',
                 key: 'Message_ID'
             }
         },
@@ -40,16 +40,6 @@ module.exports = (sequelize, DataTypes)=> {
             allowNull: false,
             unique: false
         },
-        Date:{
-            type: DataTypes.DATEONLY,
-            allowNull: false,
-            unique: false
-        },
-        Time:{
-            type: DataTypes.TIME,
-            allowNull: false,
-            unique: false
-        }
     });
 
     return Message;
